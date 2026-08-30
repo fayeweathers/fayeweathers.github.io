@@ -1,360 +1,504 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZEYAD</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg: #08090b;
-    --bg-raised: #101216;
-    --bg-card: #131519;
-    --border: #22252b;
-    --text: #eceef1;
-    --text-dim: #9a9ea7;
-    --text-faint: #5b5f68;
-    --accent: #7ef0c4;
-    --accent-dim: #4f8f78;
-    --warn: #f0b429;
-    --mono: 'JetBrains Mono', ui-monospace, monospace;
-    --sans: 'Inter', system-ui, sans-serif;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:var(--sans);
-    line-height:1.6;
-    overflow-x:hidden;
-  }
-  body::before{
-    content:"";
-    position:fixed; inset:0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size:64px 64px;
-    opacity:0.15;
-    pointer-events:none;
-    z-index:0;
-  }
-  a{color:inherit; text-decoration:none;}
-  .wrap{
-    max-width:880px;
-    margin:0 auto;
-    padding:0 28px;
-    position:relative;
-    z-index:1;
-  }
-  ::selection{background:var(--accent); color:#08090b;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fayeweathers</title>
+    <!-- أيقونة الموقع -->
+    <link rel="icon" type="image/png" href="letter-f.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Fira+Code:wght@400;700&display=swap');
 
-  /* ---------- header ---------- */
-  header{
-    padding:32px 0 0;
-  }
-  .nav-row{
-    display:flex; align-items:center; justify-content:space-between;
-    padding-bottom:20px; border-bottom:1px solid var(--border);
-  }
-  .logo{
-    font-family:var(--mono); font-weight:700; font-size:14px;
-    letter-spacing:0.12em;
-  }
-  .status-pill{
-    display:flex; align-items:center; gap:8px;
-    font-family:var(--mono); font-size:12px; color:var(--text-dim);
-    border:1px solid var(--border); padding:6px 12px; border-radius:100px;
-  }
-  .dot{
-    width:7px; height:7px; border-radius:50%;
-    background:var(--accent);
-    box-shadow:0 0 0 0 rgba(126,240,196,0.6);
-    animation:pulse 2s infinite;
-  }
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(126,240,196,0.45);}
-    70%{box-shadow:0 0 0 8px rgba(126,240,196,0);}
-    100%{box-shadow:0 0 0 0 rgba(126,240,196,0);}
-  }
+        :root {
+            --bg-dark: #050505;
+            --bg-card: #0d0d0d;
+            --text-main: #f0f0f0;
+            --text-dim: #888888;
+            --border-color: #222222;
+            --terminal-green: #27c93f;
+            --terminal-red: #ff5f56;
+        }
 
-  /* ---------- hero ---------- */
-  .hero{
-    padding:96px 0 72px;
-  }
-  .eyebrow{
-    font-family:var(--mono); font-size:13px; color:var(--accent);
-    letter-spacing:0.06em; margin-bottom:20px; display:block;
-  }
-  .eyebrow::before{content:"// ";color:var(--text-faint);}
-  h1.name{
-    font-family:var(--sans); font-weight:800;
-    font-size:clamp(56px, 11vw, 108px);
-    line-height:0.95; letter-spacing:-0.03em;
-    color:var(--text);
-  }
-  h1.name span{
-    color:transparent; -webkit-text-stroke:1.5px var(--text-faint);
-  }
-  .tagline{
-    margin-top:22px; font-size:18px; color:var(--text-dim); max-width:520px;
-  }
-  .tagline b{color:var(--text); font-weight:600;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none !important; 
+        }
 
-  /* ---------- section shell ---------- */
-  section{padding:64px 0; border-bottom:1px solid var(--border);}
-  .section-head{
-    display:flex; align-items:baseline; gap:14px; margin-bottom:32px;
-  }
-  .section-num{font-family:var(--mono); font-size:13px; color:var(--text-faint);}
-  .section-title{font-size:22px; font-weight:700; letter-spacing:-0.01em;}
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
 
-  /* ---------- about ---------- */
-  .about-text{font-size:16px; color:var(--text-dim); max-width:640px;}
-  .about-text + .about-text{margin-top:14px;}
+        /* Cursor */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        a:hover ~ .cursor-outline, button:hover ~ .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
 
-  /* ---------- skills ---------- */
-  .chip-grid{display:flex; flex-wrap:wrap; gap:10px;}
-  .chip{
-    font-family:var(--mono); font-size:13px;
-    border:1px solid var(--border); background:var(--bg-raised);
-    color:var(--text-dim); padding:8px 14px; border-radius:6px;
-  }
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13, 13, 13, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
+            padding: 12px 30px;
+            border-radius: 50px;
+            display: flex;
+            gap: 25px;
+            z-index: 1000;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        nav a, nav button {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+        nav a:hover, nav button:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px white;
+        }
+        .lang-btn {
+            background: var(--text-main);
+            color: var(--bg-dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: 'Fira Code', monospace;
+        }
+        .lang-btn:hover { background: #fff; color: #000; }
 
-  /* ---------- experience ---------- */
-  .exp-list{display:flex; flex-direction:column; gap:0;}
-  .exp-item{
-    display:flex; gap:20px; padding:16px 0;
-    border-top:1px solid var(--border);
-  }
-  .exp-item:first-child{border-top:none;}
-  .exp-marker{
-    font-family:var(--mono); font-size:12px; color:var(--text-faint);
-    padding-top:2px; min-width:26px;
-  }
-  .exp-body h3{font-size:15px; font-weight:600; color:var(--text);}
-  .exp-body p{font-size:14px; color:var(--text-dim); margin-top:4px;}
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 140px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 90px;
+        }
 
-  /* ---------- processes / bots ---------- */
-  .proc-table{
-    border:1px solid var(--border); border-radius:10px; overflow:hidden;
-    background:var(--bg-card);
-  }
-  .proc-header{
-    display:grid; grid-template-columns:1fr 100px;
-    font-family:var(--mono); font-size:11px; color:var(--text-faint);
-    text-transform:uppercase; letter-spacing:0.08em;
-    padding:12px 20px; border-bottom:1px solid var(--border);
-  }
-  .proc-row{
-    display:grid; grid-template-columns:1fr 100px;
-    align-items:center;
-    padding:18px 20px;
-    border-bottom:1px solid var(--border);
-    transition:background 0.15s ease;
-  }
-  .proc-row:last-child{border-bottom:none;}
-  .proc-row:hover{background:var(--bg-raised);}
-  .proc-name{
-    display:flex; align-items:center; gap:10px;
-    font-weight:600; font-size:15px; color:var(--text);
-  }
-  .proc-name .dot-sm{
-    width:6px; height:6px; border-radius:50%; background:var(--warn); flex-shrink:0;
-    animation:pulse-warn 2s infinite;
-  }
-  @keyframes pulse-warn{
-    0%{box-shadow:0 0 0 0 rgba(240,180,41,0.45);}
-    70%{box-shadow:0 0 0 7px rgba(240,180,41,0);}
-    100%{box-shadow:0 0 0 0 rgba(240,180,41,0);}
-  }
-  .proc-desc{font-size:13px; color:var(--text-dim); margin-top:4px; margin-left:16px;}
-  .proc-status{
-    font-family:var(--mono); font-size:11px; color:var(--warn);
-    border:1px solid rgba(240,180,41,0.35); background:rgba(240,180,41,0.08);
-    padding:4px 10px; border-radius:100px; text-align:center;
-    justify-self:end; white-space:nowrap;
-  }
+        /* Hero */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap-reverse;
+            gap: 40px;
+        }
+        .hero-text { flex: 1; min-width: 300px; }
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-family: 'Fira Code', monospace;
+            letter-spacing: -1.5px;
+        }
 
-  /* ---------- links ---------- */
-  .link-grid{display:flex; flex-wrap:wrap; gap:14px;}
-  .link-card{
-    flex:1 1 160px;
-    border:1px dashed var(--border);
-    border-radius:10px;
-    padding:20px;
-    text-align:center;
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--text-faint);
-  }
-  .link-card b{display:block; color:var(--text-dim); font-family:var(--sans); font-size:14px; margin-bottom:4px; font-weight:600;}
+        /* Terminal */
+        .terminal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--terminal-green); /* اللون الأخضر الافتراضي */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            direction: ltr; /* ليبقى التيرمينال من اليسار لليمين دائماً */
+            text-align: left;
+            min-height: 140px;
+        }
+        
+        /* التعديل على رأس التيرمينال: الأزرار الملونة يسار، والوقت يمين بخط صغير */
+        .terminal-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 15px; 
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+        }
+        .terminal-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .terminal-dots span { 
+            width: 12px; 
+            height: 12px; 
+            border-radius: 50%; 
+        }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        
+        .terminal-time {
+            font-size: 0.75rem;
+            color: #666;
+            font-family: 'Fira Code', monospace;
+        }
 
-  /* ---------- footer ---------- */
-  footer{
-    padding:36px 0 60px;
-    font-family:var(--mono); font-size:12px; color:var(--text-faint);
-    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
-  }
+        .terminal p { margin-bottom: 8px; min-height: 20px;}
+        .terminal-static { color: #555; }
+        
+        .blinking-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: var(--terminal-green);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-  @media (max-width:600px){
-    .proc-header{display:none;}
-    .proc-row{grid-template-columns:1fr; row-gap:10px;}
-    .proc-status{justify-self:start;}
-  }
-</style>
+        /* Avatar */
+        .hero-image {
+            width: 320px;
+            height: 320px;
+            background: url('d4409bbd01654a07c1703861471a5479_2.png') center/cover no-repeat;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+            animation: complex-morph 12s ease-in-out infinite alternate;
+            position: relative;
+        }
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: complex-morph 15s ease-in-out infinite alternate-reverse;
+            pointer-events: none;
+        }
+        @keyframes complex-morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            50% { border-radius: 50% 50% 30% 70% / 30% 70% 50% 50%; }
+            75% { border-radius: 70% 30% 50% 50% / 60% 40% 70% 30%; }
+            100% { border-radius: 40% 70% 60% 40% / 40% 50% 40% 70%; }
+        }
+
+        /* About Section */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 35px;
+            font-size: 1.8rem;
+            font-family: 'Fira Code', monospace;
+        }
+        .section-header::before, .section-header::after { content: ''; height: 2px; width: 40px; background: var(--text-dim); }
+
+        .about-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 35px 30px;
+            border-radius: 12px;
+            text-align: center;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            position: relative;
+            /* border-inline-start تضع الخط الأبيض على اليمين في العربي، وعلى اليسار في الإنجليزي تلقائياً */
+            border-inline-start: 4px solid #fff;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+        .about-box:hover {
+            transform: translateY(-3px);
+        }
+        .about-text p { margin-bottom: 15px; }
+        .about-text p:last-child { margin-bottom: 0; }
+
+        /* Social Section */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .social-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 20px 15px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+            font-family: 'Fira Code', monospace;
+            text-decoration: none;
+            color: var(--text-dim);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .social-card:hover {
+            border-color: #fff;
+            color: #fff;
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.02);
+        }
+        /* حل مشكلة اتجاه اليوزرات وتثبيت الـ @ قبل الاسم دائماً */
+        .social-card span {
+            direction: ltr;
+            unicode-bidi: embed;
+            display: inline-block;
+        }
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            filter: drop-shadow(0 0 3px rgba(255,255,255,0.2));
+        }
+        .social-card:hover .social-icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.6));
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+            direction: ltr;
+        }
+        footer p { margin: 6px 0; }
+        .footer-terminal { color: #fff; }
+        .latency-text { color: var(--terminal-green); font-weight: bold; }
+    </style>
 </head>
 <body>
 
-<div class="wrap">
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
 
-  <header>
-    <div class="nav-row">
-      <div class="logo">ZEYAD</div>
-      <div class="status-pill"><span class="dot"></span> SYSTEM ONLINE</div>
+    <nav>
+        <a href="#home"><i class="fa-solid fa-house"></i> <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></a>
+        <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="عني" data-en="About Me">عني</span></a>
+        <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="التواصل" data-en="Socials">التواصل</span></a>
+        <button class="lang-btn" id="langToggle">EN</button>
+    </nav>
+
+    <div class="container">
+        
+        <section id="home" class="hero">
+            <div class="hero-text">
+                <h1>fayeweathers</h1>
+                
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot-red"></span>
+                            <span class="dot-yellow"></span>
+                            <span class="dot-green"></span>
+                        </div>
+                        <div class="terminal-time" id="terminal-clock">--:--:-- --</div>
+                    </div>
+                    <p class="terminal-static">> root@fayeweathers:~# ./start_system.sh</p>
+                    <p id="animated-log"><span class="blinking-cursor"></span></p>
+                </div>
+            </div>
+            
+            <div class="hero-image"></div>
+        </section>
+
+        <section id="about">
+            <div class="section-header" data-ar="عني" data-en="About Me">عني</div>
+            
+            <div class="about-box">
+                <div class="about-text">
+                    <p data-ar="طالب علوم حاسب أبلغ من العمر 18 عاماً، أمتلك شغفاً عميقاً ببرمجة الأنظمة وأتمتة المهام. أسعى دائماً لتحويل البيانات المعقدة إلى كود برمجي نظيف وفعال." 
+                       data-en="I am an 18-year-old Computer Science student with a deep passion for system programming and task automation. I constantly strive to turn complex data into clean, efficient code.">
+                        طالب علوم حاسب أبلغ من العمر 18 عاماً، أمتلك شغفاً عميقاً ببرمجة الأنظمة وأتمتة المهام. أسعى دائماً لتحويل البيانات المعقدة إلى كود برمجي نظيف وفعال.
+                    </p>
+                    <p data-ar="أركز في وقتي الحالي على تطوير بوتات ديسكورد متقدمة باستخدام Node.js و discord.js، بالإضافة إلى بناء سكربتات استخراج البيانات (Web Scraping) باستخدام Python." 
+                       data-en="Currently, my focus is on developing advanced Discord bots using Node.js and discord.js, alongside building web scraping scripts in Python.">
+                        أركز في وقتي الحالي على تطوير بوتات ديسكورد متقدمة باستخدام Node.js و discord.js، بالإضافة إلى بناء سكربتات استخراج البيانات (Web Scraping) باستخدام Python.
+                    </p>
+                    <p data-ar="بين أسطر الكود ومحاضرات الفيزياء والرياضيات، أجد متعتي في حل المشكلات البرمجية، وتجربة ألعاب محاكاة الذكاء الاصطناعي، وتحضير القهوة السعودية الموزونة لزيادة التركيز." 
+                       data-en="Between lines of code and math/physics lectures, I find joy in solving programming problems, testing AI simulation games, and brewing perfectly balanced Saudi coffee to fuel my focus.">
+                        بين أسطر الكود ومحاضرات الفيزياء والرياضيات، أجد متعتي في حل المشكلات البرمجية، وتجربة ألعاب محاكاة الذكاء الاصطناعي، وتحضير القهوة السعودية الموزونة لزيادة التركيز.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="social">
+            <div class="section-header" data-ar="الروابط" data-en="Network">الروابط</div>
+            
+            <div class="social-grid">
+                <a href="https://www.instagram.com/0qyl" target="_blank" class="social-card">
+                    <img src="instagram.png" alt="Instagram" class="social-icon">
+                    <span dir="ltr">@0qyl</span>
+                </a>
+                
+                <a href="https://x.com/Pastscarred" target="_blank" class="social-card">
+                    <img src="twitter.png" alt="Twitter" class="social-icon">
+                    <span dir="ltr">@Pastscarred</span>
+                </a>
+
+                <a href="https://tellonym.me/_sys" target="_blank" class="social-card">
+                    <img src="tellonym.png" alt="Tellonym" class="social-icon">
+                    <span dir="ltr">@_sys</span>
+                </a>
+
+                <a href="https://discord.com/users/392110352835280897" target="_blank" class="social-card">
+                    <img src="discord.png" alt="Discord" class="social-icon">
+                    <span dir="ltr">@fayeweathers</span>
+                </a>
+            </div>
+        </section>
+
     </div>
-  </header>
 
-  <section class="hero">
-    <span class="eyebrow">ash systems / builder profile</span>
-    <h1 class="name">ZEY<span>AD</span></h1>
-    <p class="tagline">AI student based in Saudi Arabia, and co-founder of <b>Ash Systems</b> — where I design and build Discord bots, community tools, and the ideas behind them.</p>
-  </section>
+    <footer>
+        <p class="footer-terminal">sys.admin@fayeweathers:~$ connection_established --latency=<span id="ping-latency" class="latency-text">12ms</span></p>
+        <p>© 2026 | by fayeweathers</p>
+    </footer>
 
-  <section id="about">
-    <div class="section-head">
-      <span class="section-num">01</span>
-      <span class="section-title">About</span>
-    </div>
-    <p class="about-text">I'm an AI student who spends most of his time thinking in systems — bots, dashboards, and the small tools that keep a community running smoothly. At Ash Systems, I work alongside Khalid, bringing the ideas and product direction while we build things out together.</p>
-    <p class="about-text">Lately I've been pushing further into writing the code myself, not just designing it — moving from directing builds to actually shipping them.</p>
-  </section>
+    <script>
+        // تأثير مؤشر الماوس
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
 
-  <section id="skills">
-    <div class="section-head">
-      <span class="section-num">02</span>
-      <span class="section-title">Skills &amp; Learning</span>
-    </div>
-    <div class="chip-grid">
-      <span class="chip">JavaScript</span>
-      <span class="chip">Python</span>
-      <span class="chip">HTML</span>
-      <span class="chip">C / C++</span>
-      <span class="chip">Discord.js</span>
-      <span class="chip">Cyber Security</span>
-      <span class="chip">Olympiad C++ &amp; IoT</span>
-      <span class="chip">Arduino</span>
-      <span class="chip">Micro:bit</span>
-      <span class="chip">Scratch</span>
-      <span class="chip">Quarky</span>
-      <span class="chip">CAD Modeling</span>
-    </div>
-  </section>
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 150, fill: "forwards" });
+        });
 
-  <section id="experience">
-    <div class="section-head">
-      <span class="section-num">03</span>
-      <span class="section-title">Experience</span>
-    </div>
-    <div class="exp-list">
-      <div class="exp-item">
-        <div class="exp-marker">→</div>
-        <div class="exp-body">
-          <h3>Co-founder — Ash Systems</h3>
-          <p>Building Discord bots, community tooling, and web frontends with Khalid. I lead the ideas and design direction.</p>
-        </div>
-      </div>
-      <div class="exp-item">
-        <div class="exp-marker">→</div>
-        <div class="exp-body">
-          <h3>Discord Bot Systems</h3>
-          <p>Multi-bot broadcasting systems, reaction-role &amp; moderation frameworks, real-time server backup/mirroring tools, and interactive select-menu &amp; ticket systems.</p>
-        </div>
-      </div>
-      <div class="exp-item">
-        <div class="exp-marker">→</div>
-        <div class="exp-body">
-          <h3>Web Frontends</h3>
-          <p>Built and iterated on web UIs including a media downloader interface and a Netflix-style clone.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+        // توقيت الرياض المصغر في التيرمينال
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                timeZone: 'Asia/Riyadh', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit', 
+                hour12: true 
+            };
+            document.getElementById('terminal-clock').innerText = new Intl.DateTimeFormat('en-US', options).format(now);
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
 
-  <section id="bots">
-    <div class="section-head">
-      <span class="section-num">04</span>
-      <span class="section-title">Running Processes</span>
-    </div>
-    <div class="proc-table">
-      <div class="proc-header">
-        <span>Process</span>
-        <span style="text-align:right">Status</span>
-      </div>
+        // التيرمينال التفاعلي (نصوص خضراء وأخطاء حمراء)
+        const terminalLogs = [
+            { text: "Mounting file systems...", error: false },
+            { text: "Loading AI core modules...", error: false },
+            { text: "[ERROR] Access Denied. Bypassing firewall...", error: true },
+            { text: "Bypass successful. Syncing data...", error: false },
+            { text: "Fetching user preferences...", error: false },
+            { text: "[WARN] Memory leak detected in script.js", error: true },
+            { text: "System fully operational.", error: false }
+        ];
+        
+        const animatedLogElement = document.getElementById('animated-log');
+        let currentLogIndex = 0;
 
-      <div class="proc-row">
-        <div>
-          <div class="proc-name"><span class="dot-sm"></span>Ash Athkar Bot</div>
-          <div class="proc-desc">Delivers scheduled Islamic athkar &amp; reminder content to a Discord channel.</div>
-        </div>
-        <span class="proc-status">testing</span>
-      </div>
+        function typeWriter(logObj, i, cb) {
+            if (i === 0) {
+                // تلوين النص حسب كونه خطأ أم لا
+                animatedLogElement.style.color = logObj.error ? "var(--terminal-red)" : "var(--terminal-green)";
+                animatedLogElement.innerHTML = "> ";
+            }
+            
+            if (i < logObj.text.length) {
+                animatedLogElement.innerHTML += logObj.text.charAt(i);
+                setTimeout(() => typeWriter(logObj, i + 1, cb), 40); // سرعة الكتابة
+            } else {
+                animatedLogElement.innerHTML += '<span class="blinking-cursor"></span>';
+                setTimeout(cb, 2500); // الانتظار قبل الجملة التالية
+            }
+        }
 
-      <div class="proc-row">
-        <div>
-          <div class="proc-name"><span class="dot-sm"></span>Ash Avatar</div>
-          <div class="proc-desc">Community avatar gallery with auto black-and-white conversion and a live try-on preview.</div>
-        </div>
-        <span class="proc-status">testing</span>
-      </div>
+        function startTerminalAnimation() {
+            typeWriter(terminalLogs[currentLogIndex], 0, () => {
+                currentLogIndex = (currentLogIndex + 1) % terminalLogs.length;
+                startTerminalAnimation();
+            });
+        }
+        setTimeout(startTerminalAnimation, 500);
 
-      <div class="proc-row">
-        <div>
-          <div class="proc-name"><span class="dot-sm"></span>Ash Boo Sys</div>
-          <div class="proc-desc">Server management bot with room controls, moderation, and a full event-logging system.</div>
-        </div>
-        <span class="proc-status">testing</span>
-      </div>
+        // تفاعل الـ Latency في الفوتر
+        setInterval(() => {
+            const latencyElement = document.getElementById('ping-latency');
+            const randomPing = Math.floor(Math.random() * (45 - 12 + 1)) + 12; // بين 12ms و 45ms
+            latencyElement.innerText = randomPing + 'ms';
+        }, 3000);
 
-      <div class="proc-row">
-        <div>
-          <div class="proc-name"><span class="dot-sm"></span>pastbleeding</div>
-          <div class="proc-desc">Instagram-style posts bot — likes, threaded comments, and a live activity log.</div>
-        </div>
-        <span class="proc-status">testing</span>
-      </div>
+        // نظام تبديل اللغات (ويغير اتجاه الخط الأبيض تلقائياً بفضل CSS)
+        const langToggleBtn = document.getElementById('langToggle');
+        const translatableElements = document.querySelectorAll('[data-ar]');
+        let currentLang = 'ar';
 
-      <div class="proc-row">
-        <div>
-          <div class="proc-name"><span class="dot-sm"></span>Ash Wallpaper Bot</div>
-          <div class="proc-desc">Reposts uploaded wallpapers into a display channel with download &amp; info buttons.</div>
-        </div>
-        <span class="proc-status">testing</span>
-      </div>
-    </div>
-  </section>
-
-  <section id="links" style="border-bottom:none;">
-    <div class="section-head">
-      <span class="section-num">05</span>
-      <span class="section-title">Links</span>
-    </div>
-    <div class="link-grid">
-      <div class="link-card"><b>GitHub</b>coming soon</div>
-      <div class="link-card"><b>Discord</b>coming soon</div>
-      <div class="link-card"><b>X / Twitter</b>coming soon</div>
-    </div>
-  </section>
-
-  <footer>
-    <span>zsmj.me</span>
-    <span>© 2026 Ash Systems</span>
-  </footer>
-
-</div>
-
+        langToggleBtn.addEventListener('click', () => {
+            if(currentLang === 'ar') {
+                currentLang = 'en';
+                document.documentElement.lang = 'en';
+                document.documentElement.dir = 'ltr';
+                langToggleBtn.innerText = 'AR';
+            } else {
+                currentLang = 'ar';
+                document.documentElement.lang = 'ar';
+                document.documentElement.dir = 'rtl';
+                langToggleBtn.innerText = 'EN';
+            }
+            translatableElements.forEach(el => {
+                el.innerText = el.getAttribute(`data-${currentLang}`);
+            });
+        });
+    </script>
 </body>
 </html>
