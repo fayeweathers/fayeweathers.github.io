@@ -15,18 +15,16 @@
             --text-main: #f0f0f0;
             --text-dim: #888888;
             --border-color: #222222;
-            --terminal-green: #39ff14;
-            --terminal-green-bright: #5dff3a;
-            --terminal-green-soft: rgba(57, 255, 20, 0.18);
+            --terminal-green: #00f0ff;
+            --terminal-green-bright: #66f9ff;
+            --terminal-green-soft: rgba(0, 240, 255, 0.18);
             --terminal-red: #ff3b30;
         }
 
-        /* إضافة التمرير السلس */
         html {
             scroll-behavior: smooth;
         }
 
-        /* تخصيص شريط التمرير (Scrollbar) باللون الأخضر */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -38,10 +36,10 @@
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--terminal-green-bright); box-shadow: 0 0 12px var(--terminal-green);
+            background: var(--terminal-green-bright);
+            box-shadow: 0 0 12px var(--terminal-green);
         }
 
-        /* مساحة علوية للأقسام عشان البار العلوي ما يغطي عليها */
         section {
             scroll-margin-top: 120px;
         }
@@ -50,7 +48,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important; 
+            cursor: none !important;
         }
 
         body {
@@ -61,11 +59,10 @@
             transition: all 0.3s ease;
         }
 
-        /* تأثير الماوس التفاعلي الجديد (Glow) */
         .cursor-glow {
             width: 120px;
             height: 120px;
-            background: radial-gradient(circle, rgba(57, 255, 20, 0.28) 0%, rgba(0, 0, 0, 0) 70%);
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.28) 0%, rgba(0, 0, 0, 0) 70%);
             border-radius: 50%;
             position: fixed;
             top: 0;
@@ -75,14 +72,13 @@
             transform: translate(-50%, -50%);
             transition: transform 0.05s linear, width 0.2s, height 0.2s, background 0.2s;
         }
-        
+
         .cursor-glow.click-effect {
             width: 180px;
             height: 180px;
             background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
         }
 
-        /* Navbar */
         nav {
             position: fixed;
             top: 30px;
@@ -98,10 +94,19 @@
             align-items: center;
             justify-content: space-between;
             z-index: 1000;
-            box-shadow: 0 0 10px rgba(57,255,20,0.28), 0 0 22px rgba(57,255,20,0.12), 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.28), 0 0 22px rgba(0, 240, 255, 0.12), 0 10px 30px rgba(0,0,0,0.5);
             width: 90%;
             max-width: 900px;
-            direction: ltr; 
+            direction: ltr;
+            transition: all 0.4s ease;
+        }
+
+        /* كلاس إضافي يجعل الشريط ملونًا عندما تكون في أعلى الصفحة */
+        nav.nav-colored {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: var(--terminal-green-bright);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.45), 0 0 55px rgba(0, 240, 255, 0.2), 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(25px);
         }
 
         .nav-brand {
@@ -120,15 +125,15 @@
             display: flex;
             align-items: center;
             gap: 20px;
-            direction: ltr !important; 
+            direction: ltr !important;
         }
-        
+
         .nav-links {
             display: flex;
             gap: 25px;
             align-items: center;
         }
-        
+
         .nav-actions {
             display: flex;
             align-items: center;
@@ -154,7 +159,7 @@
 
         .nav-links a.active-link {
             color: var(--terminal-green);
-            text-shadow: 0 0 10px rgba(57, 255, 20, 0.75), 0 0 22px rgba(57,255,20,0.35);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.75), 0 0 22px rgba(0, 240, 255, 0.35);
         }
 
         .lang-btn {
@@ -167,13 +172,20 @@
             font-weight: bold;
             transition: 0.3s;
         }
-        .lang-btn:hover { background: #fff; color: #000; }
+        .lang-btn:hover {
+            background: #fff;
+            color: #000;
+        }
 
-        .mobile-lang-btn { display: none; }
-        .desktop-lang-btn { display: block; }
+        .mobile-lang-btn {
+            display: none;
+        }
+        .desktop-lang-btn {
+            display: block;
+        }
 
         .menu-btn {
-            display: none; 
+            display: none;
             background: none;
             border: none;
             color: var(--text-main);
@@ -181,7 +193,6 @@
             cursor: pointer !important;
         }
 
-        /* Container */
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -191,7 +202,6 @@
             gap: 90px;
         }
 
-        /* Hero */
         .hero {
             display: flex;
             align-items: center;
@@ -199,54 +209,68 @@
             flex-wrap: wrap-reverse;
             gap: 40px;
         }
-        .hero-text { flex: 1; min-width: 300px; }
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
         .hero-text h1 {
             font-size: 3.5rem;
             margin-bottom: 15px;
             font-family: 'Fira Code', monospace;
             letter-spacing: -1.5px;
-            text-align: left; 
-            direction: ltr; 
+            text-align: left;
+            direction: ltr;
         }
 
-        /* Terminal (تم إضافة الحدود الخضراء) */
         .terminal {
             background: var(--bg-card);
-            border: 1px solid var(--terminal-green); box-shadow: 0 0 10px rgba(57,255,20,0.28), 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid var(--terminal-green);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.28), 0 10px 30px rgba(0,0,0,0.8);
             border-radius: 10px;
             padding: 20px;
             font-family: 'Fira Code', monospace;
             font-size: 0.9rem;
             color: var(--terminal-green);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             direction: ltr;
             text-align: left;
             min-height: 140px;
         }
-        
-        .terminal-header { 
-            display: flex; 
+
+        .terminal-header {
+            display: flex;
             flex-direction: row-reverse;
-            justify-content: space-between; 
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px; 
+            margin-bottom: 15px;
             border-bottom: 1px solid #333;
             padding-bottom: 8px;
         }
-        .terminal-dots { display: flex; gap: 8px; }
-        .terminal-dots span { width: 12px; height: 12px; border-radius: 50%; }
+        .terminal-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .terminal-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
         .dot-red { background: #ff5f56; }
         .dot-yellow { background: #ffbd2e; }
         .dot-green { background: #27c93f; }
-        
+
         .terminal-time {
             font-size: 0.75rem;
             color: #666;
             font-family: 'Fira Code', monospace;
         }
 
-        .terminal p { margin-bottom: 8px; min-height: 20px;}
-        .terminal-static { color: #555; }
+        .terminal p {
+            margin-bottom: 8px;
+            min-height: 20px;
+        }
+        .terminal-static {
+            color: #555;
+        }
         .terminal-extra {
             min-height: 20px;
             font-size: 0.88rem;
@@ -256,7 +280,7 @@
             color: var(--terminal-red);
             text-shadow: 0 0 7px rgba(255,59,48,0.35);
         }
-        
+
         .blinking-cursor {
             display: inline-block;
             width: 8px;
@@ -266,15 +290,17 @@
             vertical-align: middle;
             margin-left: 2px;
         }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
 
-        /* Avatar (تم تغيير الاسم والحدود الخضراء) */
         .hero-image {
             width: 320px;
             height: 320px;
             background: url('avt.png') center/cover no-repeat;
-            border: 2px solid var(--terminal-green); /* أخضر */
-            box-shadow: 0 0 25px rgba(57,255,20,0.22), 0 0 55px rgba(57,255,20,0.08); /* ظل أخضر خفيف */
+            border: 2px solid var(--terminal-green);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.22), 0 0 55px rgba(0, 240, 255, 0.08);
             animation: complex-morph 12s ease-in-out infinite alternate;
             position: relative;
         }
@@ -282,7 +308,8 @@
             content: '';
             position: absolute;
             inset: -8px;
-            border: 1px solid var(--terminal-green); box-shadow: 0 0 10px rgba(57,255,20,0.28), 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid var(--terminal-green);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.28), 0 10px 30px rgba(0,0,0,0.8);
             animation: complex-morph 15s ease-in-out infinite alternate-reverse;
             pointer-events: none;
         }
@@ -294,7 +321,6 @@
             100% { border-radius: 40% 70% 60% 40% / 40% 50% 40% 70%; }
         }
 
-        /* About Section */
         .section-header {
             display: flex;
             align-items: center;
@@ -304,15 +330,14 @@
             font-size: 1.8rem;
             font-family: 'Fira Code', monospace;
         }
-        /* الشرطات باللون الأخضر */
-        .section-header::before, .section-header::after { 
-            content: ''; 
-            height: 2px; 
-            width: 40px; 
-            background: var(--terminal-green); /* أخضر */
+        .section-header::before,
+        .section-header::after {
+            content: '';
+            height: 2px;
+            width: 40px;
+            background: var(--terminal-green);
         }
 
-        /* صندوق عني (الحدود الخضراء) */
         .about-box {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -323,49 +348,51 @@
             font-size: 1.05rem;
             position: relative;
             border-inline-start: 5px solid var(--terminal-green);
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 0 18px rgba(57,255,20,0.08);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 0 18px rgba(0, 240, 255, 0.08);
             transition: transform 0.3s, box-shadow 0.3s;
             max-width: 750px;
             margin: 0 auto;
             overflow: hidden;
         }
 
-        /* الشريط المشع يكون في جهة النص: يمين بالعربي، يسار بالإنجليزي */
         html[dir="rtl"] .about-box {
             border-right: 5px solid var(--terminal-green);
             border-left: 1px solid var(--border-color);
-            box-shadow: inset -18px 0 35px -28px var(--terminal-green), 0 0 18px rgba(57,255,20,0.08);
+            box-shadow: inset -18px 0 35px -28px var(--terminal-green), 0 0 18px rgba(0, 240, 255, 0.08);
         }
 
         html[dir="ltr"] .about-box {
             border-left: 5px solid var(--terminal-green);
             border-right: 1px solid var(--border-color);
-            box-shadow: inset 18px 0 35px -28px var(--terminal-green), 0 0 18px rgba(57,255,20,0.08);
+            box-shadow: inset 18px 0 35px -28px var(--terminal-green), 0 0 18px rgba(0, 240, 255, 0.08);
         }
         .about-box:hover {
             transform: translateY(-3px);
         }
-        .about-text p { margin-bottom: 15px; }
-        .about-text p:last-child { margin-bottom: 0; }
+        .about-text p {
+            margin-bottom: 15px;
+        }
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
 
         .about-skills {
-            text-align: start; 
-            margin: 20px 0; 
+            text-align: start;
+            margin: 20px 0;
             padding: 0 15px;
         }
         .about-skills p {
-            font-weight: bold; 
-            margin-bottom: 10px; 
+            font-weight: bold;
+            margin-bottom: 10px;
             color: #fff;
         }
         .about-skills ul {
-            list-style: none; 
-            padding: 0; 
-            margin: 0; 
+            list-style: none;
+            padding: 0;
+            margin: 0;
             line-height: 2;
         }
 
-        /* التوقيع السيبراني الخاص بك */
         .author-signature {
             display: flex;
             align-items: center;
@@ -378,7 +405,6 @@
             font-weight: bold;
         }
 
-        /* Social Section */
         .social-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -402,10 +428,11 @@
             overflow: hidden;
         }
         .social-card:hover {
-            border-color: var(--terminal-green); /* غيرته للأخضر ليتماشى مع الثيم */
+            border-color: var(--terminal-green);
             color: #fff;
             transform: translateY(-4px);
-            background: rgba(57, 255, 20, 0.07); box-shadow: inset 0 0 20px rgba(57,255,20,0.06);
+            background: rgba(0, 240, 255, 0.07);
+            box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.06);
         }
         .social-card span {
             direction: ltr;
@@ -421,10 +448,9 @@
         }
         .social-card:hover .social-icon {
             transform: scale(1.1);
-            filter: drop-shadow(0 0 10px rgba(39, 201, 63, 0.6));
+            filter: drop-shadow(0 0 10px rgba(0, 200, 255, 0.6));
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 30px 20px;
@@ -435,27 +461,44 @@
             margin-top: 40px;
             direction: ltr;
         }
-        footer p { margin: 6px 0; }
-        .footer-terminal { color: #fff; }
-        .latency-text { color: var(--terminal-green); font-weight: bold; }
+        footer p {
+            margin: 6px 0;
+        }
+        .footer-terminal {
+            color: #fff;
+        }
+        .latency-text {
+            color: var(--terminal-green);
+            font-weight: bold;
+        }
 
-        /* ================================== */
-        /* التعديلات الخاصة بالجوال فقط       */
-        /* ================================== */
         @media (max-width: 768px) {
-            * { cursor: auto !important; }
-            .cursor-dot, .cursor-outline { display: none !important; }
-            
-            nav { width: 90%; padding: 12px 20px; border-radius: 30px; }
-            .menu-btn { display: block; }
-            .desktop-lang-btn { display: none; } 
-            
+            * {
+                cursor: auto !important;
+            }
+            .cursor-dot,
+            .cursor-outline {
+                display: none !important;
+            }
+
+            nav {
+                width: 90%;
+                padding: 12px 20px;
+                border-radius: 30px;
+            }
+            .menu-btn {
+                display: block;
+            }
+            .desktop-lang-btn {
+                display: none;
+            }
+
             .nav-links {
                 display: none;
                 flex-direction: column;
                 position: absolute;
                 top: 60px;
-                right: 0; 
+                right: 0;
                 width: 220px;
                 background: rgba(13, 13, 13, 0.95);
                 border: 1px solid var(--border-color);
@@ -464,36 +507,41 @@
                 gap: 20px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             }
-            .nav-links.active { display: flex; }
-            .nav-links a { justify-content: center; font-size: 1.1rem; width: 100%; }
-            
-            .mobile-lang-btn { 
-                display: block; 
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links a {
+                justify-content: center;
+                font-size: 1.1rem;
+                width: 100%;
+            }
+
+            .mobile-lang-btn {
+                display: block;
                 margin: 5px auto 0;
                 width: 50%;
             }
 
             .hero {
-                flex-direction: column-reverse; 
+                flex-direction: column-reverse;
                 text-align: center;
                 gap: 30px;
             }
             .hero-image {
-                margin: 0 auto; 
+                margin: 0 auto;
                 width: 260px;
                 height: 260px;
             }
             .hero-text h1 {
-                text-align: center; 
+                text-align: center;
             }
 
-            /* تعديل صندوق "عني" للجوال ليصبح مستطيلاً وأطول وبخط أخضر جانبي */
             .about-box {
-                padding: 50px 20px; /* زيادة البادينق عشان يسحب بالطول */
-                border-top: 1px solid var(--terminal-green); /* توحيد الحدود */
-                border-inline-start: 4px solid var(--terminal-green); /* الخط الجانبي الأخضر */
+                padding: 50px 20px;
+                border-top: 1px solid var(--terminal-green);
+                border-inline-start: 4px solid var(--terminal-green);
                 font-size: 0.95rem;
-                min-height: 400px; /* فرض شكل مستطيل على تحت */
+                min-height: 400px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -508,15 +556,15 @@
 
     <div class="cursor-glow"></div>
 
-    <nav>
+    <nav id="navbar">
         <a href="#home" class="nav-brand">fayeweathers</a>
 
         <div class="nav-content-wrapper">
             <div class="nav-links" id="navLinks">
-                <a href="#home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></a>
-                <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="عني" data-en="About Me">عني</span></a>
-                <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="التواصل" data-en="Socials">التواصل</span></a>
-                
+                <a href="#home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="Home" data-en="Home">Home</span></a>
+                <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="About Me" data-en="About Me">About Me</span></a>
+                <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="Socials" data-en="Socials">Socials</span></a>
+
                 <button class="lang-btn mobile-lang-btn" id="langToggleMobile">EN</button>
             </div>
 
@@ -528,11 +576,11 @@
     </nav>
 
     <div class="container">
-        
+
         <section id="home" class="hero">
             <div class="hero-text">
                 <h1>fayeweathers</h1>
-                
+
                 <div class="terminal">
                     <div class="terminal-header">
                         <div class="terminal-dots">
@@ -543,25 +591,25 @@
                         <div class="terminal-time" id="terminal-clock">--:--:-- --</div>
                     </div>
                     <p class="terminal-static">> root@fayeweathers:~# ./start_system.sh</p>
-                    <p id="animated-log"><span class="blinking-cursor"></span></p>
-                    <p class="terminal-extra terminal-error">> [ERROR] Kernel integrity check failed.</p>
-                    <p class="terminal-extra terminal-error">> [ERROR] AI module handshake timeout.</p>
+                    <!-- سيتم تعبئته ديناميكياً -->
+                    <p id="animated-log"></p>
+                    <p id="dynamic-log"></p>
                 </div>
             </div>
-            
+
             <div class="hero-image"></div>
         </section>
 
         <section id="about">
-            <div class="section-header" data-ar="عني" data-en="About Me">عني</div>
-            
+            <div class="section-header" data-ar="About Me" data-en="About Me">About Me</div>
+
             <div class="about-box">
                 <div class="about-text">
-                    <p data-ar="مبتعث متخصص في هندسة الذكاء الاصطناعي والأمن السيبراني. أشتغل على دمج خوارزميات تعلم الآلة مع تقنيات الحماية والاختراق عشان أبني أنظمة ذكية وقوية." 
+                    <p data-ar="مبتعث متخصص في هندسة الذكاء الاصطناعي والأمن السيبراني. أشتغل على دمج خوارزميات تعلم الآلة مع تقنيات الحماية والاختراق عشان أبني أنظمة ذكية وقوية."
                        data-en="AI & Cybersecurity Scholar. I focus on merging machine learning algorithms with offensive security to build intelligent, resilient systems.">
                         مبتعث متخصص في هندسة الذكاء الاصطناعي والأمن السيبراني. أشتغل على دمج خوارزميات تعلم الآلة مع تقنيات الحماية والاختراق عشان أبني أنظمة ذكية وقوية.
                     </p>
-                    
+
                     <div class="about-skills">
                         <p data-ar="أبرز خبراتي:" data-en="Core Expertise:">أبرز خبراتي:</p>
                         <ul>
@@ -572,11 +620,11 @@
                         </ul>
                     </div>
 
-                    <p data-ar="شغلي يعتمد على الدقة، وأفضل دائماً أترك الكود يثبت نفسه." 
+                    <p data-ar="شغلي يعتمد على الدقة، وأفضل دائماً أترك الكود يثبت نفسه."
                        data-en="I prefer to keep it precise and let my code speak for itself.">
                         شغلي يعتمد على الدقة، وأفضل دائماً أترك الكود يثبت نفسه.
                     </p>
-                    
+
                     <div class="author-signature">
                         <i class="fa-solid fa-shield"></i>
                         <i class="fa-solid fa-microchip"></i>
@@ -587,14 +635,14 @@
         </section>
 
         <section id="social">
-            <div class="section-header" data-ar="الروابط" data-en="Network">الروابط</div>
-            
+            <div class="section-header" data-ar="Socials Media" data-en="Socials Media">Socials Media</div>
+
             <div class="social-grid">
                 <a href="https://www.instagram.com/0qyl" target="_blank" class="social-card">
                     <img src="instagram.png" alt="Instagram" class="social-icon">
                     <span>0qyl</span>
                 </a>
-                
+
                 <a href="https://x.com/Pastscarred" target="_blank" class="social-card">
                     <img src="twitter.png" alt="Twitter" class="social-icon">
                     <span>Pastscarred</span>
@@ -620,7 +668,7 @@
     </footer>
 
     <script>
-        // تأثير الماوس التفاعلي الجديد (Glow) للديسكتوب والجوال
+        // تأثير الماوس التفاعلي (Glow)
         const cursorGlow = document.querySelector('.cursor-glow');
 
         window.addEventListener('mousemove', (e) => {
@@ -638,16 +686,26 @@
         window.addEventListener('touchstart', () => cursorGlow.classList.add('click-effect'), { passive: true });
         window.addEventListener('touchend', () => cursorGlow.classList.remove('click-effect'));
 
-        // نظام التلوين التلقائي مع حل مشكلة القسم الأخير (التواصل)
+        // تبديل حالة الشريط العلوي (ملون / سادة) حسب التمرير
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY < 50) {
+                navbar.classList.add('nav-colored');
+            } else {
+                navbar.classList.remove('nav-colored');
+            }
+        });
+
+        // نظام التلوين التلقائي للأقسام
         const sections = document.querySelectorAll('section');
         const navItems = document.querySelectorAll('.nav-links a');
 
         window.addEventListener('scroll', () => {
             let current = '';
-            
+
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                if (window.scrollY >= (sectionTop - 250)) { 
+                if (window.scrollY >= (sectionTop - 250)) {
                     current = section.getAttribute('id');
                 }
             });
@@ -667,19 +725,18 @@
         // تشغيل/إغلاق القائمة في الجوال
         const menuBtn = document.getElementById('menuBtn');
         const navLinks = document.getElementById('navLinks');
-        
+
         menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); 
+            e.stopPropagation();
             navLinks.classList.toggle('active');
         });
 
-        // إغلاق القائمة عند الضغط في أي مكان بالشاشة
         document.addEventListener('click', (e) => {
             if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
                 navLinks.classList.remove('active');
             }
         });
-        
+
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
@@ -689,59 +746,133 @@
         // توقيت التيرمينال
         function updateTime() {
             const now = new Date();
-            const options = { 
-                timeZone: 'Asia/Riyadh', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit', 
-                hour12: true 
+            const options = {
+                timeZone: 'Asia/Riyadh',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
             };
             document.getElementById('terminal-clock').innerText = new Intl.DateTimeFormat('en-US', options).format(now);
         }
         setInterval(updateTime, 1000);
         updateTime();
 
-        // التيرمينال التفاعلي
-        const terminalLogs = [
-            { text: "Mounting file systems...", error: false },
-            { text: "Loading AI core modules...", error: false },
-            { text: "[ERROR] Access Denied. Bypassing firewall...", error: true },
-            { text: "Bypass successful. Syncing data...", error: false },
-            { text: "Fetching user preferences...", error: false },
-            { text: "[WARN] Memory leak detected in script.js", error: true },
-            { text: "System fully operational.", error: false }
-        ];
-        
+        // نظام التيرمينال التفاعلي الكامل (حلقات متعددة)
         const animatedLogElement = document.getElementById('animated-log');
-        let currentLogIndex = 0;
+        const dynamicLogElement = document.getElementById('dynamic-log');
 
-        function typeWriter(logObj, i, cb) {
-            if (i === 0) {
-                animatedLogElement.style.color = logObj.error ? "var(--terminal-red)" : "var(--terminal-green)";
-                animatedLogElement.innerHTML = "> ";
-            }
-            
-            if (i < logObj.text.length) {
-                animatedLogElement.innerHTML += logObj.text.charAt(i);
-                setTimeout(() => typeWriter(logObj, i + 1, cb), 40); 
-            } else {
-                animatedLogElement.innerHTML += '<span class="blinking-cursor"></span>';
-                setTimeout(cb, 2500); 
-            }
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        function startTerminalAnimation() {
-            typeWriter(terminalLogs[currentLogIndex], 0, () => {
-                currentLogIndex = (currentLogIndex + 1) % terminalLogs.length;
-                startTerminalAnimation();
+        function typeWriterPromise(text, isError, element) {
+            return new Promise((resolve) => {
+                element.style.color = isError ? "var(--terminal-red)" : "var(--terminal-green)";
+                element.innerHTML = "> ";
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, 40);
+                    } else {
+                        element.innerHTML += ' <span class="blinking-cursor"></span>';
+                        resolve();
+                    }
+                }
+                type();
             });
         }
-        setTimeout(startTerminalAnimation, 500);
+
+        const sessions = [
+            {
+                logs: [
+                    { text: "Mounting file systems...", error: false },
+                    { text: "Loading AI core modules...", error: false },
+                    { text: "[ERROR] Access Denied. Bypassing firewall...", error: true },
+                    { text: "Bypass successful. Syncing data...", error: false },
+                    { text: "Fetching user preferences...", error: false },
+                    { text: "[WARN] Memory leak detected in script.js", error: true },
+                    { text: "System fully operational.", error: false }
+                ],
+                dynamicUpdates: [
+                    "System status: operational",
+                    "CPU load: 12% - normal",
+                    "Memory usage: 42% (1.2GB/8GB)",
+                    "Network: stable - latency 15ms",
+                    "Firewall: active - 3 blocked attempts"
+                ]
+            },
+            {
+                logs: [
+                    { text: "Initializing security protocols...", error: false },
+                    { text: "Checking kernel integrity...", error: false },
+                    { text: "[CRITICAL] Rootkit detected in /sys/kernel", error: true },
+                    { text: "Quarantining malicious files...", error: false },
+                    { text: "Restoring from backup...", error: false },
+                    { text: "Integrity check passed.", error: false }
+                ],
+                dynamicUpdates: [
+                    "Threat neutralized: 2 files quarantined",
+                    "System scan: 100% complete",
+                    "No further threats found",
+                    "Logs uploaded to secure server"
+                ]
+            },
+            {
+                logs: [
+                    { text: "Connecting to secure shell...", error: false },
+                    { text: "Authenticating user: fayeweathers", error: false },
+                    { text: "[WARN] Unusual login attempt blocked", error: true },
+                    { text: "Two-factor authentication successful", error: false },
+                    { text: "Access granted. Welcome back.", error: false }
+                ],
+                dynamicUpdates: [
+                    "Last login: today at 14:32:07",
+                    "New IP whitelisted: 203.0.113.7",
+                    "Session timeout set to 30 minutes",
+                    "Encrypted channel established"
+                ]
+            }
+        ];
+
+        let sessionIndex = 0;
+
+        async function runSession(session) {
+            animatedLogElement.innerHTML = '';
+            dynamicLogElement.innerHTML = '';
+
+            for (let i = 0; i < session.logs.length; i++) {
+                const log = session.logs[i];
+                await typeWriterPromise(log.text, log.error, animatedLogElement);
+                await sleep(400);
+            }
+
+            for (let j = 0; j < session.dynamicUpdates.length; j++) {
+                dynamicLogElement.innerHTML = '> ' + session.dynamicUpdates[j] + ' <span class="blinking-cursor"></span>';
+                await sleep(1800);
+            }
+
+            dynamicLogElement.innerHTML = '';
+            await sleep(1000);
+        }
+
+        async function startTerminalLoop() {
+            while (true) {
+                await runSession(sessions[sessionIndex]);
+                sessionIndex = (sessionIndex + 1) % sessions.length;
+            }
+        }
+
+        window.addEventListener('load', () => {
+            startTerminalLoop();
+        });
 
         // تفاعل الـ Latency
         setInterval(() => {
             const latencyElement = document.getElementById('ping-latency');
-            const randomPing = Math.floor(Math.random() * (45 - 12 + 1)) + 12; 
+            const randomPing = Math.floor(Math.random() * (45 - 12 + 1)) + 12;
             latencyElement.innerText = randomPing + 'ms';
         }, 3000);
 
@@ -752,7 +883,7 @@
         let currentLang = 'ar';
 
         function toggleLanguage() {
-            if(currentLang === 'ar') {
+            if (currentLang === 'ar') {
                 currentLang = 'en';
                 document.documentElement.lang = 'en';
                 document.documentElement.dir = 'ltr';
@@ -772,7 +903,7 @@
 
         langToggleDesktop.addEventListener('click', toggleLanguage);
         langToggleMobile.addEventListener('click', (e) => {
-            e.stopPropagation(); 
+            e.stopPropagation();
             toggleLanguage();
         });
     </script>
