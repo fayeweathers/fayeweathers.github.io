@@ -15,8 +15,35 @@
             --text-main: #f0f0f0;
             --text-dim: #888888;
             --border-color: #222222;
-            --terminal-green: #27c93f;
-            --terminal-red: #ff5f56;
+            --terminal-green: #39ff14;
+            --terminal-green-bright: #5dff3a;
+            --terminal-green-soft: rgba(57, 255, 20, 0.18);
+            --terminal-red: #ff3b30;
+        }
+
+        /* إضافة التمرير السلس */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* تخصيص شريط التمرير (Scrollbar) باللون الأخضر */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--terminal-green);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--terminal-green-bright); box-shadow: 0 0 12px var(--terminal-green);
+        }
+
+        /* مساحة علوية للأقسام عشان البار العلوي ما يغطي عليها */
+        section {
+            scroll-margin-top: 120px;
         }
 
         * {
@@ -34,11 +61,11 @@
             transition: all 0.3s ease;
         }
 
-        /* Cursor */
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: white;
+        /* تأثير الماوس التفاعلي الجديد (Glow) */
+        .cursor-glow {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(57, 255, 20, 0.28) 0%, rgba(0, 0, 0, 0) 70%);
             border-radius: 50%;
             position: fixed;
             top: 0;
@@ -46,24 +73,13 @@
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
+            transition: transform 0.05s linear, width 0.2s, height 0.2s, background 0.2s;
         }
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-        }
-        a:hover ~ .cursor-outline, button:hover ~ .cursor-outline {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.1);
+        
+        .cursor-glow.click-effect {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
         }
 
         /* Navbar */
@@ -74,17 +90,37 @@
             transform: translateX(-50%);
             background: rgba(13, 13, 13, 0.8);
             backdrop-filter: blur(15px);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--terminal-green);
             padding: 10px 25px;
             border-radius: 50px;
             display: flex;
+            flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
             z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: max-content;
-            max-width: 90%;
+            box-shadow: 0 0 10px rgba(57,255,20,0.28), 0 0 22px rgba(57,255,20,0.12), 0 10px 30px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 900px;
+            direction: ltr; 
+        }
+
+        .nav-brand {
+            color: var(--text-main);
+            font-family: 'Fira Code', monospace;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .nav-brand:hover {
+            color: var(--terminal-green);
+        }
+
+        .nav-content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            direction: ltr !important; 
         }
         
         .nav-links {
@@ -116,6 +152,11 @@
             text-shadow: 0 0 10px white;
         }
 
+        .nav-links a.active-link {
+            color: var(--terminal-green);
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.75), 0 0 22px rgba(57,255,20,0.35);
+        }
+
         .lang-btn {
             background: var(--text-main);
             color: var(--bg-dark);
@@ -124,11 +165,15 @@
             font-family: 'Fira Code', monospace;
             border: none;
             font-weight: bold;
+            transition: 0.3s;
         }
         .lang-btn:hover { background: #fff; color: #000; }
 
+        .mobile-lang-btn { display: none; }
+        .desktop-lang-btn { display: block; }
+
         .menu-btn {
-            display: none; /* مخفي في الديسكتوب */
+            display: none; 
             background: none;
             border: none;
             color: var(--text-main);
@@ -160,14 +205,14 @@
             margin-bottom: 15px;
             font-family: 'Fira Code', monospace;
             letter-spacing: -1.5px;
-            text-align: left; /* دائماً لليسار في الديسكتوب */
-            direction: ltr; /* يجبر النص على البقاء لليسار مع التيرمينال */
+            text-align: left; 
+            direction: ltr; 
         }
 
-        /* Terminal */
+        /* Terminal (تم إضافة الحدود الخضراء) */
         .terminal {
             background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--terminal-green); box-shadow: 0 0 10px rgba(57,255,20,0.28), 0 10px 30px rgba(0,0,0,0.8);
             border-radius: 10px;
             padding: 20px;
             font-family: 'Fira Code', monospace;
@@ -181,6 +226,7 @@
         
         .terminal-header { 
             display: flex; 
+            flex-direction: row-reverse;
             justify-content: space-between; 
             align-items: center;
             margin-bottom: 15px; 
@@ -201,6 +247,15 @@
 
         .terminal p { margin-bottom: 8px; min-height: 20px;}
         .terminal-static { color: #555; }
+        .terminal-extra {
+            min-height: 20px;
+            font-size: 0.88rem;
+            margin-top: 2px;
+        }
+        .terminal-error {
+            color: var(--terminal-red);
+            text-shadow: 0 0 7px rgba(255,59,48,0.35);
+        }
         
         .blinking-cursor {
             display: inline-block;
@@ -213,13 +268,13 @@
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Avatar */
+        /* Avatar (تم تغيير الاسم والحدود الخضراء) */
         .hero-image {
             width: 320px;
             height: 320px;
-            background: url('d4409bbd01654a07c1703861471a5479_2.png') center/cover no-repeat;
-            border: 2px solid rgba(255,255,255,0.2);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+            background: url('avt.png') center/cover no-repeat;
+            border: 2px solid var(--terminal-green); /* أخضر */
+            box-shadow: 0 0 25px rgba(57,255,20,0.22), 0 0 55px rgba(57,255,20,0.08); /* ظل أخضر خفيف */
             animation: complex-morph 12s ease-in-out infinite alternate;
             position: relative;
         }
@@ -227,7 +282,7 @@
             content: '';
             position: absolute;
             inset: -8px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid var(--terminal-green); box-shadow: 0 0 10px rgba(57,255,20,0.28), 0 10px 30px rgba(0,0,0,0.8);
             animation: complex-morph 15s ease-in-out infinite alternate-reverse;
             pointer-events: none;
         }
@@ -249,8 +304,15 @@
             font-size: 1.8rem;
             font-family: 'Fira Code', monospace;
         }
-        .section-header::before, .section-header::after { content: ''; height: 2px; width: 40px; background: var(--text-dim); }
+        /* الشرطات باللون الأخضر */
+        .section-header::before, .section-header::after { 
+            content: ''; 
+            height: 2px; 
+            width: 40px; 
+            background: var(--terminal-green); /* أخضر */
+        }
 
+        /* صندوق عني (الحدود الخضراء) */
         .about-box {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -260,11 +322,25 @@
             line-height: 1.8;
             font-size: 1.05rem;
             position: relative;
-            border-inline-start: 4px solid #fff;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s;
+            border-inline-start: 5px solid var(--terminal-green);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 0 18px rgba(57,255,20,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
             max-width: 750px;
             margin: 0 auto;
+            overflow: hidden;
+        }
+
+        /* الشريط المشع يكون في جهة النص: يمين بالعربي، يسار بالإنجليزي */
+        html[dir="rtl"] .about-box {
+            border-right: 5px solid var(--terminal-green);
+            border-left: 1px solid var(--border-color);
+            box-shadow: inset -18px 0 35px -28px var(--terminal-green), 0 0 18px rgba(57,255,20,0.08);
+        }
+
+        html[dir="ltr"] .about-box {
+            border-left: 5px solid var(--terminal-green);
+            border-right: 1px solid var(--border-color);
+            box-shadow: inset 18px 0 35px -28px var(--terminal-green), 0 0 18px rgba(57,255,20,0.08);
         }
         .about-box:hover {
             transform: translateY(-3px);
@@ -287,6 +363,19 @@
             padding: 0; 
             margin: 0; 
             line-height: 2;
+        }
+
+        /* التوقيع السيبراني الخاص بك */
+        .author-signature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--terminal-green);
+            font-family: 'Fira Code', monospace;
+            margin-top: 35px;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: bold;
         }
 
         /* Social Section */
@@ -313,10 +402,10 @@
             overflow: hidden;
         }
         .social-card:hover {
-            border-color: #fff;
+            border-color: var(--terminal-green); /* غيرته للأخضر ليتماشى مع الثيم */
             color: #fff;
             transform: translateY(-4px);
-            background: rgba(255,255,255,0.02);
+            background: rgba(57, 255, 20, 0.07); box-shadow: inset 0 0 20px rgba(57,255,20,0.06);
         }
         .social-card span {
             direction: ltr;
@@ -332,7 +421,7 @@
         }
         .social-card:hover .social-icon {
             transform: scale(1.1);
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.6));
+            filter: drop-shadow(0 0 10px rgba(39, 201, 63, 0.6));
         }
 
         /* Footer */
@@ -354,21 +443,20 @@
         /* التعديلات الخاصة بالجوال فقط       */
         /* ================================== */
         @media (max-width: 768px) {
-            /* إلغاء التحديد التفاعلي (الماوس) في الجوال */
             * { cursor: auto !important; }
             .cursor-dot, .cursor-outline { display: none !important; }
             
-            /* شريط التنقل للجوال (Hamburger Menu) */
-            nav { width: auto; padding: 10px 20px; border-radius: 30px; }
+            nav { width: 90%; padding: 12px 20px; border-radius: 30px; }
             .menu-btn { display: block; }
+            .desktop-lang-btn { display: none; } 
+            
             .nav-links {
                 display: none;
                 flex-direction: column;
                 position: absolute;
                 top: 60px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 250px;
+                right: 0; 
+                width: 220px;
                 background: rgba(13, 13, 13, 0.95);
                 border: 1px solid var(--border-color);
                 border-radius: 15px;
@@ -377,29 +465,38 @@
                 box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             }
             .nav-links.active { display: flex; }
-            .nav-links a { justify-content: center; font-size: 1.1rem; }
+            .nav-links a { justify-content: center; font-size: 1.1rem; width: 100%; }
             
-            /* توسيط الأفتار والاسم للجوال */
+            .mobile-lang-btn { 
+                display: block; 
+                margin: 5px auto 0;
+                width: 50%;
+            }
+
             .hero {
-                flex-direction: column-reverse; /* يجعل الأفتار بالأعلى */
+                flex-direction: column-reverse; 
                 text-align: center;
                 gap: 30px;
             }
             .hero-image {
-                margin: 0 auto; /* توسيط الأفتار */
+                margin: 0 auto; 
                 width: 260px;
                 height: 260px;
             }
             .hero-text h1 {
-                text-align: center; /* توسيط الاسم */
+                text-align: center; 
             }
 
-            /* ترتيب قسم About Me للجوال */
+            /* تعديل صندوق "عني" للجوال ليصبح مستطيلاً وأطول وبخط أخضر جانبي */
             .about-box {
-                padding: 25px 20px;
-                border-inline-start: none;
-                border-top: 4px solid #fff; /* الخط يرتفع للأعلى بدل الجنب */
+                padding: 50px 20px; /* زيادة البادينق عشان يسحب بالطول */
+                border-top: 1px solid var(--terminal-green); /* توحيد الحدود */
+                border-inline-start: 4px solid var(--terminal-green); /* الخط الجانبي الأخضر */
                 font-size: 0.95rem;
+                min-height: 400px; /* فرض شكل مستطيل على تحت */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
             .about-skills {
                 padding: 0;
@@ -409,19 +506,24 @@
 </head>
 <body>
 
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+    <div class="cursor-glow"></div>
 
     <nav>
-        <div class="nav-links" id="navLinks">
-            <a href="#home"><i class="fa-solid fa-house"></i> <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></a>
-            <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="عني" data-en="About Me">عني</span></a>
-            <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="التواصل" data-en="Socials">التواصل</span></a>
-        </div>
-        
-        <div class="nav-actions">
-            <button class="lang-btn" id="langToggle">EN</button>
-            <button class="menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+        <a href="#home" class="nav-brand">fayeweathers</a>
+
+        <div class="nav-content-wrapper">
+            <div class="nav-links" id="navLinks">
+                <a href="#home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></a>
+                <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="عني" data-en="About Me">عني</span></a>
+                <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="التواصل" data-en="Socials">التواصل</span></a>
+                
+                <button class="lang-btn mobile-lang-btn" id="langToggleMobile">EN</button>
+            </div>
+
+            <div class="nav-actions">
+                <button class="lang-btn desktop-lang-btn" id="langToggleDesktop">EN</button>
+                <button class="menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+            </div>
         </div>
     </nav>
 
@@ -442,6 +544,8 @@
                     </div>
                     <p class="terminal-static">> root@fayeweathers:~# ./start_system.sh</p>
                     <p id="animated-log"><span class="blinking-cursor"></span></p>
+                    <p class="terminal-extra terminal-error">> [ERROR] Kernel integrity check failed.</p>
+                    <p class="terminal-extra terminal-error">> [ERROR] AI module handshake timeout.</p>
                 </div>
             </div>
             
@@ -472,6 +576,12 @@
                        data-en="I prefer to keep it precise and let my code speak for itself.">
                         شغلي يعتمد على الدقة، وأفضل دائماً أترك الكود يثبت نفسه.
                     </p>
+                    
+                    <div class="author-signature">
+                        <i class="fa-solid fa-shield"></i>
+                        <i class="fa-solid fa-microchip"></i>
+                        fayeweathers
+                    </div>
                 </div>
             </div>
         </section>
@@ -482,22 +592,22 @@
             <div class="social-grid">
                 <a href="https://www.instagram.com/0qyl" target="_blank" class="social-card">
                     <img src="instagram.png" alt="Instagram" class="social-icon">
-                    <span>@0qyl</span>
+                    <span>0qyl</span>
                 </a>
                 
                 <a href="https://x.com/Pastscarred" target="_blank" class="social-card">
                     <img src="twitter.png" alt="Twitter" class="social-icon">
-                    <span>@Pastscarred</span>
+                    <span>Pastscarred</span>
                 </a>
 
                 <a href="https://tellonym.me/_sys" target="_blank" class="social-card">
-                    <img src="image-removebg-preview.png" alt="Tellonym" class="social-icon">
-                    <span>@_sys</span>
+                    <img src="tellonym.png" alt="Tellonym" class="social-icon">
+                    <span>_sys</span>
                 </a>
 
                 <a href="https://discord.com/users/392110352835280897" target="_blank" class="social-card">
                     <img src="discord.png" alt="Discord" class="social-icon">
-                    <span>@fayeweathers</span>
+                    <span>fayeweathers</span>
                 </a>
             </div>
         </section>
@@ -510,27 +620,66 @@
     </footer>
 
     <script>
-        // تأثير الماوس في الديسكتوب
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorOutline = document.querySelector('.cursor-outline');
+        // تأثير الماوس التفاعلي الجديد (Glow) للديسكتوب والجوال
+        const cursorGlow = document.querySelector('.cursor-glow');
 
         window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 150, fill: "forwards" });
+            cursorGlow.style.left = `${e.clientX}px`;
+            cursorGlow.style.top = `${e.clientY}px`;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            cursorGlow.style.left = `${e.touches[0].clientX}px`;
+            cursorGlow.style.top = `${e.touches[0].clientY}px`;
+        }, { passive: true });
+
+        window.addEventListener('mousedown', () => cursorGlow.classList.add('click-effect'));
+        window.addEventListener('mouseup', () => cursorGlow.classList.remove('click-effect'));
+        window.addEventListener('touchstart', () => cursorGlow.classList.add('click-effect'), { passive: true });
+        window.addEventListener('touchend', () => cursorGlow.classList.remove('click-effect'));
+
+        // نظام التلوين التلقائي مع حل مشكلة القسم الأخير (التواصل)
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= (sectionTop - 250)) { 
+                    current = section.getAttribute('id');
+                }
+            });
+
+            if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight - 50) {
+                current = 'social';
+            }
+
+            navItems.forEach(item => {
+                item.classList.remove('active-link');
+                if (current && item.getAttribute('href').includes(current)) {
+                    item.classList.add('active-link');
+                }
+            });
         });
 
         // تشغيل/إغلاق القائمة في الجوال
         const menuBtn = document.getElementById('menuBtn');
         const navLinks = document.getElementById('navLinks');
         
-        menuBtn.addEventListener('click', () => {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); 
             navLinks.classList.toggle('active');
         });
 
-        // إغلاق القائمة عند الضغط على أحد الروابط (لتجربة أفضل في الجوال)
+        // إغلاق القائمة عند الضغط في أي مكان بالشاشة
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+        
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
@@ -597,25 +746,34 @@
         }, 3000);
 
         // نظام تبديل اللغات
-        const langToggleBtn = document.getElementById('langToggle');
+        const langToggleDesktop = document.getElementById('langToggleDesktop');
+        const langToggleMobile = document.getElementById('langToggleMobile');
         const translatableElements = document.querySelectorAll('[data-ar]');
         let currentLang = 'ar';
 
-        langToggleBtn.addEventListener('click', () => {
+        function toggleLanguage() {
             if(currentLang === 'ar') {
                 currentLang = 'en';
                 document.documentElement.lang = 'en';
                 document.documentElement.dir = 'ltr';
-                langToggleBtn.innerText = 'AR';
+                langToggleDesktop.innerText = 'AR';
+                langToggleMobile.innerText = 'AR';
             } else {
                 currentLang = 'ar';
                 document.documentElement.lang = 'ar';
                 document.documentElement.dir = 'rtl';
-                langToggleBtn.innerText = 'EN';
+                langToggleDesktop.innerText = 'EN';
+                langToggleMobile.innerText = 'EN';
             }
             translatableElements.forEach(el => {
                 el.innerText = el.getAttribute(`data-${currentLang}`);
             });
+        }
+
+        langToggleDesktop.addEventListener('click', toggleLanguage);
+        langToggleMobile.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            toggleLanguage();
         });
     </script>
 </body>
