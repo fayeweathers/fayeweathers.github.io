@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fayeweathers</title>
     <link rel="icon" type="image/png" href="letter-f.png">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="no-referrer">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="AI & Cybersecurity Portfolio">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Fira+Code:wght@400;700&display=swap');
@@ -49,6 +54,10 @@
             padding: 0;
             box-sizing: border-box;
             cursor: none !important;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         body {
@@ -320,7 +329,6 @@
             100% { border-radius: 40% 70% 60% 40% / 40% 50% 40% 70%; }
         }
 
-        /* تنسيق الشارة الأيقونية الجديدة */
         .tech-badge {
             position: absolute;
             bottom: -10px;
@@ -620,6 +628,8 @@
 
     <div class="cursor-glow"></div>
 
+    <input type="text" id="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
+
     <nav id="navbar">
         <a href="#home" class="nav-brand">fayeweathers</a>
 
@@ -655,14 +665,12 @@
                         <div class="terminal-time" id="terminal-clock">--:--:-- --</div>
                     </div>
                     <p class="terminal-static">> root@fayeweathers:~# ./start_system.sh</p>
-                    <!-- سيتم تعبئته ديناميكياً -->
                     <p id="animated-log"></p>
                     <p id="dynamic-log"></p>
                 </div>
             </div>
 
             <div class="hero-image">
-                <!-- الشارة الجديدة -->
                 <div class="tech-badge" title="AI + Coding + Cybersecurity">
                     <i class="fa-solid fa-microchip"></i>
                     <i class="fa-solid fa-code"></i>
@@ -739,7 +747,6 @@
     </footer>
 
     <script>
-        // تأثير الماوس التفاعلي (Glow)
         const cursorGlow = document.querySelector('.cursor-glow');
 
         window.addEventListener('mousemove', (e) => {
@@ -757,7 +764,55 @@
         window.addEventListener('touchstart', () => cursorGlow.classList.add('click-effect'), { passive: true });
         window.addEventListener('touchend', () => cursorGlow.classList.remove('click-effect'));
 
-        // تبديل حالة الشريط العلوي (ملون / سادة) حسب التمرير
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+
+        (function() {
+            const botPatterns = [
+                'bot', 'crawler', 'spider', 'slurp', 'bingbot', 'googlebot',
+                'yandex', 'baidu', 'duckduckbot', 'facebot', 'ia_archiver',
+                'petalbot', 'semrush', 'ahrefs', 'mj12', 'screaming'
+            ];
+            const ua = navigator.userAgent.toLowerCase();
+            for (let pattern of botPatterns) {
+                if (ua.includes(pattern)) {
+                    document.body.innerHTML = '<h1 style="color:white; text-align:center; margin-top:50vh;">Access Denied</h1>';
+                    break;
+                }
+            }
+        })();
+
+        setInterval(() => {
+            if (window.outerWidth - window.innerWidth > 200 || window.outerHeight - window.innerHeight > 200) {
+                document.body.style.display = 'none';
+                alert('DevTools detected!');
+                setTimeout(() => { document.body.style.display = 'block'; }, 1000);
+            }
+        }, 2000);
+
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY < 50) {
@@ -767,7 +822,6 @@
             }
         });
 
-        // نظام التلوين التلقائي للأقسام
         const sections = document.querySelectorAll('section');
         const navItems = document.querySelectorAll('.nav-links a');
 
@@ -793,7 +847,6 @@
             });
         });
 
-        // تشغيل/إغلاق القائمة في الجوال
         const menuBtn = document.getElementById('menuBtn');
         const navLinks = document.getElementById('navLinks');
 
@@ -814,7 +867,6 @@
             });
         });
 
-        // توقيت التيرمينال
         function updateTime() {
             const now = new Date();
             const options = {
@@ -829,7 +881,6 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // نظام التيرمينال التفاعلي الكامل (حلقات متعددة)
         const animatedLogElement = document.getElementById('animated-log');
         const dynamicLogElement = document.getElementById('dynamic-log');
 
@@ -940,14 +991,12 @@
             startTerminalLoop();
         });
 
-        // تفاعل الـ Latency
         setInterval(() => {
             const latencyElement = document.getElementById('ping-latency');
             const randomPing = Math.floor(Math.random() * (45 - 12 + 1)) + 12;
             latencyElement.innerText = randomPing + 'ms';
         }, 3000);
 
-        // نظام تبديل اللغات
         const langToggleDesktop = document.getElementById('langToggleDesktop');
         const langToggleMobile = document.getElementById('langToggleMobile');
         const translatableElements = document.querySelectorAll('[data-ar]');
