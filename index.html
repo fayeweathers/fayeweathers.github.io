@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fayeweathers</title>
-    <!-- أيقونة الموقع -->
     <link rel="icon" type="image/png" href="letter-f.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -76,39 +75,66 @@
             background: rgba(13, 13, 13, 0.8);
             backdrop-filter: blur(15px);
             border: 1px solid var(--border-color);
-            padding: 12px 30px;
+            padding: 10px 25px;
             border-radius: 50px;
             display: flex;
-            gap: 25px;
-            z-index: 1000;
             align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            z-index: 1000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: max-content;
+            max-width: 90%;
         }
-        nav a, nav button {
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-links a {
             color: var(--text-main);
             text-decoration: none;
             font-weight: 700;
             font-size: 0.95rem;
             transition: 0.3s;
-            background: none;
-            border: none;
             display: flex;
             align-items: center;
             gap: 8px;
             font-family: inherit;
         }
-        nav a:hover, nav button:hover {
+
+        .nav-links a:hover {
             color: #ffffff;
             text-shadow: 0 0 10px white;
         }
+
         .lang-btn {
             background: var(--text-main);
             color: var(--bg-dark);
             padding: 4px 12px;
             border-radius: 20px;
             font-family: 'Fira Code', monospace;
+            border: none;
+            font-weight: bold;
         }
         .lang-btn:hover { background: #fff; color: #000; }
+
+        .menu-btn {
+            display: none; /* مخفي في الديسكتوب */
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.3rem;
+            cursor: pointer !important;
+        }
 
         /* Container */
         .container {
@@ -134,6 +160,8 @@
             margin-bottom: 15px;
             font-family: 'Fira Code', monospace;
             letter-spacing: -1.5px;
+            text-align: left; /* دائماً لليسار في الديسكتوب */
+            direction: ltr; /* يجبر النص على البقاء لليسار مع التيرمينال */
         }
 
         /* Terminal */
@@ -144,14 +172,13 @@
             padding: 20px;
             font-family: 'Fira Code', monospace;
             font-size: 0.9rem;
-            color: var(--terminal-green); /* اللون الأخضر الافتراضي */
+            color: var(--terminal-green);
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            direction: ltr; /* ليبقى التيرمينال من اليسار لليمين دائماً */
+            direction: ltr;
             text-align: left;
             min-height: 140px;
         }
         
-        /* التعديل على رأس التيرمينال: الأزرار الملونة يسار، والوقت يمين بخط صغير */
         .terminal-header { 
             display: flex; 
             justify-content: space-between; 
@@ -160,15 +187,8 @@
             border-bottom: 1px solid #333;
             padding-bottom: 8px;
         }
-        .terminal-dots {
-            display: flex;
-            gap: 8px;
-        }
-        .terminal-dots span { 
-            width: 12px; 
-            height: 12px; 
-            border-radius: 50%; 
-        }
+        .terminal-dots { display: flex; gap: 8px; }
+        .terminal-dots span { width: 12px; height: 12px; border-radius: 50%; }
         .dot-red { background: #ff5f56; }
         .dot-yellow { background: #ffbd2e; }
         .dot-green { background: #27c93f; }
@@ -197,7 +217,7 @@
         .hero-image {
             width: 320px;
             height: 320px;
-            background: url('avt.png') center/cover no-repeat;
+            background: url('d4409bbd01654a07c1703861471a5479_2.png') center/cover no-repeat;
             border: 2px solid rgba(255,255,255,0.2);
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
             animation: complex-morph 12s ease-in-out infinite alternate;
@@ -240,7 +260,6 @@
             line-height: 1.8;
             font-size: 1.05rem;
             position: relative;
-            /* border-inline-start تضع الخط الأبيض على اليمين في العربي، وعلى اليسار في الإنجليزي تلقائياً */
             border-inline-start: 4px solid #fff;
             box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
             transition: transform 0.3s;
@@ -252,6 +271,23 @@
         }
         .about-text p { margin-bottom: 15px; }
         .about-text p:last-child { margin-bottom: 0; }
+
+        .about-skills {
+            text-align: start; 
+            margin: 20px 0; 
+            padding: 0 15px;
+        }
+        .about-skills p {
+            font-weight: bold; 
+            margin-bottom: 10px; 
+            color: #fff;
+        }
+        .about-skills ul {
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+            line-height: 2;
+        }
 
         /* Social Section */
         .social-grid {
@@ -282,7 +318,6 @@
             transform: translateY(-4px);
             background: rgba(255,255,255,0.02);
         }
-        /* حل مشكلة اتجاه اليوزرات وتثبيت الـ @ قبل الاسم دائماً */
         .social-card span {
             direction: ltr;
             unicode-bidi: embed;
@@ -314,6 +349,62 @@
         footer p { margin: 6px 0; }
         .footer-terminal { color: #fff; }
         .latency-text { color: var(--terminal-green); font-weight: bold; }
+
+        /* ================================== */
+        /* التعديلات الخاصة بالجوال فقط       */
+        /* ================================== */
+        @media (max-width: 768px) {
+            /* إلغاء التحديد التفاعلي (الماوس) في الجوال */
+            * { cursor: auto !important; }
+            .cursor-dot, .cursor-outline { display: none !important; }
+            
+            /* شريط التنقل للجوال (Hamburger Menu) */
+            nav { width: auto; padding: 10px 20px; border-radius: 30px; }
+            .menu-btn { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 250px;
+                background: rgba(13, 13, 13, 0.95);
+                border: 1px solid var(--border-color);
+                border-radius: 15px;
+                padding: 20px;
+                gap: 20px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { justify-content: center; font-size: 1.1rem; }
+            
+            /* توسيط الأفتار والاسم للجوال */
+            .hero {
+                flex-direction: column-reverse; /* يجعل الأفتار بالأعلى */
+                text-align: center;
+                gap: 30px;
+            }
+            .hero-image {
+                margin: 0 auto; /* توسيط الأفتار */
+                width: 260px;
+                height: 260px;
+            }
+            .hero-text h1 {
+                text-align: center; /* توسيط الاسم */
+            }
+
+            /* ترتيب قسم About Me للجوال */
+            .about-box {
+                padding: 25px 20px;
+                border-inline-start: none;
+                border-top: 4px solid #fff; /* الخط يرتفع للأعلى بدل الجنب */
+                font-size: 0.95rem;
+            }
+            .about-skills {
+                padding: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -322,10 +413,16 @@
     <div class="cursor-outline"></div>
 
     <nav>
-        <a href="#home"><i class="fa-solid fa-house"></i> <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></a>
-        <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="عني" data-en="About Me">عني</span></a>
-        <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="التواصل" data-en="Socials">التواصل</span></a>
-        <button class="lang-btn" id="langToggle">EN</button>
+        <div class="nav-links" id="navLinks">
+            <a href="#home"><i class="fa-solid fa-house"></i> <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></a>
+            <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="عني" data-en="About Me">عني</span></a>
+            <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="التواصل" data-en="Socials">التواصل</span></a>
+        </div>
+        
+        <div class="nav-actions">
+            <button class="lang-btn" id="langToggle">EN</button>
+            <button class="menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+        </div>
     </nav>
 
     <div class="container">
@@ -361,9 +458,9 @@
                         مبتعث متخصص في هندسة الذكاء الاصطناعي والأمن السيبراني. أشتغل على دمج خوارزميات تعلم الآلة مع تقنيات الحماية والاختراق عشان أبني أنظمة ذكية وقوية.
                     </p>
                     
-                    <div style="text-align: start; margin: 20px 0; padding: 0 15px;">
-                        <p data-ar="أبرز خبراتي:" data-en="Core Expertise:" style="font-weight: bold; margin-bottom: 10px; color: #fff;">أبرز خبراتي:</p>
-                        <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
+                    <div class="about-skills">
+                        <p data-ar="أبرز خبراتي:" data-en="Core Expertise:">أبرز خبراتي:</p>
+                        <ul>
                             <li data-ar="• بناء وتدريب النماذج العصبية (Neural Networks)" data-en="• Deep Learning & Neural Networks">• بناء وتدريب النماذج العصبية (Neural Networks)</li>
                             <li data-ar="• هندسة وتطوير الأنظمة (C++, C, JavaScript, Node.js)" data-en="• Systems Engineering (C++, C, JavaScript, Node.js)">• هندسة وتطوير الأنظمة (C++, C, JavaScript, Node.js)</li>
                             <li data-ar="• اختبار الاختراق واكتشاف الثغرات الأمنية" data-en="• Penetration Testing & Vulnerability Research">• اختبار الاختراق واكتشاف الثغرات الأمنية</li>
@@ -385,22 +482,22 @@
             <div class="social-grid">
                 <a href="https://www.instagram.com/0qyl" target="_blank" class="social-card">
                     <img src="instagram.png" alt="Instagram" class="social-icon">
-                    <span dir="ltr">@0qyl</span>
+                    <span>@0qyl</span>
                 </a>
                 
                 <a href="https://x.com/Pastscarred" target="_blank" class="social-card">
                     <img src="twitter.png" alt="Twitter" class="social-icon">
-                    <span dir="ltr">@Pastscarred</span>
+                    <span>@Pastscarred</span>
                 </a>
 
                 <a href="https://tellonym.me/_sys" target="_blank" class="social-card">
-                    <img src="tellonym.png" alt="Tellonym" class="social-icon">
-                    <span dir="ltr">@_sys</span>
+                    <img src="image-removebg-preview.png" alt="Tellonym" class="social-icon">
+                    <span>@_sys</span>
                 </a>
 
                 <a href="https://discord.com/users/392110352835280897" target="_blank" class="social-card">
                     <img src="discord.png" alt="Discord" class="social-icon">
-                    <span dir="ltr">@fayeweathers</span>
+                    <span>@fayeweathers</span>
                 </a>
             </div>
         </section>
@@ -413,7 +510,7 @@
     </footer>
 
     <script>
-        // تأثير مؤشر الماوس
+        // تأثير الماوس في الديسكتوب
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
 
@@ -425,7 +522,22 @@
             cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 150, fill: "forwards" });
         });
 
-        // توقيت الرياض المصغر في التيرمينال
+        // تشغيل/إغلاق القائمة في الجوال
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // إغلاق القائمة عند الضغط على أحد الروابط (لتجربة أفضل في الجوال)
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // توقيت التيرمينال
         function updateTime() {
             const now = new Date();
             const options = { 
@@ -440,7 +552,7 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // التيرمينال التفاعلي (نصوص خضراء وأخطاء حمراء)
+        // التيرمينال التفاعلي
         const terminalLogs = [
             { text: "Mounting file systems...", error: false },
             { text: "Loading AI core modules...", error: false },
@@ -456,17 +568,16 @@
 
         function typeWriter(logObj, i, cb) {
             if (i === 0) {
-                // تلوين النص حسب كونه خطأ أم لا
                 animatedLogElement.style.color = logObj.error ? "var(--terminal-red)" : "var(--terminal-green)";
                 animatedLogElement.innerHTML = "> ";
             }
             
             if (i < logObj.text.length) {
                 animatedLogElement.innerHTML += logObj.text.charAt(i);
-                setTimeout(() => typeWriter(logObj, i + 1, cb), 40); // سرعة الكتابة
+                setTimeout(() => typeWriter(logObj, i + 1, cb), 40); 
             } else {
                 animatedLogElement.innerHTML += '<span class="blinking-cursor"></span>';
-                setTimeout(cb, 2500); // الانتظار قبل الجملة التالية
+                setTimeout(cb, 2500); 
             }
         }
 
@@ -478,14 +589,14 @@
         }
         setTimeout(startTerminalAnimation, 500);
 
-        // تفاعل الـ Latency في الفوتر
+        // تفاعل الـ Latency
         setInterval(() => {
             const latencyElement = document.getElementById('ping-latency');
-            const randomPing = Math.floor(Math.random() * (45 - 12 + 1)) + 12; // بين 12ms و 45ms
+            const randomPing = Math.floor(Math.random() * (45 - 12 + 1)) + 12; 
             latencyElement.innerText = randomPing + 'ms';
         }, 3000);
 
-        // نظام تبديل اللغات (ويغير اتجاه الخط الأبيض تلقائياً بفضل CSS)
+        // نظام تبديل اللغات
         const langToggleBtn = document.getElementById('langToggle');
         const translatableElements = document.querySelectorAll('[data-ar]');
         let currentLang = 'ar';
