@@ -101,7 +101,6 @@
             transition: all 0.4s ease;
         }
 
-        /* كلاس إضافي يجعل الشريط ملونًا عندما تكون في أعلى الصفحة */
         nav.nav-colored {
             background: rgba(0, 240, 255, 0.15);
             border-color: var(--terminal-green-bright);
@@ -319,6 +318,57 @@
             50% { border-radius: 50% 50% 30% 70% / 30% 70% 50% 50%; }
             75% { border-radius: 70% 30% 50% 50% / 60% 40% 70% 30%; }
             100% { border-radius: 40% 70% 60% 40% / 40% 50% 40% 70%; }
+        }
+
+        /* تنسيق الشارة الأيقونية الجديدة */
+        .tech-badge {
+            position: absolute;
+            bottom: -10px;
+            left: -10px;
+            z-index: 10;
+            background: var(--bg-dark);
+            border: 2px solid var(--terminal-green);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.5), 0 0 60px rgba(0, 240, 255, 0.2);
+            animation: badge-pulse 2.5s ease-in-out infinite;
+            direction: ltr;
+        }
+
+        .tech-badge i {
+            font-size: 1.8rem;
+            color: var(--terminal-green);
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
+        }
+
+        .tech-badge .fa-microchip {
+            position: absolute;
+            font-size: 2rem;
+        }
+        .tech-badge .fa-code {
+            position: absolute;
+            font-size: 0.9rem;
+            top: 8px;
+            right: 8px;
+        }
+        .tech-badge .fa-shield-halved {
+            position: absolute;
+            font-size: 0.9rem;
+            bottom: 8px;
+            left: 8px;
+        }
+
+        @keyframes badge-pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0, 240, 255, 0.5), 0 0 60px rgba(0, 240, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 35px rgba(0, 240, 255, 0.8), 0 0 80px rgba(0, 240, 255, 0.4);
+            }
         }
 
         .section-header {
@@ -549,6 +599,20 @@
             .about-skills {
                 padding: 0;
             }
+
+            .tech-badge {
+                width: 60px;
+                height: 60px;
+                bottom: -8px;
+                left: -8px;
+            }
+            .tech-badge .fa-microchip {
+                font-size: 1.6rem;
+            }
+            .tech-badge .fa-code,
+            .tech-badge .fa-shield-halved {
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -597,7 +661,14 @@
                 </div>
             </div>
 
-            <div class="hero-image"></div>
+            <div class="hero-image">
+                <!-- الشارة الجديدة -->
+                <div class="tech-badge" title="AI + Coding + Cybersecurity">
+                    <i class="fa-solid fa-microchip"></i>
+                    <i class="fa-solid fa-code"></i>
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+            </div>
         </section>
 
         <section id="about">
