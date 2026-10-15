@@ -189,13 +189,17 @@
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+        /* ===== بديل الأفتار: إطار متحرك + رمز طرفية ===== */
         .hero-image {
             width: 320px; height: 320px;
-            background: url('avt.png') center/cover no-repeat;
+            background:
+                radial-gradient(circle at 50% 45%, rgba(176, 176, 176, 0.12) 0%, rgba(5, 5, 5, 0) 70%),
+                var(--bg-card);
             border: 2px solid var(--terminal-green);
             box-shadow: 0 0 25px rgba(176, 176, 176, 0.22), 0 0 55px rgba(176, 176, 176, 0.08);
             animation: complex-morph 12s ease-in-out infinite alternate;
             position: relative;
+            display: flex; align-items: center; justify-content: center;
         }
         .hero-image::after {
             content: ''; position: absolute; inset: -8px;
@@ -204,6 +208,25 @@
             animation: complex-morph 15s ease-in-out infinite alternate-reverse;
             pointer-events: none;
         }
+
+        .avatar-glyph {
+            font-family: 'Fira Code', monospace;
+            font-size: 5.5rem; font-weight: 700; line-height: 1;
+            color: var(--terminal-green);
+            text-shadow: 0 0 18px rgba(176, 176, 176, 0.75), 0 0 45px rgba(176, 176, 176, 0.35);
+            direction: ltr; unicode-bidi: embed;
+            animation: glyph-pulse 3s ease-in-out infinite;
+            user-select: none;
+        }
+        .avatar-glyph .glyph-cursor {
+            display: inline-block;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes glyph-pulse {
+            0%, 100% { text-shadow: 0 0 18px rgba(176, 176, 176, 0.75), 0 0 45px rgba(176, 176, 176, 0.35); }
+            50%      { text-shadow: 0 0 28px rgba(176, 176, 176, 1),    0 0 70px rgba(176, 176, 176, 0.55); }
+        }
+
         @keyframes complex-morph {
             0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
             25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
@@ -461,6 +484,7 @@
             .hero { flex-direction: column-reverse; text-align: center; gap: 30px; }
             .hero-image { margin: 0 auto; width: 260px; height: 260px; }
             .hero-text h1 { text-align: center; }
+            .hero-image .avatar-glyph { font-size: 3.8rem; }
 
             .about-box {
                 padding: 50px 20px;
@@ -531,6 +555,8 @@
             </div>
 
             <div class="hero-image">
+                <div class="avatar-glyph">&gt;<span class="glyph-cursor">_</span></div>
+
                 <div class="tech-badge" title="AI + Coding + Cybersecurity">
                     <i class="fa-solid fa-microchip"></i>
                     <i class="fa-solid fa-code"></i>
