@@ -15,15 +15,15 @@
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Fira+Code:wght@400;700&display=swap');
 
         :root {
-            --bg-dark: l4050505;
-            --bg-card: l40d0d0d;
-            --text-main: l4f0f0f0;
-            --text-dim: l4888888;
-            --border-color: l4222222;
-            --terminal-green: l400f0ff;
-            --terminal-green-bright: l466f9ff;
+            --bg-dark: #050505;
+            --bg-card: #0d0d0d;
+            --text-main: #f0f0f0;
+            --text-dim: #888888;
+            --border-color: #222222;
+            --terminal-green: #00f0ff;
+            --terminal-green-bright: #66f9ff;
             --terminal-green-soft: rgba(0, 240, 255, 0.18);
-            --terminal-red: l4ff3b30;
+            --terminal-red: #ff3b30;
         }
 
         html {
@@ -161,7 +161,7 @@
         }
 
         .nav-links a:hover {
-            color: l4ffffff;
+            color: #ffffff;
             text-shadow: 0 0 10px white;
         }
 
@@ -181,8 +181,8 @@
             transition: 0.3s;
         }
         .lang-btn:hover {
-            background: l4fff;
-            color: l4000;
+            background: #fff;
+            color: #000;
         }
 
         .mobile-lang-btn {
@@ -250,7 +250,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
-            border-bottom: 1px solid l4333;
+            border-bottom: 1px solid #333;
             padding-bottom: 8px;
         }
         .terminal-dots {
@@ -262,13 +262,13 @@
             height: 12px;
             border-radius: 50%;
         }
-        .dot-red { background: l4ff5f56; }
-        .dot-yellow { background: l4ffbd2e; }
-        .dot-green { background: l427c93f; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
 
         .terminal-time {
             font-size: 0.75rem;
-            color: l4666;
+            color: #666;
             font-family: 'Fira Code', monospace;
         }
 
@@ -277,7 +277,7 @@
             min-height: 20px;
         }
         .terminal-static {
-            color: l4555;
+            color: #555;
         }
         .terminal-extra {
             min-height: 20px;
@@ -442,7 +442,7 @@
         .about-skills p {
             font-weight: bold;
             margin-bottom: 10px;
-            color: l4fff;
+            color: #fff;
         }
         .about-skills ul {
             list-style: none;
@@ -487,7 +487,7 @@
         }
         .social-card:hover {
             border-color: var(--terminal-green);
-            color: l4fff;
+            color: #fff;
             transform: translateY(-4px);
             background: rgba(0, 240, 255, 0.07);
             box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.06);
@@ -523,7 +523,7 @@
             margin: 6px 0;
         }
         .footer-terminal {
-            color: l4fff;
+            color: #fff;
         }
         .latency-text {
             color: var(--terminal-green);
@@ -534,8 +534,7 @@
             * {
                 cursor: auto !important;
             }
-            .cursor-dot,
-            .cursor-outline {
+            .cursor-glow {
                 display: none !important;
             }
 
@@ -631,13 +630,13 @@
     <input type="text" id="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
 
     <nav id="navbar">
-        <a href="l4home" class="nav-brand">l4</a>
+        <a href="#home" class="nav-brand">l4</a>
 
         <div class="nav-content-wrapper">
             <div class="nav-links" id="navLinks">
-                <a href="l4home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="Home" data-en="Home">Home</span></a>
-                <a href="l4about"><i class="fa-solid fa-user"></i> <span data-ar="About Me" data-en="About Me">About Me</span></a>
-                <a href="l4social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="Socials" data-en="Socials">Socials</span></a>
+                <a href="#home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="Home" data-en="Home">Home</span></a>
+                <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="About Me" data-en="About Me">About Me</span></a>
+                <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="Socials" data-en="Socials">Socials</span></a>
 
                 <button class="lang-btn mobile-lang-btn" id="langToggleMobile">EN</button>
             </div>
@@ -664,7 +663,7 @@
                         </div>
                         <div class="terminal-time" id="terminal-clock">--:--:-- --</div>
                     </div>
-                    <p class="terminal-static">> root@l4:~l4 ./start_system.sh</p>
+                    <p class="terminal-static">> root@l4:~# ./start_system.sh</p>
                     <p id="animated-log"></p>
                     <p id="dynamic-log"></p>
                 </div>
