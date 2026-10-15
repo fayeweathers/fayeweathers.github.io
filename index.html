@@ -26,38 +26,23 @@
             --terminal-red: #ff3b30;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-dark);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--terminal-green);
-            border-radius: 10px;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--terminal-green); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover {
             background: var(--terminal-green-bright);
             box-shadow: 0 0 12px var(--terminal-green);
         }
 
-        section {
-            scroll-margin-top: 120px;
-        }
+        section { scroll-margin-top: 120px; }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; padding: 0; box-sizing: border-box;
             cursor: none !important;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
+            -webkit-user-select: none; -moz-user-select: none;
+            -ms-user-select: none; user-select: none;
         }
 
         body {
@@ -69,47 +54,32 @@
         }
 
         .cursor-glow {
-            width: 120px;
-            height: 120px;
+            width: 120px; height: 120px;
             background: radial-gradient(circle, rgba(176, 176, 176, 0.28) 0%, rgba(0, 0, 0, 0) 70%);
-            border-radius: 50%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 9999;
+            border-radius: 50%; position: fixed; top: 0; left: 0;
+            pointer-events: none; z-index: 9999;
             transform: translate(-50%, -50%);
             transition: transform 0.05s linear, width 0.2s, height 0.2s, background 0.2s;
         }
-
         .cursor-glow.click-effect {
-            width: 180px;
-            height: 180px;
+            width: 180px; height: 180px;
             background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
         }
 
         nav {
-            position: fixed;
-            top: 30px;
-            left: 50%;
+            position: fixed; top: 30px; left: 50%;
             transform: translateX(-50%);
             background: rgba(13, 13, 13, 0.8);
             backdrop-filter: blur(15px);
             border: 1px solid var(--terminal-green);
-            padding: 10px 25px;
-            border-radius: 50px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
+            padding: 10px 25px; border-radius: 50px;
+            display: flex; flex-direction: row;
+            align-items: center; justify-content: space-between;
             z-index: 1000;
             box-shadow: 0 0 10px rgba(176, 176, 176, 0.28), 0 0 22px rgba(176, 176, 176, 0.12), 0 10px 30px rgba(0,0,0,0.5);
-            width: 90%;
-            max-width: 900px;
-            direction: ltr;
-            transition: all 0.4s ease;
+            width: 90%; max-width: 900px;
+            direction: ltr; transition: all 0.4s ease;
         }
-
         nav.nav-colored {
             background: rgba(176, 176, 176, 0.15);
             border-color: var(--terminal-green-bright);
@@ -120,192 +90,107 @@
         .nav-brand {
             color: var(--text-main);
             font-family: 'Fira Code', monospace;
-            font-size: 1.25rem;
-            font-weight: bold;
-            text-decoration: none;
-            transition: 0.3s;
+            font-size: 1.25rem; font-weight: bold;
+            text-decoration: none; transition: 0.3s;
         }
-        .nav-brand:hover {
-            color: var(--terminal-green);
-        }
+        .nav-brand:hover { color: var(--terminal-green); }
 
         .nav-content-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+            display: flex; align-items: center; gap: 20px;
             direction: ltr !important;
         }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
 
         .nav-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.95rem;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: inherit;
+            color: var(--text-main); text-decoration: none;
+            font-weight: 700; font-size: 0.95rem;
+            transition: 0.3s; display: flex;
+            align-items: center; gap: 8px; font-family: inherit;
         }
-
-        .nav-links a:hover {
-            color: #ffffff;
-            text-shadow: 0 0 10px white;
-        }
-
+        .nav-links a:hover { color: #ffffff; text-shadow: 0 0 10px white; }
         .nav-links a.active-link {
             color: var(--terminal-green);
             text-shadow: 0 0 10px rgba(176, 176, 176, 0.75), 0 0 22px rgba(176, 176, 176, 0.35);
         }
 
         .lang-btn {
-            background: var(--text-main);
-            color: var(--bg-dark);
-            padding: 4px 12px;
-            border-radius: 20px;
+            background: var(--text-main); color: var(--bg-dark);
+            padding: 4px 12px; border-radius: 20px;
             font-family: 'Fira Code', monospace;
-            border: none;
-            font-weight: bold;
-            transition: 0.3s;
+            border: none; font-weight: bold; transition: 0.3s;
         }
-        .lang-btn:hover {
-            background: #fff;
-            color: #000;
-        }
+        .lang-btn:hover { background: #fff; color: #000; }
 
-        .mobile-lang-btn {
-            display: none;
-        }
-        .desktop-lang-btn {
-            display: block;
-        }
+        .mobile-lang-btn { display: none; }
+        .desktop-lang-btn { display: block; }
 
         .menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-main);
-            font-size: 1.3rem;
+            display: none; background: none; border: none;
+            color: var(--text-main); font-size: 1.3rem;
             cursor: pointer !important;
         }
 
         .container {
-            max-width: 900px;
-            margin: 0 auto;
+            max-width: 900px; margin: 0 auto;
             padding: 140px 20px 60px;
-            display: flex;
-            flex-direction: column;
-            gap: 90px;
+            display: flex; flex-direction: column; gap: 90px;
         }
 
         .hero {
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap-reverse;
-            gap: 40px;
+            flex-wrap: wrap-reverse; gap: 40px;
         }
-        .hero-text {
-            flex: 1;
-            min-width: 300px;
-        }
+        .hero-text { flex: 1; min-width: 300px; }
         .hero-text h1 {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
+            font-size: 3.5rem; margin-bottom: 15px;
             font-family: 'Fira Code', monospace;
-            letter-spacing: -1.5px;
-            text-align: left;
-            direction: ltr;
+            letter-spacing: -1.5px; text-align: left; direction: ltr;
         }
 
         .terminal {
             background: var(--bg-card);
             border: 1px solid var(--terminal-green);
             box-shadow: 0 0 10px rgba(176, 176, 176, 0.28), 0 10px 30px rgba(0,0,0,0.8);
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 10px; padding: 20px;
             font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-            color: var(--terminal-green);
-            direction: ltr;
-            text-align: left;
-            min-height: 140px;
+            font-size: 0.9rem; color: var(--terminal-green);
+            direction: ltr; text-align: left; min-height: 140px;
         }
 
         .terminal-header {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #333;
+            display: flex; flex-direction: row-reverse;
+            justify-content: space-between; align-items: center;
+            margin-bottom: 15px; border-bottom: 1px solid #333;
             padding-bottom: 8px;
         }
-        .terminal-dots {
-            display: flex;
-            gap: 8px;
-        }
-        .terminal-dots span {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
+        .terminal-dots { display: flex; gap: 8px; }
+        .terminal-dots span { width: 12px; height: 12px; border-radius: 50%; }
         .dot-red { background: #ff5f56; }
         .dot-yellow { background: #ffbd2e; }
         .dot-green { background: #27c93f; }
 
         .terminal-time {
-            font-size: 0.75rem;
-            color: #666;
+            font-size: 0.75rem; color: #666;
             font-family: 'Fira Code', monospace;
         }
 
-        .terminal p {
-            margin-bottom: 8px;
-            min-height: 20px;
-        }
-        .terminal-static {
-            color: #555;
-        }
-        .terminal-extra {
-            min-height: 20px;
-            font-size: 0.88rem;
-            margin-top: 2px;
-        }
-        .terminal-error {
-            color: var(--terminal-red);
-            text-shadow: 0 0 7px rgba(255,59,48,0.35);
-        }
+        .terminal p { margin-bottom: 8px; min-height: 20px; }
+        .terminal-static { color: #555; }
+        .terminal-extra { min-height: 20px; font-size: 0.88rem; margin-top: 2px; }
+        .terminal-error { color: var(--terminal-red); text-shadow: 0 0 7px rgba(255,59,48,0.35); }
 
         .blinking-cursor {
-            display: inline-block;
-            width: 8px;
-            height: 15px;
+            display: inline-block; width: 8px; height: 15px;
             background-color: var(--terminal-green);
             animation: blink 1s step-end infinite;
-            vertical-align: middle;
-            margin-left: 2px;
+            vertical-align: middle; margin-left: 2px;
         }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         .hero-image {
-            width: 320px;
-            height: 320px;
+            width: 320px; height: 320px;
             background: url('avt.png') center/cover no-repeat;
             border: 2px solid var(--terminal-green);
             box-shadow: 0 0 25px rgba(176, 176, 176, 0.22), 0 0 55px rgba(176, 176, 176, 0.08);
@@ -313,9 +198,7 @@
             position: relative;
         }
         .hero-image::after {
-            content: '';
-            position: absolute;
-            inset: -8px;
+            content: ''; position: absolute; inset: -8px;
             border: 1px solid var(--terminal-green);
             box-shadow: 0 0 10px rgba(176, 176, 176, 0.28), 0 10px 30px rgba(0,0,0,0.8);
             animation: complex-morph 15s ease-in-out infinite alternate-reverse;
@@ -330,87 +213,48 @@
         }
 
         .tech-badge {
-            position: absolute;
-            bottom: -10px;
-            left: -10px;
-            z-index: 10;
-            background: var(--bg-dark);
+            position: absolute; bottom: -10px; left: -10px;
+            z-index: 10; background: var(--bg-dark);
             border: 2px solid var(--terminal-green);
-            border-radius: 50%;
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 50%; width: 70px; height: 70px;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: 0 0 20px rgba(176, 176, 176, 0.5), 0 0 60px rgba(176, 176, 176, 0.2);
             animation: badge-pulse 2.5s ease-in-out infinite;
             direction: ltr;
         }
-
         .tech-badge i {
-            font-size: 1.8rem;
-            color: var(--terminal-green);
+            font-size: 1.8rem; color: var(--terminal-green);
             text-shadow: 0 0 15px rgba(176, 176, 176, 0.8);
         }
-
-        .tech-badge .fa-microchip {
-            position: absolute;
-            font-size: 2rem;
-        }
-        .tech-badge .fa-code {
-            position: absolute;
-            font-size: 0.9rem;
-            top: 8px;
-            right: 8px;
-        }
-        .tech-badge .fa-shield-halved {
-            position: absolute;
-            font-size: 0.9rem;
-            bottom: 8px;
-            left: 8px;
-        }
+        .tech-badge .fa-microchip { position: absolute; font-size: 2rem; }
+        .tech-badge .fa-code { position: absolute; font-size: 0.9rem; top: 8px; right: 8px; }
+        .tech-badge .fa-shield-halved { position: absolute; font-size: 0.9rem; bottom: 8px; left: 8px; }
 
         @keyframes badge-pulse {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(176, 176, 176, 0.5), 0 0 60px rgba(176, 176, 176, 0.2);
-            }
-            50% {
-                box-shadow: 0 0 35px rgba(176, 176, 176, 0.8), 0 0 80px rgba(176, 176, 176, 0.4);
-            }
+            0%, 100% { box-shadow: 0 0 20px rgba(176, 176, 176, 0.5), 0 0 60px rgba(176, 176, 176, 0.2); }
+            50% { box-shadow: 0 0 35px rgba(176, 176, 176, 0.8), 0 0 80px rgba(176, 176, 176, 0.4); }
         }
 
         .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 35px;
-            font-size: 1.8rem;
-            font-family: 'Fira Code', monospace;
+            display: flex; align-items: center; justify-content: center;
+            gap: 15px; margin-bottom: 35px;
+            font-size: 1.8rem; font-family: 'Fira Code', monospace;
         }
-        .section-header::before,
-        .section-header::after {
-            content: '';
-            height: 2px;
-            width: 40px;
+        .section-header::before, .section-header::after {
+            content: ''; height: 2px; width: 40px;
             background: var(--terminal-green);
         }
 
         .about-box {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 35px 30px;
-            border-radius: 12px;
-            text-align: center;
-            line-height: 1.8;
-            font-size: 1.05rem;
-            position: relative;
+            padding: 35px 30px; border-radius: 12px;
+            text-align: center; line-height: 1.8;
+            font-size: 1.05rem; position: relative;
             border-inline-start: 5px solid var(--terminal-green);
             box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 0 18px rgba(176, 176, 176, 0.08);
             transition: transform 0.3s, box-shadow 0.3s;
-            max-width: 750px;
-            margin: 0 auto;
-            overflow: hidden;
+            max-width: 750px; margin: 0 auto; overflow: hidden;
         }
 
         html[dir="rtl"] .about-box {
@@ -418,49 +262,25 @@
             border-left: 1px solid var(--border-color);
             box-shadow: inset -18px 0 35px -28px var(--terminal-green), 0 0 18px rgba(176, 176, 176, 0.08);
         }
-
         html[dir="ltr"] .about-box {
             border-left: 5px solid var(--terminal-green);
             border-right: 1px solid var(--border-color);
             box-shadow: inset 18px 0 35px -28px var(--terminal-green), 0 0 18px rgba(176, 176, 176, 0.08);
         }
-        .about-box:hover {
-            transform: translateY(-3px);
-        }
-        .about-text p {
-            margin-bottom: 15px;
-        }
-        .about-text p:last-child {
-            margin-bottom: 0;
-        }
+        .about-box:hover { transform: translateY(-3px); }
+        .about-text p { margin-bottom: 15px; }
+        .about-text p:last-child { margin-bottom: 0; }
 
-        .about-skills {
-            text-align: start;
-            margin: 20px 0;
-            padding: 0 15px;
-        }
-        .about-skills p {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-        .about-skills ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            line-height: 2;
-        }
+        .about-skills { text-align: start; margin: 20px 0; padding: 0 15px; }
+        .about-skills p { font-weight: bold; margin-bottom: 10px; color: #fff; }
+        .about-skills ul { list-style: none; padding: 0; margin: 0; line-height: 2; }
 
         .author-signature {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            display: flex; align-items: center; gap: 10px;
             color: var(--terminal-green);
             font-family: 'Fira Code', monospace;
-            margin-top: 35px;
-            justify-content: center;
-            font-size: 1.1rem;
-            font-weight: bold;
+            margin-top: 35px; justify-content: center;
+            font-size: 1.1rem; font-weight: bold;
         }
 
         /* ===== Projects Section ===== */
@@ -474,15 +294,11 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 25px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            cursor: pointer;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
             aspect-ratio: 1 / 1;
         }
         .project-card:hover {
@@ -492,21 +308,17 @@
             box-shadow: 0 0 25px rgba(176, 176, 176, 0.15), inset 0 0 20px rgba(176, 176, 176, 0.05);
         }
         .project-icon {
-            font-size: 2.5rem;
-            color: var(--terminal-green);
+            font-size: 2.5rem; color: var(--terminal-green);
             margin-bottom: 15px;
             text-shadow: 0 0 15px rgba(176, 176, 176, 0.5);
         }
         .project-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--text-main);
+            font-size: 1.2rem; font-weight: bold;
+            margin-bottom: 10px; color: var(--text-main);
             font-family: 'Cairo', sans-serif;
         }
         .project-desc {
-            font-size: 0.9rem;
-            color: var(--text-dim);
+            font-size: 0.9rem; color: var(--text-dim);
             line-height: 1.5;
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -516,105 +328,66 @@
 
         /* ===== Modal ===== */
         .modal-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-            opacity: 0;
+            display: none; align-items: center;
+            justify-content: center; z-index: 2000;
+            padding: 20px; opacity: 0;
             transition: opacity 0.3s ease;
         }
-        .modal-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
+        .modal-overlay.active { display: flex; opacity: 1; }
         .modal-content {
             background: var(--bg-card);
             border: 1px solid var(--terminal-green);
-            border-radius: 16px;
-            padding: 35px 30px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
+            border-radius: 16px; padding: 35px 30px;
+            max-width: 600px; width: 100%;
+            max-height: 90vh; overflow-y: auto;
             position: relative;
             box-shadow: 0 0 40px rgba(176, 176, 176, 0.15), 0 20px 60px rgba(0,0,0,0.8);
             direction: inherit;
         }
         .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: var(--text-dim);
-            font-size: 1.5rem;
-            cursor: pointer !important;
-            transition: 0.3s;
-            z-index: 10;
+            position: absolute; top: 15px; right: 15px;
+            background: none; border: none;
+            color: var(--text-dim); font-size: 1.5rem;
+            cursor: pointer !important; transition: 0.3s; z-index: 10;
         }
-        .modal-close:hover {
-            color: var(--terminal-green);
-            transform: rotate(90deg);
-        }
+        .modal-close:hover { color: var(--terminal-green); transform: rotate(90deg); }
         .modal-icon {
-            font-size: 3rem;
-            color: var(--terminal-green);
-            text-align: center;
-            margin-bottom: 20px;
+            font-size: 3rem; color: var(--terminal-green);
+            text-align: center; margin-bottom: 20px;
             text-shadow: 0 0 20px rgba(176, 176, 176, 0.5);
         }
         .modal-title {
-            font-size: 1.8rem;
-            font-family: 'Fira Code', monospace;
-            text-align: center;
-            margin-bottom: 15px;
-            color: #fff;
+            font-size: 1.8rem; font-family: 'Fira Code', monospace;
+            text-align: center; margin-bottom: 15px; color: #fff;
         }
         .modal-desc {
-            color: var(--text-main);
-            line-height: 1.8;
-            margin-bottom: 20px;
-            text-align: center;
+            color: var(--text-main); line-height: 1.8;
+            margin-bottom: 20px; text-align: center;
         }
         .modal-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 25px;
+            display: flex; flex-wrap: wrap; gap: 8px;
+            justify-content: center; margin-bottom: 25px;
         }
         .modal-tech span {
             background: rgba(176, 176, 176, 0.1);
             border: 1px solid var(--border-color);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-family: 'Fira Code', monospace;
+            padding: 5px 12px; border-radius: 20px;
+            font-size: 0.8rem; font-family: 'Fira Code', monospace;
             color: var(--terminal-green);
         }
         .modal-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--terminal-green);
-            color: var(--bg-dark);
-            padding: 10px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--terminal-green); color: var(--bg-dark);
+            padding: 10px 25px; border-radius: 30px;
+            text-decoration: none; font-weight: bold;
             font-family: 'Fira Code', monospace;
-            transition: 0.3s;
-            margin: 0 auto;
-            display: table;
+            transition: 0.3s; margin: 0 auto; display: table;
         }
         .modal-link:hover {
-            background: #fff;
-            color: #000;
+            background: #fff; color: #000;
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(176, 176, 176, 0.4);
         }
@@ -627,36 +400,23 @@
         .social-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 20px 15px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            font-size: 1.1rem;
-            font-family: 'Fira Code', monospace;
-            text-decoration: none;
-            color: var(--text-dim);
+            padding: 20px 15px; border-radius: 10px;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 15px;
+            font-size: 1.1rem; font-family: 'Fira Code', monospace;
+            text-decoration: none; color: var(--text-dim);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
         .social-card:hover {
             border-color: var(--terminal-green);
-            color: #fff;
-            transform: translateY(-4px);
+            color: #fff; transform: translateY(-4px);
             background: rgba(176, 176, 176, 0.07);
             box-shadow: inset 0 0 20px rgba(176, 176, 176, 0.06);
         }
-        .social-card span {
-            direction: ltr;
-            unicode-bidi: embed;
-            display: inline-block;
-        }
+        .social-card span { direction: ltr; unicode-bidi: embed; display: inline-block; }
         .social-icon {
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
+            width: 45px; height: 45px; object-fit: contain;
             transition: transform 0.3s ease, filter 0.3s ease;
             filter: drop-shadow(0 0 3px rgba(255,255,255,0.2));
         }
@@ -666,130 +426,60 @@
         }
 
         footer {
-            text-align: center;
-            padding: 30px 20px;
+            text-align: center; padding: 30px 20px;
             font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            color: var(--text-dim);
+            font-size: 0.85rem; color: var(--text-dim);
             border-top: 1px solid var(--border-color);
-            margin-top: 40px;
-            direction: ltr;
+            margin-top: 40px; direction: ltr;
         }
-        footer p {
-            margin: 6px 0;
-        }
-        .footer-terminal {
-            color: #fff;
-        }
-        .latency-text {
-            color: var(--terminal-green);
-            font-weight: bold;
-        }
+        footer p { margin: 6px 0; }
+        .footer-terminal { color: #fff; }
+        .latency-text { color: var(--terminal-green); font-weight: bold; }
 
         @media (max-width: 768px) {
-            * {
-                cursor: auto !important;
-            }
-            .cursor-glow {
-                display: none !important;
-            }
+            * { cursor: auto !important; }
+            .cursor-glow { display: none !important; }
 
-            nav {
-                width: 90%;
-                padding: 12px 20px;
-                border-radius: 30px;
-            }
-            .menu-btn {
-                display: block;
-            }
-            .desktop-lang-btn {
-                display: none;
-            }
+            nav { width: 90%; padding: 12px 20px; border-radius: 30px; }
+            .menu-btn { display: block; }
+            .desktop-lang-btn { display: none; }
 
             .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 60px;
-                right: 0;
-                width: 220px;
-                background: rgba(13, 13, 13, 0.95);
+                display: none; flex-direction: column;
+                position: absolute; top: 60px; right: 0;
+                width: 220px; background: rgba(13, 13, 13, 0.95);
                 border: 1px solid var(--border-color);
-                border-radius: 15px;
-                padding: 20px;
+                border-radius: 15px; padding: 20px;
                 gap: 20px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             }
-            .nav-links.active {
-                display: flex;
-            }
-            .nav-links a {
-                justify-content: center;
-                font-size: 1.1rem;
-                width: 100%;
-            }
+            .nav-links.active { display: flex; }
+            .nav-links a { justify-content: center; font-size: 1.1rem; width: 100%; }
 
-            .mobile-lang-btn {
-                display: block;
-                margin: 5px auto 0;
-                width: 50%;
-            }
+            .mobile-lang-btn { display: block; margin: 5px auto 0; width: 50%; }
 
-            .hero {
-                flex-direction: column-reverse;
-                text-align: center;
-                gap: 30px;
-            }
-            .hero-image {
-                margin: 0 auto;
-                width: 260px;
-                height: 260px;
-            }
-            .hero-text h1 {
-                text-align: center;
-            }
+            .hero { flex-direction: column-reverse; text-align: center; gap: 30px; }
+            .hero-image { margin: 0 auto; width: 260px; height: 260px; }
+            .hero-text h1 { text-align: center; }
 
             .about-box {
                 padding: 50px 20px;
                 border-top: 1px solid var(--terminal-green);
                 border-inline-start: 4px solid var(--terminal-green);
-                font-size: 0.95rem;
-                min-height: 400px;
-                display: flex;
-                flex-direction: column;
+                font-size: 0.95rem; min-height: 400px;
+                display: flex; flex-direction: column;
                 justify-content: center;
             }
-            .about-skills {
-                padding: 0;
-            }
+            .about-skills { padding: 0; }
 
-            .tech-badge {
-                width: 60px;
-                height: 60px;
-                bottom: -8px;
-                left: -8px;
-            }
-            .tech-badge .fa-microchip {
-                font-size: 1.6rem;
-            }
-            .tech-badge .fa-code,
-            .tech-badge .fa-shield-halved {
-                font-size: 0.8rem;
-            }
+            .tech-badge { width: 60px; height: 60px; bottom: -8px; left: -8px; }
+            .tech-badge .fa-microchip { font-size: 1.6rem; }
+            .tech-badge .fa-code, .tech-badge .fa-shield-halved { font-size: 0.8rem; }
 
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-            .project-card {
-                aspect-ratio: auto;
-                min-height: 200px;
-            }
-            .modal-content {
-                padding: 25px 20px;
-            }
-            .modal-title {
-                font-size: 1.4rem;
-            }
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-card { aspect-ratio: auto; min-height: 200px; }
+            .modal-content { padding: 25px 20px; }
+            .modal-title { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -934,52 +624,52 @@
             <div class="section-header" data-ar="Projects" data-en="Projects">Projects</div>
             <div class="projects-grid">
 
-                <!-- Project 1 -->
+                <!-- Project 1: Discord AI Bot -->
                 <article class="project-card"
-                    data-title-ar="نظام كشف التسلل بالذكاء الاصطناعي"
-                    data-title-en="AI Intrusion Detection System"
-                    data-desc-ar="نظام ذكي لكشف التسلل في الشبكات باستخدام تعلم الآلة."
-                    data-desc-en="Intelligent network intrusion detection system using machine learning."
-                    data-details-ar="تم تطوير هذا المشروع باستخدام Python وTensorFlow. يقوم النظام بتحليل حركة مرور الشبكة في الوقت الفعلي ويستخدم نموذج تصنيف للكشف عن الأنماط المشبوهة. تم تدريب النموذج على مجموعة بيانات CICIDS2017 وحقق دقة تزيد عن 98%."
-                    data-details-en="Developed using Python and TensorFlow. The system analyzes network traffic in real-time and uses a classification model to detect suspicious patterns. Trained on the CICIDS2017 dataset achieving over 98% accuracy."
-                    data-tech="Python, TensorFlow, Scikit-learn, Pandas"
-                    data-link="https://github.com/yourusername/ai-ids"
-                    data-icon="fa-shield-halved">
-                    <div class="project-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h3 class="project-title" data-ar="نظام كشف التسلل" data-en="Intrusion Detection">نظام كشف التسلل</h3>
-                    <p class="project-desc" data-ar="نظام ذكي لكشف التسلل في الشبكات باستخدام تعلم الآلة." data-en="Intelligent network intrusion detection system using machine learning.">نظام ذكي لكشف التسلل في الشبكات باستخدام تعلم الآلة.</p>
+                    data-title-ar="بوت الذكاء الاصطناعي لديسكورد"
+                    data-title-en="Discord AI Chatbot"
+                    data-desc-ar="بوت ديسكورد ذكي يربط مع OpenRouter API لتوليد ردود فورية عبر نموذج Gemini."
+                    data-desc-en="Smart Discord bot integrating OpenRouter API to deliver instant responses via Gemini models."
+                    data-details-ar="بوت ديسكورد مبني بـ Node.js و discord.js، يستقبل الأمر !ai متبوعاً بسؤال، ثم يرسل الطلب إلى OpenRouter API باستخدام نموذج google/gemini-2.5-flash. يستخدم EmbedBuilder لعرض حالة المعالجة ثم الرد النهائي، ويتعامل مع الردود الطويلة التي تتجاوز حد ديسكورد (2000 حرف) باختصارها تلقائياً. يحتوي على نظام حماية من الأخطاء عبر try/catch لعرض رسالة واضحة في حال فشل الاتصال بالـ API."
+                    data-details-en="A Discord bot built with Node.js and discord.js that listens for the !ai command followed by a prompt, then routes the request to OpenRouter API using google/gemini-2.5-flash. It uses EmbedBuilder to display a thinking state and then the final reply. Long responses exceeding Discord's 2000-character limit are automatically truncated. Includes try/catch error handling to display a clear message if the API call fails."
+                    data-tech="Node.js, discord.js, OpenRouter API, Gemini 2.5, Axios"
+                    data-link="https://github.com/yourusername/discord-ai-bot"
+                    data-icon="fa-robot">
+                    <div class="project-icon"><i class="fa-solid fa-robot"></i></div>
+                    <h3 class="project-title" data-ar="بوت الذكاء الاصطناعي" data-en="AI Chatbot">بوت الذكاء الاصطناعي</h3>
+                    <p class="project-desc" data-ar="بوت ديسكورد ذكي يربط مع OpenRouter API لتوليد ردود فورية عبر نموذج Gemini." data-en="Smart Discord bot integrating OpenRouter API to deliver instant responses via Gemini models.">بوت ديسكورد ذكي يربط مع OpenRouter API لتوليد ردود فورية عبر نموذج Gemini.</p>
                 </article>
 
-                <!-- Project 2 -->
+                <!-- Project 2: Telegram to Discord Bridge -->
                 <article class="project-card"
-                    data-title-ar="أداة أتمتة OSINT"
-                    data-title-en="OSINT Automation Toolkit"
-                    data-desc-ar="مجموعة أدوات لجمع المعلومات مفتوحة المصدر وأتمتة المهام."
-                    data-desc-en="Toolkit for open-source intelligence gathering and task automation."
-                    data-details-ar="أداة مكتوبة بلغة Python تستخدم واجهات برمجة التطبيقات (APIs) المتعددة لجمع المعلومات من مصادر مفتوحة. تتضمن وظائف للبحث في محركات البحث، وتحليل النطاقات الفرعية، وجمع بيانات البريد الإلكتروني، مع واجهة سطر أوامر بسيطة."
-                    data-details-en="Python-based tool that leverages multiple APIs to gather information from open sources. Includes functions for search engine queries, subdomain enumeration, email harvesting, with a simple CLI."
-                    data-tech="Python, Requests, BeautifulSoup, API Integration"
-                    data-link="https://github.com/yourusername/osint-toolkit"
-                    data-icon="fa-magnifying-glass">
-                    <div class="project-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-                    <h3 class="project-title" data-ar="أداة أتمتة OSINT" data-en="OSINT Automation">أداة أتمتة OSINT</h3>
-                    <p class="project-desc" data-ar="مجموعة أدوات لجمع المعلومات مفتوحة المصدر وأتمتة المهام." data-en="Toolkit for open-source intelligence gathering and task automation.">مجموعة أدوات لجمع المعلومات مفتوحة المصدر وأتمتة المهام.</p>
+                    data-title-ar="جسر تيليجرام إلى ديسكورد"
+                    data-title-en="Telegram to Discord Bridge"
+                    data-desc-ar="نظام يربط قناة تيليجرام مع سيرفر ديسكورد وينقل المنشورات بشكل تلقائي واحترافي."
+                    data-desc-en="System bridging a Telegram channel with a Discord server, forwarding posts automatically."
+                    data-details-ar="بوت مزدوج يستخدم Telegraf و discord.js لمراقبة قناة تيليجرام ونقل كل منشور جديد إلى روم ديسكورد محدد. يقوم بجلب اسم القناة وصورتها تلقائياً عند بدء التشغيل، ويعرض المنشورات عبر EmbedBuilder مع صورة القناة كأيقونة واسم مؤلف. يدعم نقل الصور والفيديو والصوت والملفات كمرفقات، ويضيف وقتاً ديناميكياً نسبياً لكل منشور. يحول النص إلى خط عريض لتحسين القراءة."
+                    data-details-en="Dual bot using Telegraf and discord.js to monitor a Telegram channel and forward every new post to a designated Discord channel. It automatically fetches the channel name and avatar on startup, then displays posts via EmbedBuilder with the channel avatar as icon and name as author. Supports forwarding photos, videos, audio, and documents as attachments, and attaches a dynamic relative timestamp to each post. Text is bolded for improved readability."
+                    data-tech="Node.js, discord.js, Telegraf, Telegram Bot API, Axios"
+                    data-link="https://github.com/yourusername/telegram-discord-bridge"
+                    data-icon="fa-shuffle">
+                    <div class="project-icon"><i class="fa-solid fa-shuffle"></i></div>
+                    <h3 class="project-title" data-ar="جسر تيليجرام - ديسكورد" data-en="Telegram Discord Bridge">جسر تيليجرام - ديسكورد</h3>
+                    <p class="project-desc" data-ar="نظام يربط قناة تيليجرام مع سيرفر ديسكورد وينقل المنشورات بشكل تلقائي واحترافي." data-en="System bridging a Telegram channel with a Discord server, forwarding posts automatically.">نظام يربط قناة تيليجرام مع سيرفر ديسكورد وينقل المنشورات بشكل تلقائي واحترافي.</p>
                 </article>
 
-                <!-- Project 3 -->
+                <!-- Project 3: Tellonym OSINT Bot -->
                 <article class="project-card"
-                    data-title-ar="تطبيق دردشة آمن"
-                    data-title-en="Secure Chat Application"
-                    data-desc-ar="تطبيق دردشة مشفر من الطرف إلى الطرف باستخدام Node.js."
-                    data-desc-en="End-to-end encrypted chat application built with Node.js."
-                    data-details-ar="تطبيق ويب للدردشة الفورية يستخدم تشفير AES-256 للرسائل، مع مصادقة عبر JWT. تم بناؤه باستخدام Node.js وSocket.io وMongoDB. يدعم الغرف الخاصة والرسائل المباشرة."
-                    data-details-en="Real-time web chat application using AES-256 encryption for messages, with JWT authentication. Built with Node.js, Socket.io, and MongoDB. Supports private rooms and direct messaging."
-                    data-tech="Node.js, Socket.io, MongoDB, JWT, AES-256"
-                    data-link="https://github.com/yourusername/secure-chat"
-                    data-icon="fa-comments">
-                    <div class="project-icon"><i class="fa-solid fa-comments"></i></div>
-                    <h3 class="project-title" data-ar="تطبيق دردشة آمن" data-en="Secure Chat App">تطبيق دردشة آمن</h3>
-                    <p class="project-desc" data-ar="تطبيق دردشة مشفر من الطرف إلى الطرف باستخدام Node.js." data-en="End-to-end encrypted chat application built with Node.js.">تطبيق دردشة مشفر من الطرف إلى الطرف باستخدام Node.js.</p>
+                    data-title-ar="بوت تحليل حسابات تيلونيم"
+                    data-title-en="Tellonym OSINT Bot"
+                    data-desc-ar="بوت OSINT يستخرج بيانات حسابات تيلونيم ويعرضها بإمبيدات أنيقة مع صورة رمزية."
+                    data-desc-en="OSINT bot that scrapes Tellonym profiles and presents them as elegant embeds with avatars."
+                    data-details-ar="بوت ديسكورد متخصص في جمع المعلومات مفتوحة المصدر (OSINT) عن حسابات Tellonym. يستخدم puppeteer-extra مع إضافة Stealth Plugin لتجاوز الكشف الآلي وتسجيل الدخول تلقائياً. يقرأ رابط الحساب أو اسم المستخدم من الرسالة، ثم يزوره ويستخرج الصورة الرمزية، النبذة، عدد الـ Tells والمتابعين والمتابَعين. يحمّل الصورة الرمزية كمرفق، ويعرض كل شيء في إمبيد منظم مع فوتر مخصص لكل مستخدم. يحتوي على نظام Cooldown (ساعة لكل مستخدم و15 ثانية عامة)، ويحذف الرسائل القديمة تلقائياً، كما يرسل إمبيداً إرشادياً كل 15 دقيقة لشرح طريقة الاستخدام."
+                    data-details-en="A specialized Discord bot for Open-Source Intelligence (OSINT) on Tellonym profiles. Uses puppeteer-extra with the Stealth Plugin to bypass bot detection and auto-login. Reads a profile URL or username from a message, then visits the page and extracts the avatar, bio, tell count, followers, and following. The avatar is downloaded as an attachment and everything is displayed in an organized embed with a per-user footer. Includes a cooldown system (1 hour per user, 15 seconds global), auto-deletion of old messages, and a reminder embed explaining usage every 15 minutes."
+                    data-tech="Node.js, discord.js, Puppeteer-Extra, Stealth Plugin, Axios"
+                    data-link="https://github.com/yourusername/tellonym-osint-bot"
+                    data-icon="fa-user-secret">
+                    <div class="project-icon"><i class="fa-solid fa-user-secret"></i></div>
+                    <h3 class="project-title" data-ar="بوت تحليل تيلونيم" data-en="Tellonym OSINT Bot">بوت تحليل تيلونيم</h3>
+                    <p class="project-desc" data-ar="بوت OSINT يستخرج بيانات حسابات تيلونيم ويعرضها بإمبيدات أنيقة مع صورة رمزية." data-en="OSINT bot that scrapes Tellonym profiles and presents them as elegant embeds with avatars.">بوت OSINT يستخرج بيانات حسابات تيلونيم ويعرضها بإمبيدات أنيقة مع صورة رمزية.</p>
                 </article>
 
             </div>
@@ -1045,31 +735,17 @@
         window.addEventListener('touchstart', () => cursorGlow.classList.add('click-effect'), { passive: true });
         window.addEventListener('touchend', () => cursorGlow.classList.remove('click-effect'));
 
-        document.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-        });
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'F12') {
-                e.preventDefault();
-            }
-            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-                e.preventDefault();
-            }
-            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-                e.preventDefault();
-            }
-            if (e.ctrlKey && e.key === 'u') {
-                e.preventDefault();
-            }
-            if (e.ctrlKey && e.key === 's') {
-                e.preventDefault();
-            }
+            if (e.key === 'F12') e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') e.preventDefault();
+            if (e.ctrlKey && e.key === 'u') e.preventDefault();
+            if (e.ctrlKey && e.key === 's') e.preventDefault();
         });
 
-        document.addEventListener('dragstart', (e) => {
-            e.preventDefault();
-        });
+        document.addEventListener('dragstart', (e) => e.preventDefault());
 
         (function() {
             const botPatterns = [
@@ -1096,11 +772,8 @@
 
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
-            if (window.scrollY < 50) {
-                navbar.classList.add('nav-colored');
-            } else {
-                navbar.classList.remove('nav-colored');
-            }
+            if (window.scrollY < 50) navbar.classList.add('nav-colored');
+            else navbar.classList.remove('nav-colored');
         });
 
         const sections = document.querySelectorAll('section');
@@ -1108,12 +781,9 @@
 
         window.addEventListener('scroll', () => {
             let current = '';
-
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                if (window.scrollY >= (sectionTop - 250)) {
-                    current = section.getAttribute('id');
-                }
+                if (window.scrollY >= (sectionTop - 250)) current = section.getAttribute('id');
             });
 
             if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight - 50) {
@@ -1143,19 +813,15 @@
         });
 
         navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
+            link.addEventListener('click', () => navLinks.classList.remove('active'));
         });
 
         function updateTime() {
             const now = new Date();
             const options = {
                 timeZone: 'Asia/Riyadh',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
+                hour: '2-digit', minute: '2-digit',
+                second: '2-digit', hour12: true
             };
             document.getElementById('terminal-clock').innerText = new Intl.DateTimeFormat('en-US', options).format(now);
         }
@@ -1165,9 +831,7 @@
         const animatedLogElement = document.getElementById('animated-log');
         const dynamicLogElement = document.getElementById('dynamic-log');
 
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
+        function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
         function typeWriterPromise(text, isError, element) {
             return new Promise((resolve) => {
@@ -1268,9 +932,7 @@
             }
         }
 
-        window.addEventListener('load', () => {
-            startTerminalLoop();
-        });
+        window.addEventListener('load', () => startTerminalLoop());
 
         setInterval(() => {
             const latencyElement = document.getElementById('ping-latency');
@@ -1332,7 +994,6 @@
             modalTitle.innerText = title;
             modalDesc.innerText = details;
 
-            // Tech tags
             modalTech.innerHTML = '';
             if (tech) {
                 tech.split(',').forEach(item => {
@@ -1343,31 +1004,22 @@
             }
 
             modalLink.href = link;
-
             modalOverlay.classList.add('active');
         }
 
         projectCards.forEach(card => {
-            card.addEventListener('click', () => {
-                openProjectModal(card);
-            });
+            card.addEventListener('click', () => openProjectModal(card));
         });
 
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-        }
+        function closeModal() { modalOverlay.classList.remove('active'); }
 
         modalClose.addEventListener('click', closeModal);
         modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                closeModal();
-            }
+            if (e.target === modalOverlay) closeModal();
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
-                closeModal();
-            }
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
         });
     </script>
 </body>
