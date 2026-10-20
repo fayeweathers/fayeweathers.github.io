@@ -12,7 +12,7 @@
     <meta name="description" content="l4 | AI Engineering Student & Developer">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Fira+Code:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Fira+Code:wght@400;700&display=swap');
 
         :root {
             --bg-dark: #050505;
@@ -27,7 +27,6 @@
             --status-live: #27c93f;
             --status-dev: #ffbd2e;
             --status-beta: #3b9fff;
-            --spotify-green: #1db954;
         }
 
         html { scroll-behavior: smooth; }
@@ -167,11 +166,12 @@
             gap: 90px;
         }
 
-        .hero { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap-reverse; gap: 40px; }
-        .hero-text { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 15px; }
+        .hero { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap-reverse; gap: 40px; }
+        .hero-text { flex: 1; min-width: 300px; }
 
         .hero-text h1 {
             font-size: 3.5rem;
+            margin-bottom: 15px;
             font-family: 'Fira Code', monospace;
             letter-spacing: -1.5px;
             text-align: left;
@@ -223,150 +223,7 @@
 
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Discord Activity Card */
-        .discord-activity {
-            background: #111214;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px;
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            direction: ltr;
-            font-family: 'Cairo', sans-serif;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .discord-activity.active {
-            display: flex;
-        }
-
-        .activity-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .activity-header .live-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--status-live);
-        }
-
-        .activity-header .live-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--status-live);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--status-live);
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-        }
-
-        .activity-body {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .activity-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            object-fit: cover;
-            background: #222;
-            position: relative;
-        }
-
-        .activity-img-wrap {
-            position: relative;
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-end;
-        }
-
-        .activity-small-icon {
-            position: absolute;
-            bottom: -4px;
-            right: -4px;
-            width: 20px;
-            height: 20px;
-            background: var(--bg-card);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #111214;
-            font-size: 10px;
-            color: var(--text-main);
-        }
-
-        .activity-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            flex: 1;
-        }
-
-        .activity-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #fff;
-        }
-
-        .activity-details {
-            font-size: 0.8rem;
-            color: #b5bac1;
-        }
-
-        .activity-state {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-        }
-
-        .activity-progress-wrap {
-            margin-top: 5px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .activity-progress-bar {
-            width: 100%;
-            height: 4px;
-            background: #333;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .activity-progress-fill {
-            height: 100%;
-            background: var(--spotify-green);
-            width: 0%;
-            transition: width 1s linear;
-        }
-
-        .activity-times {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.65rem;
-            color: var(--text-dim);
-            font-family: 'Fira Code', monospace;
-        }
-
+        /* ===== HERO IMAGE / AVATAR ===== */
         .hero-image {
             width: 320px;
             height: 320px;
@@ -457,6 +314,7 @@
             background: var(--terminal-green);
         }
 
+        /* ============ ABOUT ============ */
         .about-box {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -627,6 +485,7 @@
             font-weight: bold;
         }
 
+        /* ============ PROJECTS ============ */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -850,6 +709,7 @@
         .project-card:hover .project-tech-tags span:nth-child(3) { transition-delay: .1s; }
         .project-card:hover .project-tech-tags span:nth-child(4) { transition-delay: .15s; }
 
+        /* ============ MODAL ============ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -921,6 +781,7 @@
 
         .modal-link:hover { background: #fff; color: #000; transform: scale(1.05); box-shadow: 0 0 20px rgba(176,176,176,.4); }
 
+        /* ============ SOCIALS ============ */
         .social-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 15px; }
 
         .social-card {
@@ -971,107 +832,6 @@
         .footer-terminal { color: #fff; }
         .latency-text { color: var(--terminal-green); font-weight: bold; }
 
-        /* Floating Music Player (Spotify) */
-        .music-fab {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: var(--bg-card);
-            border: 1px solid var(--terminal-green);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--terminal-green);
-            cursor: pointer !important;
-            z-index: 1500;
-            box-shadow: 0 0 20px rgba(176,176,176,.2);
-            transition: all 0.3s ease;
-        }
-
-        .music-fab:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(176,176,176,.4);
-            background: rgba(176,176,176,.1);
-        }
-
-        .music-fab.playing {
-            animation: fab-pulse 2s infinite;
-        }
-
-        @keyframes fab-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(176,176,176,.4); }
-            70% { box-shadow: 0 0 0 15px rgba(176,176,176,0); }
-            100% { box-shadow: 0 0 0 0 rgba(176,176,176,0); }
-        }
-
-        .music-player {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 360px;
-            background: rgba(13,13,13,0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 15px;
-            z-index: 1400;
-            transform: translateY(20px);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            direction: ltr;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .music-player.active {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .player-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .player-header span {
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            font-weight: 600;
-        }
-
-        .player-header button {
-            background: none;
-            border: none;
-            color: var(--text-dim);
-            font-size: 1.2rem;
-            cursor: pointer !important;
-            transition: 0.3s;
-        }
-
-        .player-header button:hover { color: #fff; }
-
-        .spotify-embed-container {
-            border-radius: 12px;
-            overflow: hidden;
-            background: #000;
-            min-height: 380px;
-        }
-
-        .spotify-embed-container iframe {
-            border-radius: 12px;
-            display: block;
-        }
-
         @media (max-width:768px) {
             * { cursor: auto !important; }
             .cursor-glow { display: none !important; }
@@ -1101,8 +861,6 @@
             .hero-image { margin: 0 auto; width: 260px; height: 260px; }
             .hero-text h1 { text-align: center; }
 
-            .discord-activity { text-align: left; }
-
             .about-box {
                 padding: 32px 18px;
                 font-size: .92rem;
@@ -1125,9 +883,6 @@
 
             .modal-content { padding: 25px 20px; }
             .modal-title { font-size: 1.4rem; }
-
-            .music-player { width: calc(100% - 40px); right: 20px; bottom: 90px; }
-            .music-fab { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -1141,10 +896,10 @@
 
         <div class="nav-content-wrapper">
             <div class="nav-links" id="navLinks">
-                <a href="#home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></a>
-                <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="عني" data-en="About Me">عني</span></a>
-                <a href="#projects"><i class="fa-solid fa-diagram-project"></i> <span data-ar="مشاريعي" data-en="Projects">مشاريعي</span></a>
-                <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="حساباتي" data-en="Socials">حساباتي</span></a>
+                <a href="#home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="Home" data-en="Home">Home</span></a>
+                <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="About Me" data-en="About Me">About Me</span></a>
+                <a href="#projects"><i class="fa-solid fa-diagram-project"></i> <span data-ar="Projects" data-en="Projects">Projects</span></a>
+                <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="Socials" data-en="Socials">Socials</span></a>
                 <button class="lang-btn mobile-lang-btn" id="langToggleMobile">EN</button>
             </div>
 
@@ -1173,33 +928,6 @@
                     <p id="animated-log"></p>
                     <p id="dynamic-log"></p>
                 </div>
-
-                <div class="discord-activity" id="discordActivity">
-                    <div class="activity-header">
-                        <span id="activity-action">Listening to Spotify</span>
-                        <div class="live-badge"><span class="live-dot"></span> Live</div>
-                    </div>
-                    <div class="activity-body">
-                        <div class="activity-img-wrap">
-                            <img id="activityImage" class="activity-img" src="" alt="Activity Image">
-                            <div class="activity-small-icon" id="activityIcon"><i class="fa-brands fa-spotify"></i></div>
-                        </div>
-                        <div class="activity-info">
-                            <div class="activity-name" id="activityName">Song Name</div>
-                            <div class="activity-details" id="activityDetails">Artist Name</div>
-                            <div class="activity-state" id="activityState">Album Name</div>
-                        </div>
-                    </div>
-                    <div class="activity-progress-wrap" id="activityProgressWrap" style="display: none;">
-                        <div class="activity-progress-bar">
-                            <div class="activity-progress-fill" id="activityProgressFill"></div>
-                        </div>
-                        <div class="activity-times">
-                            <span id="activityTimeCurrent">0:00</span>
-                            <span id="activityTimeTotal">0:00</span>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="hero-image">
@@ -1213,13 +941,13 @@
         </section>
 
         <section id="about">
-            <div class="section-header" data-ar="نبذة عني" data-en="About Me">نبذة عني</div>
+            <div class="section-header" data-ar="About Me" data-en="About Me">About Me</div>
 
             <div class="about-box">
                 <p class="about-lead"
-                   data-ar="أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. ما أكتفي بالجانب النظري، بل أبني وأطلق مشاريعي بنفسي مثل المواقع، بوتات ديسكورد، أدوات OSINT، وتطبيقات الذكاء الاصطناعي اللي الناس فعلاً تستخدمها."
-                   data-en="I'm Ziyad, an AI engineering student and developer. I don't just stick to theory, I build and ship my own projects like websites, Discord bots, OSINT tools, and AI applications that real people actually use.">
-                   أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. ما أكتفي بالجانب النظري، بل أبني وأطلق مشاريعي بنفسي مثل المواقع، بوتات ديسكورد، أدوات OSINT، وتطبيقات الذكاء الاصطناعي اللي الناس فعلاً تستخدمها.
+                   data-ar="أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالتعلم النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً."
+                   data-en="I'm Ziyad, an AI engineering student and developer. I don't settle for theory — I build and ship my own projects: websites, Discord bots, OSINT tools, and AI applications that real people actually use.">
+                    أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالتعلم النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً.
                 </p>
 
                 <div class="about-focus-grid">
@@ -1232,8 +960,8 @@
                     <div class="focus-card">
                         <i class="fa-solid fa-robot"></i>
                         <h4 data-ar="بوتات ديسكورد والأتمتة" data-en="Discord Bots & Automation">بوتات ديسكورد والأتمتة</h4>
-                        <p data-ar="بوتات إدارة وحماية، وأتمتة للمهام المتكررة لتوفير الوقت والجهد."
-                           data-en="Moderation and protection bots, plus automation for repetitive tasks to save time and effort.">بوتات إدارة وحماية، وأتمتة للمهام المتكررة لتوفير الوقت والجهد.</p>
+                        <p data-ar="بوتات إدارة وحماية، مع أتمتة للمهام المتكررة لتوفير الوقت والجهد."
+                           data-en="Moderation and protection bots, plus automation for repetitive tasks to save time and effort.">بوتات إدارة وحماية، مع أتمتة للمهام المتكررة لتوفير الوقت والجهد.</p>
                     </div>
                     <div class="focus-card">
                         <i class="fa-solid fa-user-secret"></i>
@@ -1250,7 +978,7 @@
                 </div>
 
                 <div class="about-skills-block">
-                    <h4 data-ar="التقنيات اللي أستخدمها" data-en="Technologies I Use">التقنيات اللي أستخدمها</h4>
+                    <h4 data-ar="التقنيات التي أعمل بها" data-en="Technologies I Work With">التقنيات التي أعمل بها</h4>
                     <div class="skill-chips">
                         <span class="skill-chip">JavaScript</span>
                         <span class="skill-chip">Node.js</span>
@@ -1268,15 +996,15 @@
                 </div>
 
                 <p class="about-paragraph"
-                   data-ar="بعيداً عن الأدوات، أشتغل على أبحاث OSINT، وأدرب نماذج ذكاء اصطناعي على بيانات مخصصة، وأتمت المهام المتكررة عشان تشتغل لحالها. كل مشروع أبدأه يطلع من مشكلة حقيقية، وينتهي بأداة يستخدمها الناس."
-                   data-en="Beyond tooling, I work on OSINT research, train AI models on custom data, and automate repetitive tasks so they run autonomously. Every project I start begins with a real problem and ends with a tool people actually use.">
-                   بعيداً عن الأدوات، أشتغل على أبحاث OSINT، وأدرب نماذج ذكاء اصطناعي على بيانات مخصصة، وأتمت المهام المتكررة عشان تشتغل لحالها. كل مشروع أبدأه يطلع من مشكلة حقيقية، وينتهي بأداة يستخدمها الناس.
+                   data-ar="خارج نطاق الأدوات، أعمل على أبحاث OSINT، وأدرّب نماذج ذكاء اصطناعي على بيانات مخصصة، وأتمت المهام المتكررة لتعمل ذاتياً. كل مشروع أبدأه ينطلق من مشكلة حقيقية، وينتهي بأداة يستخدمها الناس فعلياً."
+                   data-en="Beyond tooling, I work on OSINT research, train AI models on custom data, and automate repetitive tasks to run autonomously. Every project I start begins with a real problem and ends with a tool people actually use.">
+                    خارج نطاق الأدوات، أعمل على أبحاث OSINT، وأدرّب نماذج ذكاء اصطناعي على بيانات مخصصة، وأتمت المهام المتكررة لتعمل ذاتياً. كل مشروع أبدأه ينطلق من مشكلة حقيقية، وينتهي بأداة يستخدمها الناس فعلياً.
                 </p>
 
                 <p class="about-closing"
-                   data-ar="اشتغلت مع عملاء حقيقيين وسلّمت مشاريع كاملة، وما زلت أطلق شي جديد باستمرار."
-                   data-en="I've worked with real clients and delivered complete projects, and I keep shipping something new.">
-                   اشتغلت مع عملاء حقيقيين وسلّمت مشاريع كاملة، وما زلت أطلق شي جديد باستمرار.
+                   data-ar="عملت مع عملاء حقيقيين وسلّمت مشاريع مكتملة، وما زلت أطلق شيئاً جديداً باستمرار."
+                   data-en="I've worked with real clients and delivered completed projects, and I keep shipping something new.">
+                    عملت مع عملاء حقيقيين وسلّمت مشاريع مكتملة، وما زلت أطلق شيئاً جديداً باستمرار.
                 </p>
 
                 <div class="author-signature">
@@ -1288,25 +1016,27 @@
         </section>
 
         <section id="projects">
-            <div class="section-header" data-ar="مشاريعي" data-en="Projects">مشاريعي</div>
+            <div class="section-header" data-ar="Projects" data-en="Projects">Projects</div>
 
             <div class="projects-grid">
 
+                <!-- 1 -->
                 <article class="project-card" data-status="beta"
                     data-title-ar="المساعد العصبي"
                     data-title-en="Neural Assistant"
-                    data-desc-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مدربة ببيانات مخصصة."
+                    data-desc-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة."
                     data-desc-en="A local AI assistant powered by models trained on custom data."
-                    data-details-ar="مساعد ذكاء اصطناعي يعمل محلياً على نماذج دربت وحسنت ببيانات مخصصة. يوفر إجابات دقيقة وواجهة API نظيفة للتكامل مع أي نظام خارجي."
+                    data-details-ar="مساعد ذكاء اصطناعي يعمل محلياً على نماذج دُرّبت وحُسّنت ببيانات مخصصة. يوفر إجابات دقيقة وواجهة API نظيفة للتكامل مع أي نظام خارجي."
                     data-details-en="A locally hosted AI assistant running on models trained and fine-tuned with custom data. It delivers accurate answers and a clean API interface for integration with any external system."
                     data-tech="Python, PyTorch, Transformers, FastAPI"
                     data-link=""
                     data-icon="fa-brain">
                     <div class="project-icon"><i class="fa-solid fa-brain"></i></div>
                     <h3 class="project-title" data-ar="المساعد العصبي" data-en="Neural Assistant">المساعد العصبي</h3>
-                    <p class="project-desc" data-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مدربة ببيانات مخصصة." data-en="A local AI assistant powered by models trained on custom data.">مساعد ذكاء اصطناعي محلي مبني على نماذج مدربة ببيانات مخصصة.</p>
+                    <p class="project-desc" data-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة." data-en="A local AI assistant powered by models trained on custom data.">مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة.</p>
                 </article>
 
+                <!-- 2 -->
                 <article class="project-card" data-status="dev"
                     data-title-ar="أداة OSINT Recon"
                     data-title-en="OSINT Recon"
@@ -1322,6 +1052,7 @@
                     <p class="project-desc" data-ar="أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد." data-en="OSINT tools for gathering and analyzing information in one unified report.">أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد.</p>
                 </article>
 
+                <!-- 3 -->
                 <article class="project-card" data-status="dev"
                     data-title-ar="Ash Avatar"
                     data-title-en="Ash Avatar"
@@ -1337,6 +1068,7 @@
                     <p class="project-desc" data-ar="منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع." data-en="An avatar discovery platform with smart categorization and fast search.">منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع.</p>
                 </article>
 
+                <!-- 4 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت حماية السيرفر"
                     data-title-en="Server Protection Bot"
@@ -1352,6 +1084,7 @@
                     <p class="project-desc" data-ar="حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة." data-en="Real-time server protection with automatic detection of suspicious activity.">حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة.</p>
                 </article>
 
+                <!-- 5 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت إدارة السيرفر"
                     data-title-en="Server Management Bot"
@@ -1367,6 +1100,7 @@
                     <p class="project-desc" data-ar="أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن." data-en="Complete management tools with live logs and a flexible permission system.">أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن.</p>
                 </article>
 
+                <!-- 6 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت الموسيقى"
                     data-title-en="Music Bot"
@@ -1382,13 +1116,14 @@
                     <p class="project-desc" data-ar="تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة." data-en="High-quality audio playback with filters and full queue control.">تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة.</p>
                 </article>
 
+                <!-- 7 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت Tellonym"
                     data-title-en="Tellonym Bot"
                     data-desc-ar="عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي."
                     data-desc-en="Full Tellonym profile inside Discord with automatic updates."
                     data-details-ar="بوت يسحب بيانات حساب Tellonym ويعرضها في إمبد تفاعلي يشمل الصورة الشخصية وعدد المتابعين وآخر الرسائل والأكثر تفاعلاً، مع تحديث تلقائي للبيانات."
-                    data-details-en="A bot that pulls Tellonym profile data and displays it in an interactive embed, including the profile picture, follower count, latest messages, and the most interacted one, with automatic data updates."
+                    data-details-en="A bot that pulls Tellonym profile data and displays it in an interactive embed — including the profile picture, follower count, latest messages, and the most interacted one, with automatic data updates."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
                     data-icon="fa-comment-dots">
@@ -1397,6 +1132,7 @@
                     <p class="project-desc" data-ar="عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي." data-en="Full Tellonym profile inside Discord with automatic updates.">عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي.</p>
                 </article>
 
+                <!-- 8 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت الأفتارات"
                     data-title-en="Avatar Bot"
@@ -1412,6 +1148,7 @@
                     <p class="project-desc" data-ar="معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة." data-en="Preview and download avatars and banners in one click.">معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة.</p>
                 </article>
 
+                <!-- 9 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت أذكار"
                     data-title-en="Adhkar Bot"
@@ -1431,7 +1168,7 @@
         </section>
 
         <section id="social">
-            <div class="section-header" data-ar="حساباتي" data-en="Socials Media">حساباتي</div>
+            <div class="section-header" data-ar="Socials Media" data-en="Socials Media">Socials Media</div>
 
             <div class="social-grid">
                 <a href="https://discord.com/users/1356618809078841458" target="_blank" class="social-card">
@@ -1469,34 +1206,13 @@
         </div>
     </div>
 
-    <!-- Music FAB -->
-    <div class="music-fab" id="musicFab">
-        <i class="fa-brands fa-spotify"></i>
-    </div>
-
-    <!-- Spotify Player -->
-    <div class="music-player" id="musicPlayer">
-        <div class="player-header">
-            <span data-ar="استمع لأكثر الأغاني شهرة عالمياً" data-en="Listen to the world's top songs">استمع لأكثر الأغاني شهرة عالمياً</span>
-            <button id="closePlayer"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="spotify-embed-container">
-            <iframe 
-                style="border-radius:12px" 
-                src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF?utm_source=generator&theme=0" 
-                width="100%" 
-                height="380" 
-                frameBorder="0" 
-                allowfullscreen="" 
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                loading="lazy">
-            </iframe>
-        </div>
-    </div>
-
     <script>
         /* ==========================================================
            DISCORD AVATAR (Lanyard)
+           - يُظهر الأفتار من الكاش فوراً (بدون وميض PNG)
+           - يحدّث تلقائياً كل دقيقة
+           - يُخزّن رابط الأفتار في localStorage
+           - في حال عدم وجود كاش، يظهر خلفية متدرجة أثناء التحميل
         ========================================================== */
         const DISCORD_USER_ID = "1356618809078841458";
         const AVATAR_CACHE_KEY = 'l4_discord_avatar_v1';
@@ -1528,8 +1244,6 @@
                 } else if (!avatarImg.src || avatarImg.src !== newUrl) {
                     avatarImg.src = newUrl;
                 }
-
-                updateDiscordActivity(json.data);
             } catch (e) {
                 if (!avatarImg.src || avatarImg.src === window.location.href) {
                     avatarImg.src = DEFAULT_AVATAR;
@@ -1537,6 +1251,7 @@
             }
         }
 
+        // ابدأ فوراً من الكاش (إن وُجد) - يشيل الوميض تماماً
         (function() {
             const cached = localStorage.getItem(AVATAR_CACHE_KEY);
             if (cached) avatarImg.src = cached;
@@ -1544,104 +1259,11 @@
 
         window.addEventListener('load', () => {
             refreshAvatar();
-            setInterval(refreshAvatar, 15000);
+            setInterval(refreshAvatar, 60000);
         });
 
         /* ==========================================================
-           DISCORD ACTIVITY
-        ========================================================== */
-        const activityCard = document.getElementById('discordActivity');
-        const activityAction = document.getElementById('activity-action');
-        const activityImage = document.getElementById('activityImage');
-        const activityIcon = document.getElementById('activityIcon');
-        const activityName = document.getElementById('activityName');
-        const activityDetails = document.getElementById('activityDetails');
-        const activityState = document.getElementById('activityState');
-        const activityProgressWrap = document.getElementById('activityProgressWrap');
-        const activityProgressFill = document.getElementById('activityProgressFill');
-        const activityTimeCurrent = document.getElementById('activityTimeCurrent');
-        const activityTimeTotal = document.getElementById('activityTimeTotal');
-        let activityInterval;
-
-        function formatTime(ms) {
-            const totalSeconds = Math.floor(ms / 1000);
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        function updateDiscordActivity(data) {
-            if (!data || !data.activities || data.activities.length === 0) {
-                activityCard.classList.remove('active');
-                clearInterval(activityInterval);
-                return;
-            }
-
-            activityCard.classList.add('active');
-
-            const spotify = data.listening_to_spotify ? data.spotify : null;
-            const otherActivity = data.activities.find(a => a.type !== 2 && a.name !== 'Spotify');
-
-            clearInterval(activityInterval);
-
-            if (spotify) {
-                activityAction.innerHTML = `Listening to Spotify`;
-                activityIcon.innerHTML = `<i class="fa-brands fa-spotify" style="color: var(--spotify-green);"></i>`;
-                activityImage.src = spotify.album_art_url;
-                activityName.innerText = spotify.song;
-                activityDetails.innerText = spotify.artist;
-                activityState.innerText = spotify.album;
-                
-                activityProgressWrap.style.display = 'flex';
-                
-                const start = spotify.timestamps.start;
-                const end = spotify.timestamps.end;
-                const total = end - start;
-
-                const updateProgress = () => {
-                    const now = Date.now();
-                    const current = Math.max(0, Math.min(now - start, total));
-                    const percent = (current / total) * 100;
-                    
-                    activityProgressFill.style.width = `${percent}%`;
-                    activityTimeCurrent.innerText = formatTime(current);
-                    activityTimeTotal.innerText = formatTime(total);
-                };
-
-                updateProgress();
-                activityInterval = setInterval(updateProgress, 1000);
-
-            } else if (otherActivity) {
-                activityAction.innerText = `Playing a game`;
-                activityIcon.innerHTML = `<i class="fa-solid fa-gamepad"></i>`;
-                activityImage.src = otherActivity.assets?.large_image 
-                    ? `https://cdn.discordapp.com/app-assets/${otherActivity.application_id}/${otherActivity.assets.large_image}.png` 
-                    : 'https://via.placeholder.com/60x60/222/fff?text=Game';
-                
-                activityName.innerText = otherActivity.name;
-                activityDetails.innerText = otherActivity.details || 'Playing';
-                activityState.innerText = otherActivity.state || '';
-                activityProgressWrap.style.display = 'none';
-            }
-        }
-
-        /* ==========================================================
-           SPOTIFY PLAYER TOGGLE
-        ========================================================== */
-        const musicFab = document.getElementById('musicFab');
-        const musicPlayer = document.getElementById('musicPlayer');
-        const closePlayerBtn = document.getElementById('closePlayer');
-
-        musicFab.addEventListener('click', () => {
-            musicPlayer.classList.toggle('active');
-        });
-
-        closePlayerBtn.addEventListener('click', () => {
-            musicPlayer.classList.remove('active');
-        });
-
-        /* ==========================================================
-           REST OF THE SITE LOGIC
+           CURSOR GLOW
         ========================================================== */
         const cursorGlow = document.querySelector('.cursor-glow');
 
@@ -1920,6 +1542,7 @@
         const STATUS_LABELS = { live: 'Live', dev: 'In Dev', beta: 'Beta' };
 
         projectCards.forEach(card => {
+            // شارة الحالة
             const status = card.dataset.status;
             if (status && !card.querySelector('.project-status')) {
                 const badge = document.createElement('span');
@@ -1929,6 +1552,7 @@
                 card.appendChild(badge);
             }
 
+            // سهم عند المرور
             if (!card.querySelector('.card-arrow')) {
                 const arrow = document.createElement('span');
                 arrow.className = 'card-arrow';
@@ -1936,6 +1560,7 @@
                 card.appendChild(arrow);
             }
 
+            // وسوم التقنيات
             const tech = card.dataset.tech;
             if (tech && !card.querySelector('.project-tech-tags')) {
                 const tagsContainer = document.createElement('div');
@@ -1948,6 +1573,7 @@
                 card.appendChild(tagsContainer);
             }
 
+            // توهج يتبع الماوس
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
