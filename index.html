@@ -24,6 +24,9 @@
             --terminal-green-bright: #e6e6e6;
             --terminal-green-soft: rgba(176,176,176,.18);
             --terminal-red: #ff3b30;
+            --status-live: var(--terminal-green-bright);
+            --status-dev:  var(--terminal-green);
+            --status-beta: var(--text-dim);
             --presence-online: #27c93f;
             --presence-idle: #ffbd2e;
             --presence-dnd: #ff3b30;
@@ -380,22 +383,16 @@
 
         .activity-empty i { font-size: 1.3rem; color: var(--terminal-green); }
 
-        .hero-avatar {
+        .hero-image {
             width: 320px;
             height: 320px;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 100%;
             border: 2px solid var(--terminal-green);
             box-shadow: 0 0 25px rgba(176,176,176,.22), 0 0 55px rgba(176,176,176,.08);
             animation: complex-morph 12s ease-in-out infinite alternate;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             background: linear-gradient(135deg, #0a0a0a 0%, #181818 50%, #0a0a0a 100%);
+            flex-shrink: 0;
         }
 
         .hero-image img {
@@ -412,9 +409,10 @@
             opacity: 1;
         }
 
-        .avatar-ring {
+        .hero-image::after {
+            content: '';
             position: absolute;
-            inset: -10px;
+            inset: -8px;
             border: 1px solid var(--terminal-green);
             box-shadow: 0 0 10px rgba(176,176,176,.28), 0 10px 30px rgba(0,0,0,.8);
             animation: complex-morph 15s ease-in-out infinite alternate-reverse;
@@ -647,8 +645,22 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
+        }
+
+        @media (min-width: 830px) {
+            .project-card:last-child:nth-child(3n + 1) {
+                grid-column: 2 / 3;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 829px) {
+            .project-card:last-child:nth-child(2n + 1) {
+                grid-column: 1 / -1;
+                justify-self: center;
+                width: calc((100% - 20px) / 2);
+            }
         }
 
         .project-card {
@@ -657,18 +669,19 @@
             background-color: var(--bg-card);
             background-image: radial-gradient(circle 140px at var(--mouse-x) var(--mouse-y), rgba(176,176,176,.16), transparent 65%);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 16px 18px 18px;
+            border-radius: 12px;
+            padding: 26px 18px 16px;
             display: flex;
             flex-direction: column;
-            align-items: stretch;
-            text-align: start;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
             cursor: pointer;
             transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
             position: relative;
             overflow: hidden;
-            min-height: 260px;
-            gap: 10px;
+            aspect-ratio: 1 / 1;
+            gap: 8px;
         }
 
         .project-card::before {
@@ -720,15 +733,10 @@
             transition-duration: .1s;
         }
 
-        .card-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            direction: ltr;
-            min-height: 24px;
-        }
-
         .card-arrow {
+            position: absolute;
+            top: 10px;
+            right: 14px;
             font-size: 1rem;
             color: var(--terminal-green);
             opacity: 0;
@@ -736,6 +744,7 @@
             transition: opacity .3s ease, transform .3s ease;
             font-family: sans-serif;
             pointer-events: none;
+            z-index: 2;
         }
 
         .project-card:hover .card-arrow {
@@ -744,20 +753,24 @@
         }
 
         .project-status {
+            position: absolute;
+            top: 10px;
+            left: 12px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 3px 10px;
+            gap: 5px;
+            padding: 3px 9px;
             border-radius: 12px;
             font-family: 'Fira Code', monospace;
-            font-size: .62rem;
+            font-size: .6rem;
             letter-spacing: .5px;
             text-transform: uppercase;
             font-weight: 700;
-            color: var(--text-dim);
             border: 1px solid var(--border-color);
-            background: rgba(176,176,176,.05);
-            transition: color .3s ease, border-color .3s ease;
+            background: rgba(10, 10, 10, .72);
+            box-shadow: 0 0 0 1px rgba(0,0,0,.4), 0 4px 12px rgba(0,0,0,.4);
+            backdrop-filter: blur(8px);
+            z-index: 2;
         }
 
         .project-status .status-dot {
@@ -765,51 +778,40 @@
             height: 6px;
             border-radius: 50%;
             background: currentColor;
-            flex-shrink: 0;
+            box-shadow: 0 0 6px currentColor;
+            animation: status-blink 2s ease-in-out infinite;
         }
-
-        .project-status[data-status="live"] { color: var(--terminal-green-bright); border-color: rgba(176,176,176,.35); }
-        .project-status[data-status="live"] .status-dot { box-shadow: 0 0 8px currentColor; animation: status-blink 2s ease-in-out infinite; }
-        .project-status[data-status="beta"] { color: var(--terminal-green); }
-        .project-status[data-status="beta"] .status-dot { background: transparent; border: 1px solid currentColor; }
-        .project-status[data-status="dev"] { color: var(--text-dim); }
-        .project-status[data-status="dev"] .status-dot { opacity: .6; }
-
-        .project-card:hover .project-status { border-color: rgba(176,176,176,.45); }
 
         @keyframes status-blink {
             0%, 100% { opacity: 1; }
             50% { opacity: .5; }
         }
 
+        .project-status[data-status="live"] { color: var(--status-live); border-color: rgba(230, 230, 230, .30); }
+        .project-status[data-status="dev"]  { color: var(--status-dev);  border-color: rgba(176, 176, 176, .25); }
+        .project-status[data-status="beta"] { color: var(--status-beta); border-color: rgba(136, 136, 136, .22); }
+
         .project-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background: rgba(176,176,176,.06);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
+            font-size: 2.2rem;
             color: var(--terminal-green);
-            margin-top: 6px;
+            margin-top: 8px;
+            margin-bottom: 5px;
             text-shadow: 0 0 15px rgba(176,176,176,.5);
-            transition: transform .3s ease, border-color .3s ease, background .3s ease, box-shadow .3s ease;
+            transition: transform .3s ease, text-shadow .3s ease;
         }
 
         .project-card:hover .project-icon {
-            transform: translateY(-2px) rotate(-6deg);
-            border-color: var(--terminal-green);
-            background: rgba(176,176,176,.12);
-            box-shadow: 0 0 18px rgba(176,176,176,.2);
+            transform: scale(1.18) rotate(-6deg);
+            text-shadow: 0 0 25px rgba(176,176,176,.9);
         }
 
         .project-title {
             font-size: 1.05rem;
             font-weight: bold;
+            margin-bottom: 3px;
             color: var(--text-main);
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Fira Code', monospace;
+            direction: ltr;
             transition: color .3s ease, text-shadow .3s ease;
         }
 
@@ -819,9 +821,9 @@
         }
 
         .project-desc {
-            font-size: .8rem;
+            font-size: .78rem;
             color: var(--text-dim);
-            line-height: 1.7;
+            line-height: 1.55;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
@@ -836,10 +838,11 @@
         .project-tech-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
+            gap: 4px;
+            justify-content: center;
             margin-top: auto;
-            padding-top: 12px;
-            border-top: 1px dashed var(--border-color);
+            padding-top: 8px;
+            width: 100%;
         }
 
         .project-tech-tags span {
@@ -898,7 +901,7 @@
         .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-dim); font-size: 1.5rem; cursor: pointer !important; transition: .3s; z-index: 10; }
         .modal-close:hover { color: var(--terminal-green); transform: rotate(90deg); }
         .modal-icon { font-size: 3rem; color: var(--terminal-green); text-align: center; margin-bottom: 20px; text-shadow: 0 0 20px rgba(176,176,176,.5); }
-        .modal-title { font-size: 1.8rem; font-family: 'Fira Code', monospace; text-align: center; margin-bottom: 15px; color: #fff; }
+        .modal-title { font-size: 1.8rem; font-family: 'Fira Code', monospace; text-align: center; margin-bottom: 15px; color: #fff; direction: ltr; }
         .modal-desc { color: var(--text-main); line-height: 1.9; margin-bottom: 20px; text-align: center; font-size: .95rem; }
 
         .modal-tech {
@@ -1012,7 +1015,7 @@
             .nav-links a { justify-content: center; font-size: 1.1rem; width: 100%; }
             .mobile-lang-btn { display: block; margin: 5px auto 0; width: 50%; }
             .hero { flex-direction: column-reverse; text-align: center; gap: 30px; }
-            .hero-avatar { margin: 0 auto; width: 260px; height: 260px; }
+            .hero-image { margin: 0 auto; width: 260px; height: 260px; }
             .hero-text h1 { text-align: center; }
 
             .activity-card { padding: 14px; }
@@ -1035,18 +1038,11 @@
             .tech-badge .fa-microchip { font-size: 1.6rem; }
             .tech-badge .fa-code, .tech-badge .fa-shield-halved { font-size: .8rem; }
 
-            .projects-grid { grid-template-columns: repeat(2, 1fr); }
-            .project-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
-            .project-card { min-height: 240px; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-card { aspect-ratio: auto; min-height: 220px; padding: 24px 16px 14px; }
 
             .modal-content { padding: 25px 20px; }
             .modal-title { font-size: 1.4rem; }
-        }
-
-        @media (max-width:560px) {
-            .projects-grid { grid-template-columns: 1fr; }
-            .project-card:last-child:nth-child(odd) { grid-column: auto; }
-            .project-card { min-height: auto; }
         }
     </style>
 </head>
@@ -1105,11 +1101,8 @@
                 </div>
             </div>
 
-            <div class="hero-avatar">
-                <div class="hero-image">
-                    <img id="discordAvatar" alt="l4" decoding="async">
-                </div>
-                <span class="avatar-ring"></span>
+            <div class="hero-image">
+                <img id="discordAvatar" alt="l4" decoding="async">
                 <div class="tech-badge" title="AI + Coding + Cybersecurity">
                     <i class="fa-solid fa-microchip"></i>
                     <i class="fa-solid fa-code"></i>
@@ -1199,7 +1192,6 @@
             <div class="projects-grid">
 
                 <article class="project-card" data-status="beta"
-                    data-title-ar="المساعد العصبي"
                     data-title-en="Neural Assistant"
                     data-desc-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة."
                     data-desc-en="A local AI assistant powered by models trained on custom data."
@@ -1209,12 +1201,11 @@
                     data-link=""
                     data-icon="fa-brain">
                     <div class="project-icon"><i class="fa-solid fa-brain"></i></div>
-                    <h3 class="project-title" data-ar="المساعد العصبي" data-en="Neural Assistant">المساعد العصبي</h3>
+                    <h3 class="project-title">Neural Assistant</h3>
                     <p class="project-desc" data-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة." data-en="A local AI assistant powered by models trained on custom data.">مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة.</p>
                 </article>
 
                 <article class="project-card" data-status="dev"
-                    data-title-ar="أداة OSINT Recon"
                     data-title-en="OSINT Recon"
                     data-desc-ar="أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد."
                     data-desc-en="OSINT tools for gathering and analyzing information in one unified report."
@@ -1224,12 +1215,11 @@
                     data-link=""
                     data-icon="fa-user-secret">
                     <div class="project-icon"><i class="fa-solid fa-user-secret"></i></div>
-                    <h3 class="project-title" data-ar="أداة OSINT Recon" data-en="OSINT Recon">أداة OSINT Recon</h3>
+                    <h3 class="project-title">OSINT Recon</h3>
                     <p class="project-desc" data-ar="أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد." data-en="OSINT tools for gathering and analyzing information in one unified report.">أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد.</p>
                 </article>
 
                 <article class="project-card" data-status="dev"
-                    data-title-ar="Ash Avatar"
                     data-title-en="Ash Avatar"
                     data-desc-ar="منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع."
                     data-desc-en="An avatar discovery platform with smart categorization and fast search."
@@ -1239,12 +1229,11 @@
                     data-link=""
                     data-icon="fa-images">
                     <div class="project-icon"><i class="fa-solid fa-images"></i></div>
-                    <h3 class="project-title" data-ar="Ash Avatar" data-en="Ash Avatar">Ash Avatar</h3>
+                    <h3 class="project-title">Ash Avatar</h3>
                     <p class="project-desc" data-ar="منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع." data-en="An avatar discovery platform with smart categorization and fast search.">منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع.</p>
                 </article>
 
                 <article class="project-card" data-status="live"
-                    data-title-ar="بوت حماية السيرفر"
                     data-title-en="Server Protection Bot"
                     data-desc-ar="حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة."
                     data-desc-en="Real-time server protection with automatic detection of suspicious activity."
@@ -1254,12 +1243,11 @@
                     data-link=""
                     data-icon="fa-shield-halved">
                     <div class="project-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h3 class="project-title" data-ar="بوت حماية السيرفر" data-en="Server Protection Bot">بوت حماية السيرفر</h3>
+                    <h3 class="project-title">Server Protection Bot</h3>
                     <p class="project-desc" data-ar="حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة." data-en="Real-time server protection with automatic detection of suspicious activity.">حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة.</p>
                 </article>
 
                 <article class="project-card" data-status="live"
-                    data-title-ar="بوت إدارة السيرفر"
                     data-title-en="Server Management Bot"
                     data-desc-ar="أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن."
                     data-desc-en="Complete management tools with live logs and a flexible permission system."
@@ -1269,12 +1257,11 @@
                     data-link=""
                     data-icon="fa-gavel">
                     <div class="project-icon"><i class="fa-solid fa-gavel"></i></div>
-                    <h3 class="project-title" data-ar="بوت إدارة السيرفر" data-en="Server Management Bot">بوت إدارة السيرفر</h3>
+                    <h3 class="project-title">Server Management Bot</h3>
                     <p class="project-desc" data-ar="أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن." data-en="Complete management tools with live logs and a flexible permission system.">أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن.</p>
                 </article>
 
                 <article class="project-card" data-status="live"
-                    data-title-ar="بوت الموسيقى"
                     data-title-en="Music Bot"
                     data-desc-ar="تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة."
                     data-desc-en="High-quality audio playback with filters and full queue control."
@@ -1284,12 +1271,11 @@
                     data-link=""
                     data-icon="fa-music">
                     <div class="project-icon"><i class="fa-solid fa-music"></i></div>
-                    <h3 class="project-title" data-ar="بوت الموسيقى" data-en="Music Bot">بوت الموسيقى</h3>
+                    <h3 class="project-title">Music Bot</h3>
                     <p class="project-desc" data-ar="تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة." data-en="High-quality audio playback with filters and full queue control.">تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة.</p>
                 </article>
 
                 <article class="project-card" data-status="live"
-                    data-title-ar="بوت Tellonym"
                     data-title-en="Tellonym Bot"
                     data-desc-ar="عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي."
                     data-desc-en="Full Tellonym profile inside Discord with automatic updates."
@@ -1299,12 +1285,11 @@
                     data-link=""
                     data-icon="fa-comment-dots">
                     <div class="project-icon"><i class="fa-solid fa-comment-dots"></i></div>
-                    <h3 class="project-title" data-ar="بوت Tellonym" data-en="Tellonym Bot">بوت Tellonym</h3>
+                    <h3 class="project-title">Tellonym Bot</h3>
                     <p class="project-desc" data-ar="عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي." data-en="Full Tellonym profile inside Discord with automatic updates.">عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي.</p>
                 </article>
 
                 <article class="project-card" data-status="live"
-                    data-title-ar="بوت الأفتارات"
                     data-title-en="Avatar Bot"
                     data-desc-ar="معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة."
                     data-desc-en="Preview and download avatars and banners in one click."
@@ -1314,12 +1299,11 @@
                     data-link=""
                     data-icon="fa-circle-user">
                     <div class="project-icon"><i class="fa-solid fa-circle-user"></i></div>
-                    <h3 class="project-title" data-ar="بوت الأفتارات" data-en="Avatar Bot">بوت الأفتارات</h3>
+                    <h3 class="project-title">Avatar Bot</h3>
                     <p class="project-desc" data-ar="معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة." data-en="Preview and download avatars and banners in one click.">معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة.</p>
                 </article>
 
                 <article class="project-card" data-status="live"
-                    data-title-ar="بوت أذكار"
                     data-title-en="Adhkar Bot"
                     data-desc-ar="أذكار وتذكيرات صلاة تلقائية مع تخصيص كامل للأوقات."
                     data-desc-en="Automatic adhkar and prayer reminders with full time customization."
@@ -1329,7 +1313,7 @@
                     data-link=""
                     data-icon="fa-hands-praying">
                     <div class="project-icon"><i class="fa-solid fa-hands-praying"></i></div>
-                    <h3 class="project-title" data-ar="بوت أذكار" data-en="Adhkar Bot">بوت أذكار</h3>
+                    <h3 class="project-title">Adhkar Bot</h3>
                     <p class="project-desc" data-ar="أذكار وتذكيرات صلاة تلقائية مع تخصيص كامل للأوقات." data-en="Automatic adhkar and prayer reminders with full time customization.">أذكار وتذكيرات صلاة تلقائية مع تخصيص كامل للأوقات.</p>
                 </article>
 
@@ -1700,23 +1684,20 @@
         const STATUS_LABELS = { live: 'Live', dev: 'In Dev', beta: 'Beta' };
 
         projectCards.forEach(card => {
-            if (!card.querySelector('.card-top')) {
-                const top = document.createElement('div');
-                top.className = 'card-top';
-
-                const status = card.dataset.status;
+            const status = card.dataset.status;
+            if (status && !card.querySelector('.project-status')) {
                 const badge = document.createElement('span');
                 badge.className = 'project-status';
-                badge.dataset.status = status || '';
-                badge.innerHTML = `<span class="status-dot"></span><span>${STATUS_LABELS[status] || status || ''}</span>`;
+                badge.dataset.status = status;
+                badge.innerHTML = `<span class="status-dot"></span><span>${STATUS_LABELS[status] || status}</span>`;
+                card.appendChild(badge);
+            }
 
+            if (!card.querySelector('.card-arrow')) {
                 const arrow = document.createElement('span');
                 arrow.className = 'card-arrow';
                 arrow.textContent = '↗';
-
-                top.appendChild(badge);
-                top.appendChild(arrow);
-                card.insertBefore(top, card.firstChild);
+                card.appendChild(arrow);
             }
 
             const tech = card.dataset.tech;
@@ -1744,7 +1725,7 @@
             const lang = document.documentElement.lang || 'ar';
             const suffix = lang === 'ar' ? 'Ar' : 'En';
 
-            const title = card.dataset[`title${suffix}`] || '';
+            const title = card.dataset.titleEn || card.querySelector('.project-title')?.textContent?.trim() || '';
             const details = card.dataset[`details${suffix}`] || '';
             const tech = card.dataset.tech || '';
             const link = card.dataset.link || '';
