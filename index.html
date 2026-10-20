@@ -111,7 +111,7 @@
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             color: var(--text-main);
             font-family: 'Fira Code', monospace;
             font-size: 1.25rem;
@@ -120,64 +120,46 @@
             transition: .3s;
         }
 
-        .nav-brand:hover { color: var(--terminal-green-bright); }
-
         .brand-mark {
+            width: 22px;
+            height: 22px;
             position: relative;
-            width: 26px;
-            height: 26px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
-        .brand-mark::before {
-            content: '';
+        .brand-outer {
             position: absolute;
             inset: 0;
             border: 1.5px solid var(--terminal-green);
-            border-radius: 50%;
-            border-top-color: transparent;
-            border-right-color: transparent;
-            animation: brand-spin 2.4s linear infinite;
-            box-shadow: 0 0 10px rgba(176,176,176,.35), inset 0 0 8px rgba(176,176,176,.15);
+            border-radius: 6px;
+            transform: rotate(45deg);
+            transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 8px rgba(176,176,176,.2);
         }
 
-        .brand-mark::after {
-            content: '';
+        .brand-inner {
             position: absolute;
-            inset: 3px;
-            border: 1px solid var(--terminal-green-bright);
-            border-radius: 50%;
-            border-bottom-color: transparent;
-            border-left-color: transparent;
-            animation: brand-spin 1.8s linear infinite reverse;
-            opacity: .6;
-        }
-
-        .brand-pulse {
-            width: 7px;
-            height: 7px;
+            inset: 6px;
             background: var(--terminal-green-bright);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--terminal-green), 0 0 18px var(--terminal-green);
-            animation: brand-beat 1.6s ease-in-out infinite;
+            border-radius: 2px;
+            transform: rotate(45deg);
+            transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px var(--terminal-green);
         }
 
-        @keyframes brand-spin { to { transform: rotate(360deg); } }
-
-        @keyframes brand-beat {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 10px var(--terminal-green), 0 0 18px var(--terminal-green); }
-            50% { transform: scale(1.25); box-shadow: 0 0 14px var(--terminal-green-bright), 0 0 26px var(--terminal-green); }
+        .nav-brand:hover .brand-outer {
+            transform: rotate(135deg);
+            border-color: #fff;
+            box-shadow: 0 0 15px rgba(255,255,255,.4);
         }
 
-        .nav-brand:hover .brand-mark::before {
-            border-color: var(--terminal-green-bright);
-            box-shadow: 0 0 18px var(--terminal-green), inset 0 0 12px rgba(176,176,176,.3);
+        .nav-brand:hover .brand-inner {
+            transform: rotate(135deg) scale(1.2);
+            background: #fff;
+            box-shadow: 0 0 20px #fff;
         }
-
-        .nav-brand:hover .brand-mark::after { opacity: 1; }
 
         .nav-content-wrapper { display: flex; align-items: center; gap: 20px; direction: ltr !important; }
         .nav-links { display: flex; gap: 25px; align-items: center; }
@@ -480,7 +462,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             padding: 45px 40px;
-            border-radius: 12px;
+            border-radius: 16px;
             text-align: center;
             line-height: 1.8;
             font-size: 1rem;
@@ -525,7 +507,7 @@
         .focus-card {
             background: rgba(176,176,176,.04);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 20px 16px;
             display: flex;
             flex-direction: column;
@@ -625,8 +607,8 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
             perspective: 1200px;
         }
 
@@ -649,69 +631,31 @@
             --ry: 0deg;
             --lift: 0px;
             --sc: 1;
-            background-color: var(--bg-card);
-            background-image: radial-gradient(circle 160px at var(--mouse-x) var(--mouse-y), rgba(176,176,176,.18), transparent 65%);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 26px 18px 16px;
+            background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+                        radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgba(230,230,230,0.4), transparent 70%) border-box;
+            border: 1px solid transparent;
+            border-radius: 16px;
+            padding: 30px 20px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             text-align: center;
             cursor: pointer;
-            transition: border-color .35s ease, box-shadow .35s ease, transform .5s cubic-bezier(.2,.8,.2,1);
+            transition: box-shadow .35s ease, transform .5s cubic-bezier(.2,.8,.2,1);
             position: relative;
             overflow: hidden;
             aspect-ratio: 1 / 1;
-            gap: 8px;
+            gap: 12px;
             transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift)) scale(var(--sc));
             will-change: transform;
             transform-style: preserve-3d;
-        }
-
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            width: 12px;
-            height: 12px;
-            border-top: 1px solid var(--terminal-green);
-            border-left: 1px solid var(--terminal-green);
-            opacity: 0;
-            transform: translate(-4px, -4px);
-            transition: opacity .3s ease, transform .3s ease;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .project-card::after {
-            content: '';
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            width: 12px;
-            height: 12px;
-            border-bottom: 1px solid var(--terminal-green);
-            border-right: 1px solid var(--terminal-green);
-            opacity: 0;
-            transform: translate(4px, 4px);
-            transition: opacity .3s ease, transform .3s ease;
-            pointer-events: none;
-            z-index: 2;
+            z-index: 1;
         }
 
         .project-card:hover {
-            --lift: -6px;
-            border-color: var(--terminal-green);
-            box-shadow: 0 18px 40px -12px rgba(0,0,0,.85), 0 0 32px rgba(176,176,176,.22), inset 0 0 22px rgba(176,176,176,.05);
-        }
-
-        .project-card:hover::before,
-        .project-card:hover::after {
-            opacity: 1;
-            transform: translate(0, 0);
+            --lift: -8px;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.9), 0 0 30px rgba(176,176,176,0.15);
         }
 
         .project-card:active {
@@ -720,30 +664,14 @@
             transition-duration: .1s;
         }
 
-        .card-arrow {
-            position: absolute;
-            top: 10px;
-            right: 14px;
-            font-size: 1rem;
-            color: var(--terminal-green);
-            opacity: 0;
-            transform: translate(-4px, 4px);
-            transition: opacity .3s ease, transform .3s ease;
-            font-family: sans-serif;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .project-card:hover .card-arrow { opacity: 1; transform: translate(0, 0); }
-
         .project-status {
             position: absolute;
-            top: 10px;
+            top: 12px;
             left: 12px;
             display: flex;
             align-items: center;
             gap: 5px;
-            padding: 3px 9px;
+            padding: 4px 10px;
             border-radius: 12px;
             font-family: 'Fira Code', monospace;
             font-size: .6rem;
@@ -776,9 +704,9 @@
         .project-status[data-status="beta"] { color: var(--status-beta); border-color: rgba(136, 136, 136, .22); }
 
         .project-icon {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             color: var(--terminal-green);
-            margin-top: 8px;
+            margin-top: 10px;
             margin-bottom: 5px;
             text-shadow: 0 0 15px rgba(176,176,176,.5);
             transition: transform .4s cubic-bezier(.2,.8,.2,1), text-shadow .4s ease;
@@ -786,19 +714,19 @@
         }
 
         .project-card:hover .project-icon {
-            transform: translateZ(30px) scale(1.2) rotate(-6deg);
+            transform: translateZ(35px) scale(1.15) rotate(-6deg);
             text-shadow: 0 0 28px rgba(230,230,230,.9), 0 0 50px rgba(176,176,176,.4);
         }
 
         .project-title {
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             font-weight: bold;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             color: var(--text-main);
             font-family: 'Fira Code', monospace;
             direction: ltr;
             transition: color .3s ease, text-shadow .3s ease;
-            transform: translateZ(10px);
+            transform: translateZ(15px);
         }
 
         .project-card:hover .project-title {
@@ -807,14 +735,15 @@
         }
 
         .project-desc {
-            font-size: .78rem;
+            font-size: .85rem;
             color: var(--text-dim);
-            line-height: 1.55;
+            line-height: 1.6;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
             transition: color .3s ease;
+            transform: translateZ(5px);
         }
 
         .project-card:hover .project-desc { color: #a5a5a5; }
@@ -822,29 +751,31 @@
         .project-tech-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 6px;
             justify-content: center;
             margin-top: auto;
-            padding-top: 8px;
+            padding-top: 12px;
             width: 100%;
+            transform: translateZ(10px);
         }
 
         .project-tech-tags span {
             background: rgba(176,176,176,.08);
             border: 1px solid var(--border-color);
             color: var(--terminal-green);
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 10px;
             font-size: .65rem;
             font-family: 'Fira Code', monospace;
             white-space: nowrap;
-            transition: transform .3s ease, background .3s ease, border-color .3s ease;
+            transition: transform .3s ease, background .3s ease, border-color .3s ease, color .3s ease;
         }
 
         .project-card:hover .project-tech-tags span {
             transform: translateY(-2px);
-            background: rgba(176,176,176,.16);
-            border-color: rgba(176,176,176,.35);
+            background: rgba(176,176,176,.15);
+            border-color: rgba(176,176,176,.4);
+            color: #fff;
         }
 
         .project-card:hover .project-tech-tags span:nth-child(1) { transition-delay: 0s; }
@@ -919,81 +850,59 @@
 
         .social-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
             perspective: 1000px;
         }
 
         .social-card {
+            --mouse-x: 50%;
+            --mouse-y: 50%;
             --rx: 0deg;
             --ry: 0deg;
             --lift: 0px;
-            --sx: 50%;
-            --sy: 50%;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 22px 15px;
-            border-radius: 12px;
+            background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+                        radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgba(230,230,230,0.4), transparent 70%) border-box;
+            border: 1px solid transparent;
+            border-radius: 16px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-family: 'Fira Code', monospace;
             text-decoration: none;
             color: var(--text-dim);
-            transition: border-color .35s ease, color .35s ease, box-shadow .35s ease, background .35s ease, transform .5s cubic-bezier(.2,.8,.2,1);
+            transition: color .35s ease, box-shadow .35s ease, transform .5s cubic-bezier(.2,.8,.2,1);
             position: relative;
             overflow: hidden;
             transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));
             will-change: transform;
-        }
-
-        .social-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle 140px at var(--sx) var(--sy), rgba(176,176,176,.20), transparent 70%);
-            opacity: 0;
-            transition: opacity .35s ease;
-            pointer-events: none;
-        }
-
-        .social-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.09) 50%, transparent 70%);
-            transform: translateX(-100%);
-            transition: transform .8s cubic-bezier(.2,.8,.2,1);
-            pointer-events: none;
+            transform-style: preserve-3d;
         }
 
         .social-card:hover {
-            --lift: -6px;
-            border-color: var(--terminal-green);
+            --lift: -8px;
             color: #fff;
-            background: rgba(176,176,176,.06);
-            box-shadow: 0 18px 40px -12px rgba(0,0,0,.85), 0 0 28px rgba(176,176,176,.20), inset 0 0 22px rgba(176,176,176,.05);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.9), 0 0 30px rgba(176,176,176,0.15);
         }
 
-        .social-card:hover::before { opacity: 1; }
-        .social-card:hover::after { transform: translateX(100%); }
         .social-card:active { --lift: -3px; transition-duration: .1s; }
-        .social-card span { direction: ltr; unicode-bidi: embed; display: inline-block; position: relative; z-index: 2; }
+        .social-card span { direction: ltr; unicode-bidi: embed; display: inline-block; position: relative; z-index: 2; transform: translateZ(10px); }
 
         .social-icon {
-            font-size: 2.4rem;
+            font-size: 2.6rem;
             color: var(--terminal-green);
             transition: transform .45s cubic-bezier(.2,.8,.2,1), text-shadow .45s ease;
-            text-shadow: 0 0 10px rgba(176,176,176,.35);
+            text-shadow: 0 0 15px rgba(176,176,176,.35);
             position: relative;
             z-index: 2;
-            transform: translateZ(15px);
+            transform: translateZ(25px);
         }
 
         .social-card:hover .social-icon {
-            transform: translateZ(25px) scale(1.18) rotate(-5deg);
+            transform: translateZ(40px) scale(1.2) rotate(-5deg);
             text-shadow: 0 0 22px rgba(230,230,230,.9), 0 0 45px rgba(176,176,176,.5);
         }
 
@@ -1018,8 +927,8 @@
             nav { width: 90%; padding: 12px 20px; border-radius: 30px; }
             .menu-btn { display: block; }
             .desktop-lang-btn { display: none; }
-            .brand-mark { width: 22px; height: 22px; }
-            .brand-pulse { width: 6px; height: 6px; }
+            .brand-mark { width: 20px; height: 20px; }
+            .brand-inner { inset: 5px; }
 
             .nav-links {
                 display: none;
@@ -1064,7 +973,7 @@
             .tech-badge .fa-code, .tech-badge .fa-shield-halved { font-size: .8rem; }
 
             .projects-grid { grid-template-columns: 1fr; }
-            .project-card { aspect-ratio: auto; min-height: 220px; padding: 24px 16px 14px; }
+            .project-card { aspect-ratio: auto; min-height: 240px; padding: 26px 16px 16px; }
 
             .modal-content { padding: 25px 20px; }
             .modal-title { font-size: 1.4rem; }
@@ -1078,7 +987,10 @@
 
     <nav id="navbar">
         <a href="#home" class="nav-brand">
-            <span class="brand-mark"><span class="brand-pulse"></span></span>
+            <div class="brand-mark">
+                <div class="brand-outer"></div>
+                <div class="brand-inner"></div>
+            </div>
             <span class="brand-text">l4</span>
         </a>
 
@@ -1143,8 +1055,7 @@
             <div class="section-header" data-ar="About Me" data-en="About Me">About Me</div>
 
             <div class="about-box">
-                <p class="about-lead"
-                   translate="no"
+                <p class="about-lead" translate="no"
                    data-ar="أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالجانب النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً."
                    data-en="I'm Ziyad, an AI engineering student and developer. I don't settle for theory — I build and ship my own projects: websites, Discord bots, OSINT tools, and AI applications that real people actually use.">
                     أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالجانب النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً.
@@ -1727,12 +1638,12 @@
                 el.style.setProperty('--ry', `${((cx - x) / divisor).toFixed(2)}deg`);
                 el.style.setProperty('--mouse-x', `${x}px`);
                 el.style.setProperty('--mouse-y', `${y}px`);
-                el.style.setProperty('--sx', `${x}px`);
-                el.style.setProperty('--sy', `${y}px`);
             });
             el.addEventListener('mouseleave', () => {
                 el.style.setProperty('--rx', '0deg');
                 el.style.setProperty('--ry', '0deg');
+                el.style.setProperty('--mouse-x', '50%');
+                el.style.setProperty('--mouse-y', '50%');
             });
         }
 
@@ -1744,13 +1655,6 @@
                 badge.dataset.status = status;
                 badge.innerHTML = `<span class="status-dot"></span><span>${STATUS_LABELS[status] || status}</span>`;
                 card.appendChild(badge);
-            }
-
-            if (!card.querySelector('.card-arrow')) {
-                const arrow = document.createElement('span');
-                arrow.className = 'card-arrow';
-                arrow.textContent = '↗';
-                card.appendChild(arrow);
             }
 
             const tech = card.dataset.tech;
@@ -1765,11 +1669,11 @@
                 card.appendChild(tagsContainer);
             }
 
-            attachTilt(card, 16);
+            attachTilt(card, 18);
             card.addEventListener('click', () => openProjectModal(card));
         });
 
-        socialCards.forEach(card => attachTilt(card, 20));
+        socialCards.forEach(card => attachTilt(card, 22));
 
         function openProjectModal(card) {
             const lang = document.documentElement.lang || 'ar';
