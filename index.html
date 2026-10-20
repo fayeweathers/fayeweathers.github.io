@@ -24,9 +24,6 @@
             --terminal-green-bright: #e6e6e6;
             --terminal-green-soft: rgba(176,176,176,.18);
             --terminal-red: #ff3b30;
-            --status-live: #27c93f;
-            --status-dev: #ffbd2e;
-            --status-beta: #3b9fff;
             --presence-online: #27c93f;
             --presence-idle: #ffbd2e;
             --presence-dnd: #ff3b30;
@@ -383,16 +380,22 @@
 
         .activity-empty i { font-size: 1.3rem; color: var(--terminal-green); }
 
-        .hero-image {
+        .hero-avatar {
             width: 320px;
             height: 320px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
             border: 2px solid var(--terminal-green);
             box-shadow: 0 0 25px rgba(176,176,176,.22), 0 0 55px rgba(176,176,176,.08);
             animation: complex-morph 12s ease-in-out infinite alternate;
             position: relative;
             overflow: hidden;
             background: linear-gradient(135deg, #0a0a0a 0%, #181818 50%, #0a0a0a 100%);
-            flex-shrink: 0;
         }
 
         .hero-image img {
@@ -409,10 +412,9 @@
             opacity: 1;
         }
 
-        .hero-image::after {
-            content: '';
+        .avatar-ring {
             position: absolute;
-            inset: -8px;
+            inset: -10px;
             border: 1px solid var(--terminal-green);
             box-shadow: 0 0 10px rgba(176,176,176,.28), 0 10px 30px rgba(0,0,0,.8);
             animation: complex-morph 15s ease-in-out infinite alternate-reverse;
@@ -645,22 +647,8 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-        }
-
-        @media (min-width: 830px) {
-            .project-card:last-child:nth-child(3n + 1) {
-                grid-column: 2 / 3;
-            }
-        }
-
-        @media (min-width: 769px) and (max-width: 829px) {
-            .project-card:last-child:nth-child(2n + 1) {
-                grid-column: 1 / -1;
-                justify-self: center;
-                width: calc((100% - 20px) / 2);
-            }
         }
 
         .project-card {
@@ -669,19 +657,18 @@
             background-color: var(--bg-card);
             background-image: radial-gradient(circle 140px at var(--mouse-x) var(--mouse-y), rgba(176,176,176,.16), transparent 65%);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 26px 18px 16px;
+            border-radius: 14px;
+            padding: 16px 18px 18px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            text-align: center;
+            align-items: stretch;
+            text-align: start;
             cursor: pointer;
             transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
             position: relative;
             overflow: hidden;
-            aspect-ratio: 1 / 1;
-            gap: 8px;
+            min-height: 260px;
+            gap: 10px;
         }
 
         .project-card::before {
@@ -733,10 +720,15 @@
             transition-duration: .1s;
         }
 
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            direction: ltr;
+            min-height: 24px;
+        }
+
         .card-arrow {
-            position: absolute;
-            top: 10px;
-            right: 14px;
             font-size: 1rem;
             color: var(--terminal-green);
             opacity: 0;
@@ -744,7 +736,6 @@
             transition: opacity .3s ease, transform .3s ease;
             font-family: sans-serif;
             pointer-events: none;
-            z-index: 2;
         }
 
         .project-card:hover .card-arrow {
@@ -753,23 +744,20 @@
         }
 
         .project-status {
-            position: absolute;
-            top: 10px;
-            left: 12px;
             display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 3px 9px;
+            gap: 6px;
+            padding: 3px 10px;
             border-radius: 12px;
             font-family: 'Fira Code', monospace;
-            font-size: .6rem;
+            font-size: .62rem;
             letter-spacing: .5px;
             text-transform: uppercase;
             font-weight: 700;
+            color: var(--text-dim);
             border: 1px solid var(--border-color);
-            background: rgba(0,0,0,.55);
-            z-index: 2;
-            backdrop-filter: blur(6px);
+            background: rgba(176,176,176,.05);
+            transition: color .3s ease, border-color .3s ease;
         }
 
         .project-status .status-dot {
@@ -777,37 +765,49 @@
             height: 6px;
             border-radius: 50%;
             background: currentColor;
-            box-shadow: 0 0 6px currentColor;
-            animation: status-blink 2s ease-in-out infinite;
+            flex-shrink: 0;
         }
+
+        .project-status[data-status="live"] { color: var(--terminal-green-bright); border-color: rgba(176,176,176,.35); }
+        .project-status[data-status="live"] .status-dot { box-shadow: 0 0 8px currentColor; animation: status-blink 2s ease-in-out infinite; }
+        .project-status[data-status="beta"] { color: var(--terminal-green); }
+        .project-status[data-status="beta"] .status-dot { background: transparent; border: 1px solid currentColor; }
+        .project-status[data-status="dev"] { color: var(--text-dim); }
+        .project-status[data-status="dev"] .status-dot { opacity: .6; }
+
+        .project-card:hover .project-status { border-color: rgba(176,176,176,.45); }
 
         @keyframes status-blink {
             0%, 100% { opacity: 1; }
             50% { opacity: .5; }
         }
 
-        .project-status[data-status="live"] { color: var(--status-live); border-color: rgba(39, 201, 63, .35); }
-        .project-status[data-status="dev"] { color: var(--status-dev); border-color: rgba(255, 189, 46, .35); }
-        .project-status[data-status="beta"] { color: var(--status-beta); border-color: rgba(59, 159, 255, .35); }
-
         .project-icon {
-            font-size: 2.2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: rgba(176,176,176,.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
             color: var(--terminal-green);
-            margin-top: 8px;
-            margin-bottom: 5px;
+            margin-top: 6px;
             text-shadow: 0 0 15px rgba(176,176,176,.5);
-            transition: transform .3s ease, text-shadow .3s ease;
+            transition: transform .3s ease, border-color .3s ease, background .3s ease, box-shadow .3s ease;
         }
 
         .project-card:hover .project-icon {
-            transform: scale(1.18) rotate(-6deg);
-            text-shadow: 0 0 25px rgba(176,176,176,.9);
+            transform: translateY(-2px) rotate(-6deg);
+            border-color: var(--terminal-green);
+            background: rgba(176,176,176,.12);
+            box-shadow: 0 0 18px rgba(176,176,176,.2);
         }
 
         .project-title {
             font-size: 1.05rem;
             font-weight: bold;
-            margin-bottom: 3px;
             color: var(--text-main);
             font-family: 'Cairo', sans-serif;
             transition: color .3s ease, text-shadow .3s ease;
@@ -819,9 +819,9 @@
         }
 
         .project-desc {
-            font-size: .78rem;
+            font-size: .8rem;
             color: var(--text-dim);
-            line-height: 1.55;
+            line-height: 1.7;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
@@ -836,11 +836,10 @@
         .project-tech-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
-            justify-content: center;
+            gap: 5px;
             margin-top: auto;
-            padding-top: 8px;
-            width: 100%;
+            padding-top: 12px;
+            border-top: 1px dashed var(--border-color);
         }
 
         .project-tech-tags span {
@@ -1013,7 +1012,7 @@
             .nav-links a { justify-content: center; font-size: 1.1rem; width: 100%; }
             .mobile-lang-btn { display: block; margin: 5px auto 0; width: 50%; }
             .hero { flex-direction: column-reverse; text-align: center; gap: 30px; }
-            .hero-image { margin: 0 auto; width: 260px; height: 260px; }
+            .hero-avatar { margin: 0 auto; width: 260px; height: 260px; }
             .hero-text h1 { text-align: center; }
 
             .activity-card { padding: 14px; }
@@ -1036,11 +1035,18 @@
             .tech-badge .fa-microchip { font-size: 1.6rem; }
             .tech-badge .fa-code, .tech-badge .fa-shield-halved { font-size: .8rem; }
 
-            .projects-grid { grid-template-columns: 1fr; }
-            .project-card { aspect-ratio: auto; min-height: 220px; padding: 24px 16px 14px; }
+            .projects-grid { grid-template-columns: repeat(2, 1fr); }
+            .project-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+            .project-card { min-height: 240px; }
 
             .modal-content { padding: 25px 20px; }
             .modal-title { font-size: 1.4rem; }
+        }
+
+        @media (max-width:560px) {
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-card:last-child:nth-child(odd) { grid-column: auto; }
+            .project-card { min-height: auto; }
         }
     </style>
 </head>
@@ -1099,8 +1105,11 @@
                 </div>
             </div>
 
-            <div class="hero-image">
-                <img id="discordAvatar" alt="l4" decoding="async">
+            <div class="hero-avatar">
+                <div class="hero-image">
+                    <img id="discordAvatar" alt="l4" decoding="async">
+                </div>
+                <span class="avatar-ring"></span>
                 <div class="tech-badge" title="AI + Coding + Cybersecurity">
                     <i class="fa-solid fa-microchip"></i>
                     <i class="fa-solid fa-code"></i>
@@ -1691,20 +1700,23 @@
         const STATUS_LABELS = { live: 'Live', dev: 'In Dev', beta: 'Beta' };
 
         projectCards.forEach(card => {
-            const status = card.dataset.status;
-            if (status && !card.querySelector('.project-status')) {
+            if (!card.querySelector('.card-top')) {
+                const top = document.createElement('div');
+                top.className = 'card-top';
+
+                const status = card.dataset.status;
                 const badge = document.createElement('span');
                 badge.className = 'project-status';
-                badge.dataset.status = status;
-                badge.innerHTML = `<span class="status-dot"></span><span>${STATUS_LABELS[status] || status}</span>`;
-                card.appendChild(badge);
-            }
+                badge.dataset.status = status || '';
+                badge.innerHTML = `<span class="status-dot"></span><span>${STATUS_LABELS[status] || status || ''}</span>`;
 
-            if (!card.querySelector('.card-arrow')) {
                 const arrow = document.createElement('span');
                 arrow.className = 'card-arrow';
                 arrow.textContent = '↗';
-                card.appendChild(arrow);
+
+                top.appendChild(badge);
+                top.appendChild(arrow);
+                card.insertBefore(top, card.firstChild);
             }
 
             const tech = card.dataset.tech;
