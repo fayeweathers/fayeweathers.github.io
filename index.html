@@ -24,6 +24,9 @@
             --terminal-green-bright: #e6e6e6;
             --terminal-green-soft: rgba(176,176,176,.18);
             --terminal-red: #ff3b30;
+            --status-live: #27c93f;
+            --status-dev: #ffbd2e;
+            --status-beta: #3b9fff;
         }
 
         html { scroll-behavior: smooth; }
@@ -207,8 +210,6 @@
         .terminal-time { font-size: .75rem; color: #666; font-family: 'Fira Code', monospace; }
         .terminal p { margin-bottom: 8px; min-height: 20px; }
         .terminal-static { color: #555; }
-        .terminal-extra { min-height: 20px; font-size: .88rem; margin-top: 2px; }
-        .terminal-error { color: var(--terminal-red); text-shadow: 0 0 7px rgba(255,59,48,.35); }
 
         .blinking-cursor {
             display: inline-block;
@@ -222,7 +223,7 @@
 
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* ===== HERO IMAGE (AVATAR) ===== */
+        /* ===== HERO IMAGE / AVATAR ===== */
         .hero-image {
             width: 320px;
             height: 320px;
@@ -231,7 +232,8 @@
             animation: complex-morph 12s ease-in-out infinite alternate;
             position: relative;
             overflow: hidden;
-            background: var(--bg-card) url('avt.png') center/cover no-repeat;
+            background: linear-gradient(135deg, #0a0a0a 0%, #181818 50%, #0a0a0a 100%);
+            flex-shrink: 0;
         }
 
         .hero-image img {
@@ -240,6 +242,12 @@
             object-fit: cover;
             display: block;
             border-radius: inherit;
+            opacity: 0;
+            transition: opacity .5s ease;
+        }
+
+        .hero-image img.loaded {
+            opacity: 1;
         }
 
         .hero-image::after {
@@ -502,10 +510,10 @@
             --mouse-x: 50%;
             --mouse-y: 50%;
             background-color: var(--bg-card);
-            background-image: radial-gradient(circle 130px at var(--mouse-x) var(--mouse-y), rgba(176,176,176,.13), transparent 65%);
+            background-image: radial-gradient(circle 140px at var(--mouse-x) var(--mouse-y), rgba(176,176,176,.16), transparent 65%);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 22px 18px 16px;
+            padding: 26px 18px 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -520,9 +528,57 @@
         }
 
         .project-card::before {
-            content: '↗';
+            content: '';
             position: absolute;
-            top: 12px;
+            top: 8px;
+            left: 8px;
+            width: 12px;
+            height: 12px;
+            border-top: 1px solid var(--terminal-green);
+            border-left: 1px solid var(--terminal-green);
+            opacity: 0;
+            transform: translate(-4px, -4px);
+            transition: opacity .3s ease, transform .3s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .project-card::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 12px;
+            height: 12px;
+            border-bottom: 1px solid var(--terminal-green);
+            border-right: 1px solid var(--terminal-green);
+            opacity: 0;
+            transform: translate(4px, 4px);
+            transition: opacity .3s ease, transform .3s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .project-card:hover {
+            border-color: var(--terminal-green);
+            transform: translateY(-4px);
+            box-shadow: 0 0 28px rgba(176,176,176,.2), inset 0 0 20px rgba(176,176,176,.05);
+        }
+
+        .project-card:hover::before,
+        .project-card:hover::after {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        .project-card:active {
+            transform: translateY(-2px) scale(0.985);
+            transition-duration: .1s;
+        }
+
+        .card-arrow {
+            position: absolute;
+            top: 10px;
             right: 14px;
             font-size: 1rem;
             color: var(--terminal-green);
@@ -534,29 +590,61 @@
             z-index: 2;
         }
 
-        .project-card:hover {
-            border-color: var(--terminal-green);
-            transform: translateY(-4px);
-            box-shadow: 0 0 25px rgba(176,176,176,.18), inset 0 0 20px rgba(176,176,176,.05);
-        }
-
-        .project-card:hover::before {
+        .project-card:hover .card-arrow {
             opacity: 1;
             transform: translate(0, 0);
         }
 
+        .project-status {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: .6rem;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            font-weight: 700;
+            border: 1px solid var(--border-color);
+            background: rgba(0,0,0,.55);
+            z-index: 2;
+            backdrop-filter: blur(6px);
+        }
+
+        .project-status .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 6px currentColor;
+            animation: status-blink 2s ease-in-out infinite;
+        }
+
+        @keyframes status-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+
+        .project-status[data-status="live"] { color: var(--status-live); border-color: rgba(39, 201, 63, .35); }
+        .project-status[data-status="dev"] { color: var(--status-dev); border-color: rgba(255, 189, 46, .35); }
+        .project-status[data-status="beta"] { color: var(--status-beta); border-color: rgba(59, 159, 255, .35); }
+
         .project-icon {
             font-size: 2.2rem;
             color: var(--terminal-green);
-            margin-top: 5px;
+            margin-top: 8px;
             margin-bottom: 5px;
             text-shadow: 0 0 15px rgba(176,176,176,.5);
             transition: transform .3s ease, text-shadow .3s ease;
         }
 
         .project-card:hover .project-icon {
-            transform: scale(1.12);
-            text-shadow: 0 0 22px rgba(176,176,176,.85);
+            transform: scale(1.18) rotate(-6deg);
+            text-shadow: 0 0 25px rgba(176,176,176,.9);
         }
 
         .project-title {
@@ -565,16 +653,27 @@
             margin-bottom: 3px;
             color: var(--text-main);
             font-family: 'Cairo', sans-serif;
+            transition: color .3s ease, text-shadow .3s ease;
+        }
+
+        .project-card:hover .project-title {
+            color: #fff;
+            text-shadow: 0 0 12px rgba(230,230,230,.4);
         }
 
         .project-desc {
-            font-size: .8rem;
+            font-size: .78rem;
             color: var(--text-dim);
             line-height: 1.55;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            transition: color .3s ease;
+        }
+
+        .project-card:hover .project-desc {
+            color: #a5a5a5;
         }
 
         .project-tech-tags {
@@ -596,7 +695,19 @@
             font-size: .65rem;
             font-family: 'Fira Code', monospace;
             white-space: nowrap;
+            transition: transform .3s ease, background .3s ease, border-color .3s ease;
         }
+
+        .project-card:hover .project-tech-tags span {
+            transform: translateY(-2px);
+            background: rgba(176,176,176,.16);
+            border-color: rgba(176,176,176,.35);
+        }
+
+        .project-card:hover .project-tech-tags span:nth-child(1) { transition-delay: 0s; }
+        .project-card:hover .project-tech-tags span:nth-child(2) { transition-delay: .05s; }
+        .project-card:hover .project-tech-tags span:nth-child(3) { transition-delay: .1s; }
+        .project-card:hover .project-tech-tags span:nth-child(4) { transition-delay: .15s; }
 
         /* ============ MODAL ============ */
         .modal-overlay {
@@ -633,7 +744,7 @@
         .modal-close:hover { color: var(--terminal-green); transform: rotate(90deg); }
         .modal-icon { font-size: 3rem; color: var(--terminal-green); text-align: center; margin-bottom: 20px; text-shadow: 0 0 20px rgba(176,176,176,.5); }
         .modal-title { font-size: 1.8rem; font-family: 'Fira Code', monospace; text-align: center; margin-bottom: 15px; color: #fff; }
-        .modal-desc { color: var(--text-main); line-height: 1.8; margin-bottom: 20px; text-align: center; }
+        .modal-desc { color: var(--text-main); line-height: 1.9; margin-bottom: 20px; text-align: center; font-size: .95rem; }
 
         .modal-tech {
             display: flex;
@@ -768,7 +879,7 @@
             .tech-badge .fa-code, .tech-badge .fa-shield-halved { font-size: .8rem; }
 
             .projects-grid { grid-template-columns: 1fr; }
-            .project-card { aspect-ratio: auto; min-height: 215px; padding: 20px 16px 14px; }
+            .project-card { aspect-ratio: auto; min-height: 220px; padding: 24px 16px 14px; }
 
             .modal-content { padding: 25px 20px; }
             .modal-title { font-size: 1.4rem; }
@@ -819,8 +930,8 @@
                 </div>
             </div>
 
-            <div class="hero-image" id="heroImage">
-                <img id="discordAvatar" src="avt.png" alt="l4 avatar" loading="lazy">
+            <div class="hero-image">
+                <img id="discordAvatar" alt="l4" decoding="async">
                 <div class="tech-badge" title="AI + Coding + Cybersecurity">
                     <i class="fa-solid fa-microchip"></i>
                     <i class="fa-solid fa-code"></i>
@@ -834,40 +945,40 @@
 
             <div class="about-box">
                 <p class="about-lead"
-                   data-ar="أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. ما أحب أحفظ بس، أحب أسوي وأطلق شغلي بنفسي: مواقع، بوتات ديسكورد، أدوات OSINT، وشغلات ذكاء اصطناعي ناس فعلاً تستخدمها."
-                   data-en="I'm Ziyad, an AI engineering student and dev. I don't just memorize stuff — I build and ship my own things: websites, Discord bots, OSINT tools, and AI stuff people actually use.">
-                    أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. ما أحب أحفظ بس، أحب أسوي وأطلق شغلي بنفسي: مواقع، بوتات ديسكورد، أدوات OSINT، وشغلات ذكاء اصطناعي ناس فعلاً تستخدمها.
+                   data-ar="أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالتعلم النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً."
+                   data-en="I'm Ziyad, an AI engineering student and developer. I don't settle for theory — I build and ship my own projects: websites, Discord bots, OSINT tools, and AI applications that real people actually use.">
+                    أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالتعلم النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً.
                 </p>
 
                 <div class="about-focus-grid">
                     <div class="focus-card">
                         <i class="fa-solid fa-laptop-code"></i>
                         <h4 data-ar="تطوير الويب" data-en="Web Development">تطوير الويب</h4>
-                        <p data-ar="أسوي مواقع شكلها نظيف، سريعة، وما تطفش المستخدم."
-                           data-en="I build sites that look clean, run fast, and don't annoy the user.">أسوي مواقع شكلها نظيف، سريعة، وما تطفش المستخدم.</p>
+                        <p data-ar="أبني مواقع نظيفة وسريعة، بتجربة استخدام سلسة ومريحة."
+                           data-en="I build clean, fast websites with a smooth and comfortable user experience.">أبني مواقع نظيفة وسريعة، بتجربة استخدام سلسة ومريحة.</p>
                     </div>
                     <div class="focus-card">
                         <i class="fa-solid fa-robot"></i>
                         <h4 data-ar="بوتات ديسكورد والأتمتة" data-en="Discord Bots & Automation">بوتات ديسكورد والأتمتة</h4>
-                        <p data-ar="بوتات إدارة وحماية، وأخلّي الشغلات المتكررة تشتغل لحالها بدل ما أضيع فيها وقتي."
-                           data-en="Mod and protection bots, plus automating boring repeated stuff so I'm not wasting time on it.">بوتات إدارة وحماية، وأخلّي الشغلات المتكررة تشتغل لحالها بدل ما أضيع فيها وقتي.</p>
+                        <p data-ar="بوتات إدارة وحماية، مع أتمتة للمهام المتكررة لتوفير الوقت والجهد."
+                           data-en="Moderation and protection bots, plus automation for repetitive tasks to save time and effort.">بوتات إدارة وحماية، مع أتمتة للمهام المتكررة لتوفير الوقت والجهد.</p>
                     </div>
                     <div class="focus-card">
                         <i class="fa-solid fa-user-secret"></i>
                         <h4 data-ar="OSINT والأمن السيبراني" data-en="OSINT & Cybersecurity">OSINT والأمن السيبراني</h4>
-                        <p data-ar="أجمع معلومات من مصادر مفتوحة، أفحص نطاقات، وأسوي أدوات استطلاع بس بشكل أخلاقي."
-                           data-en="Pulling info from open sources, checking domains, and building recon tools — the ethical way.">أجمع معلومات من مصادر مفتوحة، أفحص نطاقات، وأسوي أدوات استطلاع بس بشكل أخلاقي.</p>
+                        <p data-ar="جمع المعلومات من المصادر المفتوحة، وتحليل النطاقات، وبناء أدوات استطلاع أخلاقية."
+                           data-en="Gathering information from open sources, analyzing domains, and building ethical reconnaissance tools.">جمع المعلومات من المصادر المفتوحة، وتحليل النطاقات، وبناء أدوات استطلاع أخلاقية.</p>
                     </div>
                     <div class="focus-card">
                         <i class="fa-solid fa-brain"></i>
                         <h4 data-ar="الذكاء الاصطناعي وتدريب النماذج" data-en="AI & Model Training">الذكاء الاصطناعي وتدريب النماذج</h4>
-                        <p data-ar="أدرّب نماذج على بيانات خاصة وأحسّنها، وأبني مساعدين يشتغلون صح."
-                           data-en="Training models on custom data, fine-tuning them, and building assistants that actually work.">أدرّب نماذج على بيانات خاصة وأحسّنها، وأبني مساعدين يشتغلون صح.</p>
+                        <p data-ar="تدريب النماذج على بيانات مخصصة وتحسين أدائها، وبناء مساعدين أذكياء."
+                           data-en="Training models on custom data, optimizing their performance, and building smart assistants.">تدريب النماذج على بيانات مخصصة وتحسين أدائها، وبناء مساعدين أذكياء.</p>
                     </div>
                 </div>
 
                 <div class="about-skills-block">
-                    <h4 data-ar="الأشياء اللي أشتغل عليها" data-en="Stuff I Work With">الأشياء اللي أشتغل عليها</h4>
+                    <h4 data-ar="التقنيات التي أعمل بها" data-en="Technologies I Work With">التقنيات التي أعمل بها</h4>
                     <div class="skill-chips">
                         <span class="skill-chip">JavaScript</span>
                         <span class="skill-chip">Node.js</span>
@@ -885,15 +996,15 @@
                 </div>
 
                 <p class="about-paragraph"
-                   data-ar="بعيد عن الأدوات، أشتغل على شغلات OSINT، وأدرّب نماذج ذكاء اصطناعي على بيانات خاصة، وأخلّي الشغل المتكرر يتأتمت لحاله. كل مشروع أبدأه يطلع من مشكلة حقيقية، وينتهي بشيء الناس فعلاً تستخدمه."
-                   data-en="Outside of tools, I do OSINT stuff, train AI models on custom data, and automate repetitive work so it runs itself. Every project I start comes from a real problem and ends with something people actually use.">
-                    بعيد عن الأدوات، أشتغل على شغلات OSINT، وأدرّب نماذج ذكاء اصطناعي على بيانات خاصة، وأخلّي الشغل المتكرر يتأتمت لحاله. كل مشروع أبدأه يطلع من مشكلة حقيقية، وينتهي بشيء الناس فعلاً تستخدمه.
+                   data-ar="خارج نطاق الأدوات، أعمل على أبحاث OSINT، وأدرّب نماذج ذكاء اصطناعي على بيانات مخصصة، وأتمت المهام المتكررة لتعمل ذاتياً. كل مشروع أبدأه ينطلق من مشكلة حقيقية، وينتهي بأداة يستخدمها الناس فعلياً."
+                   data-en="Beyond tooling, I work on OSINT research, train AI models on custom data, and automate repetitive tasks to run autonomously. Every project I start begins with a real problem and ends with a tool people actually use.">
+                    خارج نطاق الأدوات، أعمل على أبحاث OSINT، وأدرّب نماذج ذكاء اصطناعي على بيانات مخصصة، وأتمت المهام المتكررة لتعمل ذاتياً. كل مشروع أبدأه ينطلق من مشكلة حقيقية، وينتهي بأداة يستخدمها الناس فعلياً.
                 </p>
 
                 <p class="about-closing"
-                   data-ar="شغلت مع عملاء حقيقيين وسلّمت لهم شغل، وما زلت كل يوم أسوي شي جديد."
-                   data-en="I've worked with real clients and delivered, and I'm still shipping something new every day.">
-                    شغلت مع عملاء حقيقيين وسلّمت لهم شغل، وما زلت كل يوم أسوي شي جديد.
+                   data-ar="عملت مع عملاء حقيقيين وسلّمت مشاريع مكتملة، وما زلت أطلق شيئاً جديداً باستمرار."
+                   data-en="I've worked with real clients and delivered completed projects, and I keep shipping something new.">
+                    عملت مع عملاء حقيقيين وسلّمت مشاريع مكتملة، وما زلت أطلق شيئاً جديداً باستمرار.
                 </p>
 
                 <div class="author-signature">
@@ -910,147 +1021,147 @@
             <div class="projects-grid">
 
                 <!-- 1 -->
-                <article class="project-card"
+                <article class="project-card" data-status="beta"
                     data-title-ar="المساعد العصبي"
                     data-title-en="Neural Assistant"
-                    data-desc-ar="مساعد ذكاء اصطناعي يشتغل عندك، مبني على نماذج دربتها بنفسي."
-                    data-desc-en="An AI assistant that runs on your machine, built on models I trained myself."
-                    data-details-ar="مساعد ذكاء اصطناعي شغال محلياً، مبني على نماذج دربتها وحسنتها على بيانات خاصة. يعطيك إجابات دقيقة ويساعدك بشغلك اليومي، وفيه API نظيف تقدر توصله بأي نظام."
-                    data-details-en="An AI assistant running locally, built on models I trained and fine-tuned on custom data. Gives accurate answers and helps with daily tasks, with a clean API you can hook to any system."
+                    data-desc-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة."
+                    data-desc-en="A local AI assistant powered by models trained on custom data."
+                    data-details-ar="مساعد ذكاء اصطناعي يعمل محلياً على نماذج دُرّبت وحُسّنت ببيانات مخصصة. يوفر إجابات دقيقة وواجهة API نظيفة للتكامل مع أي نظام خارجي."
+                    data-details-en="A locally hosted AI assistant running on models trained and fine-tuned with custom data. It delivers accurate answers and a clean API interface for integration with any external system."
                     data-tech="Python, PyTorch, Transformers, FastAPI"
                     data-link=""
                     data-icon="fa-brain">
                     <div class="project-icon"><i class="fa-solid fa-brain"></i></div>
                     <h3 class="project-title" data-ar="المساعد العصبي" data-en="Neural Assistant">المساعد العصبي</h3>
-                    <p class="project-desc" data-ar="مساعد ذكاء اصطناعي يشتغل عندك، مبني على نماذج دربتها بنفسي." data-en="An AI assistant that runs on your machine, built on models I trained myself.">مساعد ذكاء اصطناعي يشتغل عندك، مبني على نماذج دربتها بنفسي.</p>
+                    <p class="project-desc" data-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة." data-en="A local AI assistant powered by models trained on custom data.">مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة.</p>
                 </article>
 
                 <!-- 2 -->
-                <article class="project-card"
+                <article class="project-card" data-status="dev"
                     data-title-ar="أداة OSINT Recon"
                     data-title-en="OSINT Recon"
-                    data-desc-ar="أدوات OSINT تجمع لك المعلومات من مصادر مفتوحة وتطلعها في تقرير مرتب."
-                    data-desc-en="OSINT tools that pull info from open sources and put it in one tidy report."
-                    data-details-ar="أداة OSINT تجمع كم شغلة: تعداد يوزرات عبر المنصات، فحص النطاقات وسجلات DNS، سحب معلومات من الملفات، وتنظم كل شي بتقرير واحد يسهّل تحليله."
-                    data-details-en="An OSINT tool that does a few things: username enumeration across platforms, domain and DNS recon, metadata extraction from files, and organizes everything into one report that's easy to analyze."
+                    data-desc-ar="أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد."
+                    data-desc-en="OSINT tools for gathering and analyzing information in one unified report."
+                    data-details-ar="منصة استطلاع أخلاقي تجمع تعداد الحسابات عبر المنصات، فحص النطاقات وسجلات DNS، واستخراج البيانات الوصفية من الملفات، ثم تنظيم النتائج في تقرير موحد جاهز للتحليل."
+                    data-details-en="An ethical reconnaissance platform that combines username enumeration across platforms, domain and DNS recon, and metadata extraction from files, then organizes the findings into a unified, analysis-ready report."
                     data-tech="Python, AsyncIO, HTTPX, APIs"
                     data-link=""
                     data-icon="fa-user-secret">
                     <div class="project-icon"><i class="fa-solid fa-user-secret"></i></div>
                     <h3 class="project-title" data-ar="أداة OSINT Recon" data-en="OSINT Recon">أداة OSINT Recon</h3>
-                    <p class="project-desc" data-ar="أدوات OSINT تجمع لك المعلومات من مصادر مفتوحة وتطلعها في تقرير مرتب." data-en="OSINT tools that pull info from open sources and put it in one tidy report.">أدوات OSINT تجمع لك المعلومات من مصادر مفتوحة وتطلعها في تقرير مرتب.</p>
+                    <p class="project-desc" data-ar="أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد." data-en="OSINT tools for gathering and analyzing information in one unified report.">أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد.</p>
                 </article>
 
                 <!-- 3 -->
-                <article class="project-card"
+                <article class="project-card" data-status="dev"
                     data-title-ar="Ash Avatar"
                     data-title-en="Ash Avatar"
-                    data-desc-ar="موقع يساعدك تلقى أفتار يعجبك بسرعة، ومرتب حسب ذوقك."
-                    data-desc-en="A site that helps you find an avatar you like fast, sorted by your taste."
-                    data-details-ar="موقع شغال عليه، فكرته إنك تلقى أفتارات تناسبك بدون ما تتعب بالبحث. فيه تصنيف وبحث سريع، ولسه قيد التطوير."
-                    data-details-en="A site I'm working on — the idea is you find avatars that fit you without wasting time searching. Has categories and fast search, still in development."
+                    data-desc-ar="منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع."
+                    data-desc-en="An avatar discovery platform with smart categorization and fast search."
+                    data-details-ar="منصة لاكتشاف الأفتارات مع تصنيف ذكي وبحث سريع، تهدف لاختصار وقت البحث ومساعدة المستخدم في إيجاد ما يناسب ذوقه. المشروع قيد التطوير."
+                    data-details-en="An avatar discovery platform with smart categorization and fast search, designed to save time and help users find what suits their taste. Currently in development."
                     data-tech="HTML, CSS, JavaScript"
                     data-link=""
                     data-icon="fa-images">
                     <div class="project-icon"><i class="fa-solid fa-images"></i></div>
                     <h3 class="project-title" data-ar="Ash Avatar" data-en="Ash Avatar">Ash Avatar</h3>
-                    <p class="project-desc" data-ar="موقع يساعدك تلقى أفتار يعجبك بسرعة، ومرتب حسب ذوقك." data-en="A site that helps you find an avatar you like fast, sorted by your taste.">موقع يساعدك تلقى أفتار يعجبك بسرعة، ومرتب حسب ذوقك.</p>
+                    <p class="project-desc" data-ar="منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع." data-en="An avatar discovery platform with smart categorization and fast search.">منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع.</p>
                 </article>
 
                 <!-- 4 -->
-                <article class="project-card"
+                <article class="project-card" data-status="live"
                     data-title-ar="بوت حماية السيرفر"
                     data-title-en="Server Protection Bot"
-                    data-desc-ar="بوت يراقب السيرفر ويوقف التخريب والسبام قبل لا يصير."
-                    data-desc-en="A bot that watches the server and stops vandalism and spam before it happens."
-                    data-details-ar="بوت حماية يلاحظ أي شي غريب يصير في السيرفر ويوقف الإجراءات الضارة والسبام، مع تنبيه للمشرفين على طول."
-                    data-details-en="A protection bot that catches anything weird happening in the server and stops harmful actions and spam, with instant alerts for mods."
+                    data-desc-ar="حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة."
+                    data-desc-en="Real-time server protection with automatic detection of suspicious activity."
+                    data-details-ar="بوت حماية يراقب نشاط السيرفر لحظياً ويكتشف الأنشطة المشبوهة والإجراءات الإدارية الضارة، مع تنبيهات فورية للمشرفين وحد تلقائي للسبام."
+                    data-details-en="A protection bot that monitors server activity in real time and detects suspicious activity and harmful moderation actions, with instant mod alerts and automatic spam mitigation."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
                     data-icon="fa-shield-halved">
                     <div class="project-icon"><i class="fa-solid fa-shield-halved"></i></div>
                     <h3 class="project-title" data-ar="بوت حماية السيرفر" data-en="Server Protection Bot">بوت حماية السيرفر</h3>
-                    <p class="project-desc" data-ar="بوت يراقب السيرفر ويوقف التخريب والسبام قبل لا يصير." data-en="A bot that watches the server and stops vandalism and spam before it happens.">بوت يراقب السيرفر ويوقف التخريب والسبام قبل لا يصير.</p>
+                    <p class="project-desc" data-ar="حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة." data-en="Real-time server protection with automatic detection of suspicious activity.">حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة.</p>
                 </article>
 
                 <!-- 5 -->
-                <article class="project-card"
+                <article class="project-card" data-status="live"
                     data-title-ar="بوت إدارة السيرفر"
                     data-title-en="Server Management Bot"
-                    data-desc-ar="أوامر إدارة كاملة: حظر، طرد، كتم، تايم أوت، وسجل لكل شي يصير."
-                    data-desc-en="Full mod commands: ban, kick, mute, timeout, and a log for everything that happens."
-                    data-details-ar="بوت إدارة للسيرفر فيه كل اللي تحتاجه: حظر وطرد وكتم وتايم أوت، مع سجل لحظي لكل إجراء ونظام أذونات يتظبط على أي سيرفر."
-                    data-details-en="A server management bot with everything you need: ban, kick, mute, timeout, live logs for every action, and a permission system that fits any server."
+                    data-desc-ar="أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن."
+                    data-desc-en="Complete management tools with live logs and a flexible permission system."
+                    data-details-ar="بوت إدارة متكامل يشمل الحظر والطرد والكتم والتايم أوت، مع سجلات لحظية لكل إجراء ونظام أذونات مرن قابل للتخصيص لكل سيرفر."
+                    data-details-en="A complete management bot with ban, kick, mute, and timeout commands, along with live logs for every action and a flexible permission system customizable for each server."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
                     data-icon="fa-gavel">
                     <div class="project-icon"><i class="fa-solid fa-gavel"></i></div>
                     <h3 class="project-title" data-ar="بوت إدارة السيرفر" data-en="Server Management Bot">بوت إدارة السيرفر</h3>
-                    <p class="project-desc" data-ar="أوامر إدارة كاملة: حظر، طرد، كتم، تايم أوت، وسجل لكل شي يصير." data-en="Full mod commands: ban, kick, mute, timeout, and a log for everything that happens.">أوامر إدارة كاملة: حظر، طرد، كتم، تايم أوت، وسجل لكل شي يصير.</p>
+                    <p class="project-desc" data-ar="أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن." data-en="Complete management tools with live logs and a flexible permission system.">أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن.</p>
                 </article>
 
                 <!-- 6 -->
-                <article class="project-card"
+                <article class="project-card" data-status="live"
                     data-title-ar="بوت الموسيقى"
                     data-title-en="Music Bot"
-                    data-desc-ar="بوت موسيقى يشغّل صوت نقي داخل ديسكورد، مع فلاتر وتقدر تتحكم بالقائمة كاملة."
-                    data-desc-en="A music bot with clean audio in Discord, filters, and full playlist control."
-                    data-details-ar="بوت موسيقى يشغّل الصوت بجودة عالية، فيه فلاترات مثل باس و8D وإيكو، وتقدر تتحكم بالقائمة والطابور مع أعضاء السيرفر."
-                    data-details-en="A music bot that plays audio in high quality with filters like bass, 8D, and echo, and full control over the playlist and queue with server members."
+                    data-desc-ar="تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة."
+                    data-desc-en="High-quality audio playback with filters and full queue control."
+                    data-details-ar="بوت موسيقى يوفر تشغيلاً صوتياً عالي الجودة مع فلاترات متعددة (باس، 8D، إيكو) وتحكم كامل بقائمة التشغيل والطابور المشترك بين الأعضاء."
+                    data-details-en="A music bot offering high-quality audio playback with multiple filters (bass, 8D, echo) and full control over the playlist and shared queue among members."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
                     data-icon="fa-music">
                     <div class="project-icon"><i class="fa-solid fa-music"></i></div>
                     <h3 class="project-title" data-ar="بوت الموسيقى" data-en="Music Bot">بوت الموسيقى</h3>
-                    <p class="project-desc" data-ar="بوت موسيقى يشغّل صوت نقي داخل ديسكورد، مع فلاتر وتقدر تتحكم بالقائمة كاملة." data-en="A music bot with clean audio in Discord, filters, and full playlist control.">بوت موسيقى يشغّل صوت نقي داخل ديسكورد، مع فلاتر وتقدر تتحكم بالقائمة كاملة.</p>
+                    <p class="project-desc" data-ar="تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة." data-en="High-quality audio playback with filters and full queue control.">تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة.</p>
                 </article>
 
                 <!-- 7 -->
-                <article class="project-card"
+                <article class="project-card" data-status="live"
                     data-title-ar="بوت Tellonym"
                     data-title-en="Tellonym Bot"
-                    data-desc-ar="بوت يجيب لك بروفايل Tellonym كامل داخل ديسكورد: الصورة، المتابعين، آخر الرسائل، والأكثر تفاعل."
-                    data-desc-en="A bot that pulls a full Tellonym profile into Discord: pic, followers, latest tells, and the most interacted one."
-                    data-details-ar="بوت يعرض معلومات حساب Tellonym في إمبد، فيه الصورة وعدد المتابعين وآخر 10 رسائل والرسالة الأكثر تفاعل، ويحدّث البيانات لحاله."
-                    data-details-en="A bot that shows Tellonym profile info in an embed — pic, follower count, latest 10 tells, and the most interacted tell, updating on its own."
+                    data-desc-ar="عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي."
+                    data-desc-en="Full Tellonym profile inside Discord with automatic updates."
+                    data-details-ar="بوت يسحب بيانات حساب Tellonym ويعرضها في إمبد تفاعلي يشمل الصورة الشخصية وعدد المتابعين وآخر الرسائل والأكثر تفاعلاً، مع تحديث تلقائي للبيانات."
+                    data-details-en="A bot that pulls Tellonym profile data and displays it in an interactive embed — including the profile picture, follower count, latest messages, and the most interacted one, with automatic data updates."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
                     data-icon="fa-comment-dots">
                     <div class="project-icon"><i class="fa-solid fa-comment-dots"></i></div>
                     <h3 class="project-title" data-ar="بوت Tellonym" data-en="Tellonym Bot">بوت Tellonym</h3>
-                    <p class="project-desc" data-ar="بوت يجيب لك بروفايل Tellonym كامل داخل ديسكورد: الصورة، المتابعين، آخر الرسائل، والأكثر تفاعل." data-en="A bot that pulls a full Tellonym profile into Discord: pic, followers, latest tells, and the most interacted one.">بوت يجيب لك بروفايل Tellonym كامل داخل ديسكورد: الصورة، المتابعين، آخر الرسائل، والأكثر تفاعل.</p>
+                    <p class="project-desc" data-ar="عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي." data-en="Full Tellonym profile inside Discord with automatic updates.">عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي.</p>
                 </article>
 
                 <!-- 8 -->
-                <article class="project-card"
+                <article class="project-card" data-status="live"
                     data-title-ar="بوت الأفتارات"
                     data-title-en="Avatar Bot"
-                    data-desc-ar="بوت يعرض لك الأفتار ويحفظ لك صورة حسابك والبنر بضغطة."
-                    data-desc-en="A bot that shows you avatars and saves your profile pic and banner in one click."
-                    data-details-ar="بوت تقدر تشوف منه الأفتارات قبل تستخدمها، وتنزّل صورة حسابك أو البنر بجودة عالية وأنت داخل السيرفر."
-                    data-details-en="A bot where you can preview avatars before using them, and download your profile pic or banner in high quality right inside the server."
+                    data-desc-ar="معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة."
+                    data-desc-en="Preview and download avatars and banners in one click."
+                    data-details-ar="بوت يتيح معاينة الأفتارات قبل الاستخدام وتنزيل صور الحسابات والبنرات بجودة عالية، دون الحاجة لمغادرة السيرفر."
+                    data-details-en="A bot that allows previewing avatars before use and downloading profile pictures and banners in high quality, without leaving the server."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
                     data-icon="fa-circle-user">
                     <div class="project-icon"><i class="fa-solid fa-circle-user"></i></div>
                     <h3 class="project-title" data-ar="بوت الأفتارات" data-en="Avatar Bot">بوت الأفتارات</h3>
-                    <p class="project-desc" data-ar="بوت يعرض لك الأفتار ويحفظ لك صورة حسابك والبنر بضغطة." data-en="A bot that shows you avatars and saves your profile pic and banner in one click.">بوت يعرض لك الأفتار ويحفظ لك صورة حسابك والبنر بضغطة.</p>
+                    <p class="project-desc" data-ar="معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة." data-en="Preview and download avatars and banners in one click.">معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة.</p>
                 </article>
 
                 <!-- 9 -->
-                <article class="project-card"
+                <article class="project-card" data-status="live"
                     data-title-ar="بوت أذكار"
                     data-title-en="Adhkar Bot"
-                    data-desc-ar="بوت يذكّرك بالأذكار والصلاة داخل السيرفر بشكل تلقائي."
-                    data-desc-en="A bot that sends you adhkar and prayer reminders inside the server, automatically."
-                    data-details-ar="بوت يرسل أذكار وتذكيرات بالصلاة والدعاء لحاله، يشتغل على أكثر من سيرفر، وتقدر تتحكم بأوقات الإشعارات."
-                    data-details-en="A bot that sends adhkar and prayer/supplication reminders on its own, works on multiple servers, and you can customize notification times."
+                    data-desc-ar="أذكار وتذكيرات صلاة تلقائية مع تخصيص كامل للأوقات."
+                    data-desc-en="Automatic adhkar and prayer reminders with full time customization."
+                    data-details-ar="بوت يرسل الأذكار وتذكيرات الصلاة والدعاء بشكل تلقائي، يدعم سيرفرات متعددة ويتيح تخصيص أوقات الإشعارات بحسب كل سيرفر."
+                    data-details-en="A bot that automatically sends adhkar and prayer/supplication reminders, supports multiple servers, and allows customizing notification times per server."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
                     data-icon="fa-hands-praying">
                     <div class="project-icon"><i class="fa-solid fa-hands-praying"></i></div>
                     <h3 class="project-title" data-ar="بوت أذكار" data-en="Adhkar Bot">بوت أذكار</h3>
-                    <p class="project-desc" data-ar="بوت يذكّرك بالأذكار والصلاة داخل السيرفر بشكل تلقائي." data-en="A bot that sends you adhkar and prayer reminders inside the server, automatically.">بوت يذكّرك بالأذكار والصلاة داخل السيرفر بشكل تلقائي.</p>
+                    <p class="project-desc" data-ar="أذكار وتذكيرات صلاة تلقائية مع تخصيص كامل للأوقات." data-en="Automatic adhkar and prayer reminders with full time customization.">أذكار وتذكيرات صلاة تلقائية مع تخصيص كامل للأوقات.</p>
                 </article>
 
             </div>
@@ -1096,42 +1207,64 @@
     </div>
 
     <script>
-        /* ====== DISCORD AVATAR (LANYARD) ====== */
+        /* ==========================================================
+           DISCORD AVATAR (Lanyard)
+           - يُظهر الأفتار من الكاش فوراً (بدون وميض PNG)
+           - يحدّث تلقائياً كل دقيقة
+           - يُخزّن رابط الأفتار في localStorage
+           - في حال عدم وجود كاش، يظهر خلفية متدرجة أثناء التحميل
+        ========================================================== */
         const DISCORD_USER_ID = "1356618809078841458";
+        const AVATAR_CACHE_KEY = 'l4_discord_avatar_v1';
+        const DEFAULT_AVATAR = 'https://cdn.discordapp.com/embed/avatars/0.png';
         const avatarImg = document.getElementById('discordAvatar');
-        let lastAvatarHash = null;
 
-        async function fetchDiscordAvatar() {
+        avatarImg.addEventListener('load', () => avatarImg.classList.add('loaded'));
+
+        async function refreshAvatar() {
             try {
-                const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`);
+                const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`, { cache: 'no-store' });
                 const json = await res.json();
-
-                if (!json.success || !json.data || !json.data.discord_user) return;
+                if (!json.success || !json.data || !json.data.discord_user) throw new Error('no data');
 
                 const user = json.data.discord_user;
-                const hash = user.avatar;
+                let newUrl;
 
-                if (!hash) {
-                    avatarImg.src = `https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator || '0') % 5}.png`;
-                    return;
+                if (!user.avatar) {
+                    newUrl = DEFAULT_AVATAR;
+                } else {
+                    const ext = user.avatar.startsWith('a_') ? 'gif' : 'png';
+                    newUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=512`;
                 }
 
-                if (hash === lastAvatarHash) return;
-                lastAvatarHash = hash;
-
-                const ext = hash.startsWith('a_') ? 'gif' : 'png';
-                avatarImg.src = `https://cdn.discordapp.com/avatars/${user.id}/${hash}.${ext}?size=512`;
+                const cached = localStorage.getItem(AVATAR_CACHE_KEY);
+                if (cached !== newUrl) {
+                    localStorage.setItem(AVATAR_CACHE_KEY, newUrl);
+                    avatarImg.src = newUrl;
+                } else if (!avatarImg.src || avatarImg.src !== newUrl) {
+                    avatarImg.src = newUrl;
+                }
             } catch (e) {
-                // fallback: keep whatever is already in the img src (avt.png)
+                if (!avatarImg.src || avatarImg.src === window.location.href) {
+                    avatarImg.src = DEFAULT_AVATAR;
+                }
             }
         }
 
+        // ابدأ فوراً من الكاش (إن وُجد) - يشيل الوميض تماماً
+        (function() {
+            const cached = localStorage.getItem(AVATAR_CACHE_KEY);
+            if (cached) avatarImg.src = cached;
+        })();
+
         window.addEventListener('load', () => {
-            fetchDiscordAvatar();
-            setInterval(fetchDiscordAvatar, 60000);
+            refreshAvatar();
+            setInterval(refreshAvatar, 60000);
         });
 
-        /* ====== CURSOR GLOW ====== */
+        /* ==========================================================
+           CURSOR GLOW
+        ========================================================== */
         const cursorGlow = document.querySelector('.cursor-glow');
 
         window.addEventListener('mousemove', (e) => {
@@ -1406,7 +1539,28 @@
         const modalTech = document.getElementById('modalTech');
         const modalLink = document.getElementById('modalLink');
 
+        const STATUS_LABELS = { live: 'Live', dev: 'In Dev', beta: 'Beta' };
+
         projectCards.forEach(card => {
+            // شارة الحالة
+            const status = card.dataset.status;
+            if (status && !card.querySelector('.project-status')) {
+                const badge = document.createElement('span');
+                badge.className = 'project-status';
+                badge.dataset.status = status;
+                badge.innerHTML = `<span class="status-dot"></span><span>${STATUS_LABELS[status] || status}</span>`;
+                card.appendChild(badge);
+            }
+
+            // سهم عند المرور
+            if (!card.querySelector('.card-arrow')) {
+                const arrow = document.createElement('span');
+                arrow.className = 'card-arrow';
+                arrow.textContent = '↗';
+                card.appendChild(arrow);
+            }
+
+            // وسوم التقنيات
             const tech = card.dataset.tech;
             if (tech && !card.querySelector('.project-tech-tags')) {
                 const tagsContainer = document.createElement('div');
@@ -1419,6 +1573,7 @@
                 card.appendChild(tagsContainer);
             }
 
+            // توهج يتبع الماوس
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
