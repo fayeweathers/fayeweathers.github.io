@@ -27,6 +27,10 @@
             --status-live: #27c93f;
             --status-dev: #ffbd2e;
             --status-beta: #3b9fff;
+            --presence-online: #27c93f;
+            --presence-idle: #ffbd2e;
+            --presence-dnd: #ff3b30;
+            --presence-offline: #555555;
         }
 
         html { scroll-behavior: smooth; }
@@ -223,7 +227,160 @@
 
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* ===== HERO IMAGE / AVATAR ===== */
+        .activity-card {
+            margin-top: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 18px;
+            transition: border-color .3s ease, box-shadow .3s ease;
+        }
+
+        .activity-card:hover {
+            border-color: var(--terminal-green);
+            box-shadow: 0 0 22px rgba(176,176,176,.14), inset 0 0 20px rgba(176,176,176,.04);
+        }
+
+        .activity-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .activity-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: .78rem;
+            color: var(--text-main);
+            white-space: nowrap;
+        }
+
+        .activity-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--presence-offline);
+            color: var(--presence-offline);
+            flex-shrink: 0;
+        }
+
+        .activity-dot[data-s="online"] { background: var(--presence-online); color: var(--presence-online); box-shadow: 0 0 8px currentColor; animation: status-blink 2s ease-in-out infinite; }
+        .activity-dot[data-s="idle"] { background: var(--presence-idle); color: var(--presence-idle); box-shadow: 0 0 8px currentColor; }
+        .activity-dot[data-s="dnd"] { background: var(--presence-dnd); color: var(--presence-dnd); box-shadow: 0 0 8px currentColor; }
+
+        .activity-custom {
+            font-size: .78rem;
+            color: var(--text-dim);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
+        }
+
+        .activity-list { display: flex; flex-direction: column; gap: 14px; }
+
+        .activity-item { display: flex; align-items: center; gap: 14px; }
+
+        .activity-art {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: rgba(176,176,176,.06);
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .activity-art i {
+            font-size: 1.6rem;
+            color: var(--terminal-green);
+            text-shadow: 0 0 15px rgba(176,176,176,.5);
+        }
+
+        .activity-art img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: var(--bg-card);
+        }
+
+        .activity-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; text-align: start; }
+
+        .activity-type {
+            font-family: 'Fira Code', monospace;
+            font-size: .68rem;
+            color: var(--terminal-green);
+        }
+
+        .activity-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .activity-line {
+            font-size: .78rem;
+            color: var(--text-dim);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0;
+        }
+
+        .activity-time {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+            font-family: 'Fira Code', monospace;
+            font-size: .65rem;
+            color: var(--text-dim);
+            direction: ltr;
+        }
+
+        .activity-bar {
+            flex: 1;
+            height: 3px;
+            border-radius: 3px;
+            background: var(--border-color);
+            overflow: hidden;
+        }
+
+        .activity-bar span {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: var(--terminal-green);
+            box-shadow: 0 0 8px rgba(176,176,176,.6);
+            transition: width .5s linear;
+        }
+
+        .activity-empty {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-dim);
+            font-size: .85rem;
+        }
+
+        .activity-empty i { font-size: 1.3rem; color: var(--terminal-green); }
+
         .hero-image {
             width: 320px;
             height: 320px;
@@ -314,7 +471,6 @@
             background: var(--terminal-green);
         }
 
-        /* ============ ABOUT ============ */
         .about-box {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -485,7 +641,6 @@
             font-weight: bold;
         }
 
-        /* ============ PROJECTS ============ */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -709,7 +864,6 @@
         .project-card:hover .project-tech-tags span:nth-child(3) { transition-delay: .1s; }
         .project-card:hover .project-tech-tags span:nth-child(4) { transition-delay: .15s; }
 
-        /* ============ MODAL ============ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -781,7 +935,6 @@
 
         .modal-link:hover { background: #fff; color: #000; transform: scale(1.05); box-shadow: 0 0 20px rgba(176,176,176,.4); }
 
-        /* ============ SOCIALS ============ */
         .social-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 15px; }
 
         .social-card {
@@ -861,6 +1014,9 @@
             .hero-image { margin: 0 auto; width: 260px; height: 260px; }
             .hero-text h1 { text-align: center; }
 
+            .activity-card { padding: 14px; }
+            .activity-art { width: 56px; height: 56px; }
+
             .about-box {
                 padding: 32px 18px;
                 font-size: .92rem;
@@ -927,6 +1083,17 @@
                     <p class="terminal-static">> root@l4:~# ./start_system.sh</p>
                     <p id="animated-log"></p>
                     <p id="dynamic-log"></p>
+                </div>
+
+                <div class="activity-card" id="activityCard">
+                    <div class="activity-header">
+                        <div class="activity-status">
+                            <span class="activity-dot" id="activityDot" data-s="offline"></span>
+                            <span id="activityStatusText">--</span>
+                        </div>
+                        <span class="activity-custom" id="activityCustom"></span>
+                    </div>
+                    <div class="activity-list" id="activityList"></div>
                 </div>
             </div>
 
@@ -1020,7 +1187,6 @@
 
             <div class="projects-grid">
 
-                <!-- 1 -->
                 <article class="project-card" data-status="beta"
                     data-title-ar="المساعد العصبي"
                     data-title-en="Neural Assistant"
@@ -1036,7 +1202,6 @@
                     <p class="project-desc" data-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة." data-en="A local AI assistant powered by models trained on custom data.">مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة.</p>
                 </article>
 
-                <!-- 2 -->
                 <article class="project-card" data-status="dev"
                     data-title-ar="أداة OSINT Recon"
                     data-title-en="OSINT Recon"
@@ -1052,7 +1217,6 @@
                     <p class="project-desc" data-ar="أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد." data-en="OSINT tools for gathering and analyzing information in one unified report.">أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد.</p>
                 </article>
 
-                <!-- 3 -->
                 <article class="project-card" data-status="dev"
                     data-title-ar="Ash Avatar"
                     data-title-en="Ash Avatar"
@@ -1068,7 +1232,6 @@
                     <p class="project-desc" data-ar="منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع." data-en="An avatar discovery platform with smart categorization and fast search.">منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع.</p>
                 </article>
 
-                <!-- 4 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت حماية السيرفر"
                     data-title-en="Server Protection Bot"
@@ -1084,7 +1247,6 @@
                     <p class="project-desc" data-ar="حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة." data-en="Real-time server protection with automatic detection of suspicious activity.">حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة.</p>
                 </article>
 
-                <!-- 5 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت إدارة السيرفر"
                     data-title-en="Server Management Bot"
@@ -1100,7 +1262,6 @@
                     <p class="project-desc" data-ar="أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن." data-en="Complete management tools with live logs and a flexible permission system.">أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن.</p>
                 </article>
 
-                <!-- 6 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت الموسيقى"
                     data-title-en="Music Bot"
@@ -1116,7 +1277,6 @@
                     <p class="project-desc" data-ar="تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة." data-en="High-quality audio playback with filters and full queue control.">تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة.</p>
                 </article>
 
-                <!-- 7 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت Tellonym"
                     data-title-en="Tellonym Bot"
@@ -1132,7 +1292,6 @@
                     <p class="project-desc" data-ar="عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي." data-en="Full Tellonym profile inside Discord with automatic updates.">عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي.</p>
                 </article>
 
-                <!-- 8 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت الأفتارات"
                     data-title-en="Avatar Bot"
@@ -1148,7 +1307,6 @@
                     <p class="project-desc" data-ar="معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة." data-en="Preview and download avatars and banners in one click.">معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة.</p>
                 </article>
 
-                <!-- 9 -->
                 <article class="project-card" data-status="live"
                     data-title-ar="بوت أذكار"
                     data-title-en="Adhkar Bot"
@@ -1207,13 +1365,6 @@
     </div>
 
     <script>
-        /* ==========================================================
-           DISCORD AVATAR (Lanyard)
-           - يُظهر الأفتار من الكاش فوراً (بدون وميض PNG)
-           - يحدّث تلقائياً كل دقيقة
-           - يُخزّن رابط الأفتار في localStorage
-           - في حال عدم وجود كاش، يظهر خلفية متدرجة أثناء التحميل
-        ========================================================== */
         const DISCORD_USER_ID = "1356618809078841458";
         const AVATAR_CACHE_KEY = 'l4_discord_avatar_v1';
         const DEFAULT_AVATAR = 'https://cdn.discordapp.com/embed/avatars/0.png';
@@ -1251,7 +1402,6 @@
             }
         }
 
-        // ابدأ فوراً من الكاش (إن وُجد) - يشيل الوميض تماماً
         (function() {
             const cached = localStorage.getItem(AVATAR_CACHE_KEY);
             if (cached) avatarImg.src = cached;
@@ -1262,9 +1412,6 @@
             setInterval(refreshAvatar, 60000);
         });
 
-        /* ==========================================================
-           CURSOR GLOW
-        ========================================================== */
         const cursorGlow = document.querySelector('.cursor-glow');
 
         window.addEventListener('mousemove', (e) => {
@@ -1521,6 +1668,8 @@
                 const translatedText = el.getAttribute(`data-${currentLang}`);
                 if (translatedText !== null) el.innerText = translatedText;
             });
+
+            renderActivity();
         }
 
         langToggleDesktop.addEventListener('click', toggleLanguage);
@@ -1542,7 +1691,6 @@
         const STATUS_LABELS = { live: 'Live', dev: 'In Dev', beta: 'Beta' };
 
         projectCards.forEach(card => {
-            // شارة الحالة
             const status = card.dataset.status;
             if (status && !card.querySelector('.project-status')) {
                 const badge = document.createElement('span');
@@ -1552,7 +1700,6 @@
                 card.appendChild(badge);
             }
 
-            // سهم عند المرور
             if (!card.querySelector('.card-arrow')) {
                 const arrow = document.createElement('span');
                 arrow.className = 'card-arrow';
@@ -1560,7 +1707,6 @@
                 card.appendChild(arrow);
             }
 
-            // وسوم التقنيات
             const tech = card.dataset.tech;
             if (tech && !card.querySelector('.project-tech-tags')) {
                 const tagsContainer = document.createElement('div');
@@ -1573,7 +1719,6 @@
                 card.appendChild(tagsContainer);
             }
 
-            // توهج يتبع الماوس
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
@@ -1631,6 +1776,226 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
         });
+
+        const LANYARD_WS_URL = 'wss://api.lanyard.rest/socket';
+        const CODE_APPS = /visual studio|vs ?code|code - oss|vscodium|cursor|intellij|pycharm|webstorm|phpstorm|clion|rider|android studio|sublime|neovim|vim|atom|notepad\+\+|replit|codespaces|eclipse|zed|termux/i;
+
+        const ACTIVITY_TEXT = {
+            ar: {
+                online: 'متصل', idle: 'خامل', dnd: 'مشغول', offline: 'غير متصل',
+                playing: 'يلعب', listening: 'يستمع إلى Spotify', watching: 'يشاهد',
+                streaming: 'يبث', competing: 'يتنافس', coding: 'يبرمج',
+                none: 'ما في نشاط حالياً', connecting: 'جاري الاتصال...',
+                elapsed: 'منذ'
+            },
+            en: {
+                online: 'Online', idle: 'Idle', dnd: 'Do Not Disturb', offline: 'Offline',
+                playing: 'Playing', listening: 'Listening to Spotify', watching: 'Watching',
+                streaming: 'Streaming', competing: 'Competing in', coding: 'Coding',
+                none: 'No activity right now', connecting: 'Connecting...',
+                elapsed: 'for'
+            }
+        };
+
+        const activityDot = document.getElementById('activityDot');
+        const activityStatusText = document.getElementById('activityStatusText');
+        const activityCustom = document.getElementById('activityCustom');
+        const activityList = document.getElementById('activityList');
+
+        let lanyardData = null;
+        let lanyardSocket = null;
+        let lanyardHeartbeat = null;
+
+        function escapeHTML(value) {
+            return String(value == null ? '' : value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatDuration(ms) {
+            const total = Math.floor(Math.max(0, ms) / 1000);
+            const h = Math.floor(total / 3600);
+            const m = Math.floor((total % 3600) / 60);
+            const s = total % 60;
+            const pad = (n) => String(n).padStart(2, '0');
+            return h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+        }
+
+        function getActivityArt(activity) {
+            const assets = activity.assets;
+            if (assets && assets.large_image) {
+                const img = assets.large_image;
+                if (img.startsWith('mp:external/')) return 'https://media.discordapp.net/external/' + img.slice(12);
+                if (img.startsWith('mp:')) return 'https://media.discordapp.net/' + img.slice(3);
+                if (activity.application_id) return `https://cdn.discordapp.com/app-assets/${activity.application_id}/${img}.png`;
+            }
+            return '';
+        }
+
+        function getActivityKind(activity) {
+            if (activity.id === 'spotify:1' || activity.type === 2) return 'listening';
+            if (CODE_APPS.test(activity.name || '')) return 'coding';
+            if (activity.type === 1) return 'streaming';
+            if (activity.type === 3) return 'watching';
+            if (activity.type === 5) return 'competing';
+            return 'playing';
+        }
+
+        function getKindIcon(kind) {
+            return {
+                listening: 'fa-music',
+                coding: 'fa-code',
+                streaming: 'fa-tower-broadcast',
+                watching: 'fa-eye',
+                competing: 'fa-trophy',
+                playing: 'fa-gamepad'
+            }[kind] || 'fa-gamepad';
+        }
+
+        function buildActivityItem(activity, t) {
+            const kind = getActivityKind(activity);
+            const spotify = kind === 'listening' && lanyardData.listening_to_spotify && lanyardData.spotify ? lanyardData.spotify : null;
+            const art = spotify ? spotify.album_art_url : getActivityArt(activity);
+            const start = spotify ? spotify.timestamps.start : (activity.timestamps && activity.timestamps.start) || 0;
+            const end = spotify ? spotify.timestamps.end : (activity.timestamps && activity.timestamps.end) || 0;
+
+            const name = spotify ? spotify.song : activity.name;
+            const line1 = spotify ? spotify.artist.replace(/;/g, ',') : (activity.details || '');
+            const line2 = spotify ? spotify.album : (activity.state || '');
+
+            let timeHTML = '';
+
+            if (spotify || (start && end)) {
+                timeHTML = `<div class="activity-time"><span data-role="cur">00:00</span><div class="activity-bar"><span data-role="bar"></span></div><span data-role="total">${formatDuration(end - start)}</span></div>`;
+            } else if (start) {
+                timeHTML = `<div class="activity-time"><i class="fa-regular fa-clock"></i><span data-role="elapsed">00:00</span></div>`;
+            }
+
+            return `
+                <div class="activity-item" data-start="${start}" data-end="${end}">
+                    <div class="activity-art">
+                        <i class="fa-solid ${getKindIcon(kind)}"></i>
+                        ${art ? `<img src="${escapeHTML(art)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+                    </div>
+                    <div class="activity-info">
+                        <span class="activity-type">${t[kind]}</span>
+                        <h4 class="activity-name">${escapeHTML(name)}</h4>
+                        ${line1 ? `<p class="activity-line">${escapeHTML(line1)}</p>` : ''}
+                        ${line2 ? `<p class="activity-line">${escapeHTML(line2)}</p>` : ''}
+                        ${timeHTML}
+                    </div>
+                </div>`;
+        }
+
+        function renderActivity() {
+            const t = ACTIVITY_TEXT[currentLang];
+
+            if (!lanyardData) {
+                activityDot.dataset.s = 'offline';
+                activityStatusText.textContent = t.connecting;
+                activityCustom.textContent = '';
+                activityList.innerHTML = '';
+                return;
+            }
+
+            const status = lanyardData.discord_status || 'offline';
+            activityDot.dataset.s = status;
+            activityStatusText.textContent = t[status] || status;
+
+            const activities = Array.isArray(lanyardData.activities) ? lanyardData.activities : [];
+            const custom = activities.find(a => a.type === 4);
+
+            if (custom) {
+                const emoji = custom.emoji && custom.emoji.name && !custom.emoji.id ? custom.emoji.name + ' ' : '';
+                activityCustom.textContent = emoji + (custom.state || '');
+            } else {
+                activityCustom.textContent = '';
+            }
+
+            const visible = activities.filter(a => a.type !== 4).slice(0, 3);
+
+            if (status === 'offline' || visible.length === 0) {
+                activityList.innerHTML = `<div class="activity-empty"><i class="fa-solid fa-moon"></i><span>${t.none}</span></div>`;
+                return;
+            }
+
+            activityList.innerHTML = visible.map(a => buildActivityItem(a, t)).join('');
+            tickActivity();
+        }
+
+        function tickActivity() {
+            const now = Date.now();
+
+            activityList.querySelectorAll('.activity-item').forEach(item => {
+                const start = Number(item.dataset.start) || 0;
+                const end = Number(item.dataset.end) || 0;
+                const cur = item.querySelector('[data-role="cur"]');
+                const bar = item.querySelector('[data-role="bar"]');
+                const elapsed = item.querySelector('[data-role="elapsed"]');
+
+                if (cur && bar && start && end) {
+                    const progress = Math.min(Math.max(now - start, 0), end - start);
+                    cur.textContent = formatDuration(progress);
+                    bar.style.width = `${(progress / (end - start)) * 100}%`;
+                }
+
+                if (elapsed && start) {
+                    elapsed.textContent = formatDuration(now - start);
+                }
+            });
+        }
+
+        setInterval(tickActivity, 1000);
+
+        function connectLanyard() {
+            try {
+                lanyardSocket = new WebSocket(LANYARD_WS_URL);
+            } catch (e) {
+                setTimeout(connectLanyard, 5000);
+                return;
+            }
+
+            lanyardSocket.onmessage = (event) => {
+                let message;
+                try { message = JSON.parse(event.data); } catch (e) { return; }
+
+                if (message.op === 1) {
+                    lanyardSocket.send(JSON.stringify({ op: 2, d: { subscribe_to_id: DISCORD_USER_ID } }));
+                    clearInterval(lanyardHeartbeat);
+                    lanyardHeartbeat = setInterval(() => {
+                        if (lanyardSocket.readyState === 1) lanyardSocket.send(JSON.stringify({ op: 3 }));
+                    }, message.d.heartbeat_interval);
+                } else if (message.op === 0 && (message.t === 'INIT_STATE' || message.t === 'PRESENCE_UPDATE')) {
+                    lanyardData = message.d;
+                    renderActivity();
+                }
+            };
+
+            lanyardSocket.onclose = () => {
+                clearInterval(lanyardHeartbeat);
+                setTimeout(connectLanyard, 5000);
+            };
+
+            lanyardSocket.onerror = () => lanyardSocket.close();
+        }
+
+        async function fetchInitialPresence() {
+            try {
+                const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`, { cache: 'no-store' });
+                const json = await res.json();
+                if (json.success && json.data && !lanyardData) {
+                    lanyardData = json.data;
+                    renderActivity();
+                }
+            } catch (e) {}
+        }
+
+        renderActivity();
+        fetchInitialPresence();
+        connectLanyard();
     </script>
 </body>
 </html>
