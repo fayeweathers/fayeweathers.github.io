@@ -1,1126 +1,1332 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>l4</title>
-<link rel="icon" type="image/png" href="letter-p.png">
-<meta http-equiv="X-Frame-Options" content="DENY">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="Referrer-Policy" content="no-referrer">
-<meta name="robots" content="noindex, nofollow">
-<meta name="description" content="l4 | AI Engineering Student & Developer">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Fira+Code:wght@400;700&display=swap');
-
-:root {
-    --bg-dark:#050505;
-    --bg-card:#0d0d0d;
-    --text-main:#f0f0f0;
-    --text-dim:#999;
-    --border-color:#222;
-    --terminal-green:#b0b0b0;
-    --terminal-green-bright:#e6e6e6;
-    --terminal-red:#ff3b30;
-}
-
-html { scroll-behavior:smooth; }
-::-webkit-scrollbar { width:8px; }
-::-webkit-scrollbar-track { background:var(--bg-dark); }
-::-webkit-scrollbar-thumb { background:var(--terminal-green); border-radius:10px; }
-::-webkit-scrollbar-thumb:hover { background:var(--terminal-green-bright); }
-section { scroll-margin-top:120px; }
-
-* {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    cursor:none !important;
-    -webkit-user-select:none;
-    user-select:none;
-}
-
-body {
-    background:var(--bg-dark);
-    color:var(--text-main);
-    font-family:'Cairo',sans-serif;
-    overflow-x:hidden;
-    transition:all .3s ease;
-}
-
-.cursor-glow {
-    width:120px;
-    height:120px;
-    background:radial-gradient(circle,rgba(176,176,176,.28) 0%,transparent 70%);
-    border-radius:50%;
-    position:fixed;
-    top:0;
-    left:0;
-    pointer-events:none;
-    z-index:9999;
-    transform:translate(-50%,-50%);
-    transition:transform .05s linear,width .2s,height .2s,background .2s;
-}
-
-.cursor-glow.click-effect {
-    width:180px;
-    height:180px;
-    background:radial-gradient(circle,rgba(255,255,255,.25) 0%,transparent 70%);
-}
-
-nav {
-    position:fixed;
-    top:30px;
-    left:50%;
-    transform:translateX(-50%);
-    background:rgba(13,13,13,.8);
-    backdrop-filter:blur(15px);
-    border:1px solid var(--terminal-green);
-    padding:10px 25px;
-    border-radius:50px;
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    justify-content:space-between;
-    z-index:1000;
-    box-shadow:0 0 10px rgba(176,176,176,.28),0 0 22px rgba(176,176,176,.12),0 10px 30px rgba(0,0,0,.5);
-    width:90%;
-    max-width:900px;
-    direction:ltr;
-    transition:all .4s ease;
-}
-
-nav.nav-colored {
-    background:rgba(176,176,176,.15);
-    border-color:var(--terminal-green-bright);
-    box-shadow:0 0 25px rgba(176,176,176,.45),0 0 55px rgba(176,176,176,.2),0 10px 30px rgba(0,0,0,.5);
-    backdrop-filter:blur(25px);
-}
-
-.nav-brand {
-    color:var(--text-main);
-    font-family:'Fira Code',monospace;
-    font-size:1.25rem;
-    font-weight:bold;
-    text-decoration:none;
-    transition:.3s;
-}
-
-.nav-brand:hover { color:var(--terminal-green); }
-.nav-content-wrapper { display:flex; align-items:center; gap:20px; direction:ltr !important; }
-.nav-links { display:flex; gap:25px; align-items:center; }
-.nav-actions { display:flex; align-items:center; gap:15px; }
-
-.nav-links a {
-    color:var(--text-main);
-    text-decoration:none;
-    font-weight:700;
-    font-size:.95rem;
-    transition:.3s;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-family:inherit;
-}
-
-.nav-links a:hover { color:#fff; text-shadow:0 0 10px white; }
-.nav-links a.active-link { color:var(--terminal-green); text-shadow:0 0 10px rgba(176,176,176,.75); }
-
-.lang-btn {
-    background:var(--text-main);
-    color:var(--bg-dark);
-    padding:4px 12px;
-    border-radius:20px;
-    font-family:'Fira Code',monospace;
-    border:none;
-    font-weight:bold;
-    transition:.3s;
-}
-
-.lang-btn:hover { background:#fff; color:#000; }
-.mobile-lang-btn { display:none; }
-.desktop-lang-btn { display:block; }
-
-.menu-btn {
-    display:none;
-    background:none;
-    border:none;
-    color:var(--text-main);
-    font-size:1.3rem;
-    cursor:pointer !important;
-}
-
-.container {
-    max-width:900px;
-    margin:0 auto;
-    padding:140px 20px 60px;
-    display:flex;
-    flex-direction:column;
-    gap:90px;
-}
-
-.hero { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap-reverse; gap:40px; }
-.hero-text { flex:1; min-width:300px; }
-
-.hero-text h1 {
-    font-size:3.5rem;
-    margin-bottom:15px;
-    font-family:'Fira Code',monospace;
-    letter-spacing:-1.5px;
-    text-align:left;
-    direction:ltr;
-}
-
-.terminal {
-    background:var(--bg-card);
-    border:1px solid var(--terminal-green);
-    box-shadow:0 0 10px rgba(176,176,176,.28),0 10px 30px rgba(0,0,0,.8);
-    border-radius:10px;
-    padding:20px;
-    font-family:'Fira Code',monospace;
-    font-size:.9rem;
-    color:var(--terminal-green);
-    direction:ltr;
-    text-align:left;
-    min-height:140px;
-}
-
-.terminal-header {
-    display:flex;
-    flex-direction:row-reverse;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-    border-bottom:1px solid #333;
-    padding-bottom:8px;
-}
-
-.terminal-dots { display:flex; gap:8px; }
-.terminal-dots span { width:12px; height:12px; border-radius:50%; }
-.dot-red { background:#ff5f56; }
-.dot-yellow { background:#ffbd2e; }
-.dot-green { background:#27c93f; }
-.terminal-time { font-size:.75rem; color:#666; font-family:'Fira Code',monospace; }
-.terminal p { margin-bottom:8px; min-height:20px; }
-.terminal-static { color:#555; }
-.terminal-error { color:var(--terminal-red); }
-
-.blinking-cursor {
-    display:inline-block;
-    width:8px;
-    height:15px;
-    background:var(--terminal-green);
-    animation:blink 1s step-end infinite;
-    vertical-align:middle;
-    margin-left:2px;
-}
-
-@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
-
-.hero-image {
-    width:320px;
-    height:320px;
-    background:url('avt.png') center/cover no-repeat;
-    border:2px solid var(--terminal-green);
-    box-shadow:0 0 25px rgba(176,176,176,.22),0 0 55px rgba(176,176,176,.08);
-    animation:complex-morph 12s ease-in-out infinite alternate;
-    position:relative;
-}
-
-.hero-image::after {
-    content:'';
-    position:absolute;
-    inset:-8px;
-    border:1px solid var(--terminal-green);
-    box-shadow:0 0 10px rgba(176,176,176,.28),0 10px 30px rgba(0,0,0,.8);
-    animation:complex-morph 15s ease-in-out infinite alternate-reverse;
-    pointer-events:none;
-}
-
-@keyframes complex-morph {
-    0% { border-radius:60% 40% 30% 70% / 60% 30% 70% 40%; }
-    25% { border-radius:30% 60% 70% 40% / 50% 60% 30% 60%; }
-    50% { border-radius:50% 50% 30% 70% / 30% 70% 50% 50%; }
-    75% { border-radius:70% 30% 50% 50% / 60% 40% 70% 30%; }
-    100% { border-radius:40% 70% 60% 40% / 40% 50% 40% 70%; }
-}
-
-.tech-badge {
-    position:absolute;
-    bottom:-10px;
-    left:-10px;
-    z-index:10;
-    background:var(--bg-dark);
-    border:2px solid var(--terminal-green);
-    border-radius:50%;
-    width:70px;
-    height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 0 20px rgba(176,176,176,.5),0 0 60px rgba(176,176,176,.2);
-    animation:badge-pulse 2.5s ease-in-out infinite;
-    direction:ltr;
-}
-
-.tech-badge i { font-size:1.8rem; color:var(--terminal-green); }
-.tech-badge .fa-microchip { position:absolute; font-size:2rem; }
-.tech-badge .fa-code { position:absolute; font-size:.9rem; top:8px; right:8px; }
-.tech-badge .fa-shield-halved { position:absolute; font-size:.9rem; bottom:8px; left:8px; }
-
-@keyframes badge-pulse {
-    0%,100% { box-shadow:0 0 20px rgba(176,176,176,.5),0 0 60px rgba(176,176,176,.2); }
-    50% { box-shadow:0 0 35px rgba(176,176,176,.8),0 0 80px rgba(176,176,176,.4); }
-}
-
-.section-header {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:15px;
-    margin-bottom:35px;
-    font-size:1.8rem;
-    font-family:'Fira Code',monospace;
-}
-
-.section-header::before,.section-header::after {
-    content:'';
-    height:2px;
-    width:40px;
-    background:var(--terminal-green);
-}
-
-.about-box {
-    background:var(--bg-card);
-    border:1px solid var(--border-color);
-    padding:35px 30px;
-    border-radius:12px;
-    text-align:center;
-    line-height:1.9;
-    font-size:1.05rem;
-    position:relative;
-    border-inline-start:5px solid var(--terminal-green);
-    box-shadow:inset 0 0 30px rgba(0,0,0,.5),0 0 18px rgba(176,176,176,.08);
-    transition:transform .3s,box-shadow .3s;
-    max-width:750px;
-    margin:0 auto;
-    overflow:hidden;
-}
-
-html[dir="rtl"] .about-box {
-    border-right:5px solid var(--terminal-green);
-    border-left:1px solid var(--border-color);
-    box-shadow:inset -18px 0 35px -28px var(--terminal-green),0 0 18px rgba(176,176,176,.08);
-}
-
-html[dir="ltr"] .about-box {
-    border-left:5px solid var(--terminal-green);
-    border-right:1px solid var(--border-color);
-    box-shadow:inset 18px 0 35px -28px var(--terminal-green),0 0 18px rgba(176,176,176,.08);
-}
-
-.about-box:hover { transform:translateY(-3px); }
-.about-text p { margin-bottom:17px; }
-.about-text p:last-child { margin-bottom:0; }
-.about-skills { text-align:start; margin:25px 0; padding:0 15px; }
-.about-skills p { font-weight:bold; margin-bottom:10px; color:#fff; }
-.about-skills ul { list-style:none; padding:0; margin:0; line-height:2.1; }
-
-.author-signature {
-    display:flex;
-    align-items:center;
-    gap:10px;
-    color:var(--terminal-green);
-    font-family:'Fira Code',monospace;
-    margin-top:35px;
-    justify-content:center;
-    font-size:1.1rem;
-    font-weight:bold;
-}
-
-.projects-grid {
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-}
-
-.project-card {
-    background:var(--bg-card);
-    border:1px solid var(--border-color);
-    border-radius:12px;
-    padding:25px 20px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    cursor:pointer;
-    transition:all .3s ease;
-    position:relative;
-    overflow:hidden;
-    aspect-ratio:1/1;
-}
-
-.project-card::before {
-    content:'';
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:3px;
-    background:var(--terminal-green);
-    transform:scaleX(0);
-    transition:transform .3s ease;
-}
-
-.project-card:hover::before { transform:scaleX(1); }
-
-.project-card:hover {
-    border-color:var(--terminal-green);
-    transform:translateY(-4px);
-    background:rgba(176,176,176,.07);
-    box-shadow:0 0 25px rgba(176,176,176,.15),inset 0 0 20px rgba(176,176,176,.05);
-}
-
-.project-icon { font-size:2.5rem; color:var(--terminal-green); margin-bottom:15px; }
-.project-title { font-size:1.2rem; font-weight:bold; margin-bottom:10px; color:var(--text-main); font-family:'Cairo',sans-serif; }
-.project-desc { font-size:.9rem; color:var(--text-dim); line-height:1.7; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
-.project-hint { font-size:.75rem; color:#777; margin-top:15px; }
-
-.modal-overlay {
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.85);
-    backdrop-filter:blur(10px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:2000;
-    padding:20px;
-    opacity:0;
-    transition:opacity .3s ease;
-}
-
-.modal-overlay.active { display:flex; opacity:1; }
-
-.modal-content {
-    background:var(--bg-card);
-    border:1px solid var(--terminal-green);
-    border-radius:16px;
-    padding:35px 30px;
-    max-width:620px;
-    width:100%;
-    max-height:90vh;
-    overflow-y:auto;
-    position:relative;
-    box-shadow:0 0 40px rgba(176,176,176,.15),0 20px 60px rgba(0,0,0,.8);
-    direction:inherit;
-}
-
-.modal-close {
-    position:absolute;
-    top:15px;
-    right:15px;
-    background:none;
-    border:none;
-    color:var(--text-dim);
-    font-size:1.5rem;
-    cursor:pointer !important;
-    transition:.3s;
-    z-index:10;
-}
-
-.modal-close:hover { color:var(--terminal-green); transform:rotate(90deg); }
-.modal-icon { font-size:3rem; color:var(--terminal-green); text-align:center; margin-bottom:20px; }
-.modal-title { font-size:1.8rem; font-family:'Fira Code',monospace; text-align:center; margin-bottom:15px; color:#fff; }
-.modal-desc { color:var(--text-main); line-height:2; margin-bottom:25px; text-align:start; white-space:pre-line; }
-
-.modal-info {
-    border:1px solid var(--border-color);
-    background:rgba(255,255,255,.02);
-    border-radius:12px;
-    padding:18px;
-    margin-bottom:20px;
-}
-
-.modal-info-title {
-    color:var(--terminal-green);
-    font-weight:bold;
-    margin-bottom:8px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.modal-info p { color:var(--text-dim); line-height:1.9; }
-
-.modal-tech {
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    justify-content:center;
-    margin-bottom:25px;
-}
-
-.modal-tech span {
-    background:rgba(176,176,176,.1);
-    border:1px solid var(--border-color);
-    padding:5px 12px;
-    border-radius:20px;
-    font-size:.8rem;
-    font-family:'Fira Code',monospace;
-    color:var(--terminal-green);
-}
-
-.modal-link {
-    align-items:center;
-    gap:8px;
-    background:var(--terminal-green);
-    color:var(--bg-dark);
-    padding:10px 25px;
-    border-radius:30px;
-    text-decoration:none;
-    font-weight:bold;
-    font-family:'Fira Code',monospace;
-    transition:.3s;
-    margin:0 auto;
-    display:none;
-    width:max-content;
-}
-
-.modal-link:hover { background:#fff; color:#000; transform:scale(1.05); }
-
-.social-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; }
-
-.social-card {
-    background:var(--bg-card);
-    border:1px solid var(--border-color);
-    padding:20px 15px;
-    border-radius:10px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:15px;
-    font-size:1.1rem;
-    font-family:'Fira Code',monospace;
-    text-decoration:none;
-    color:var(--text-dim);
-    transition:all .3s ease;
-    position:relative;
-    overflow:hidden;
-}
-
-.social-card:hover { border-color:var(--terminal-green); color:#fff; transform:translateY(-4px); background:rgba(176,176,176,.07); }
-.social-card span { direction:ltr; unicode-bidi:embed; display:inline-block; }
-.social-icon { width:45px; height:45px; object-fit:contain; transition:transform .3s ease,filter .3s ease; filter:drop-shadow(0 0 3px rgba(255,255,255,.2)); }
-.social-card:hover .social-icon { transform:scale(1.1); filter:drop-shadow(0 0 10px rgba(176,176,176,.6)); }
-
-footer {
-    text-align:center;
-    padding:30px 20px;
-    font-family:'Fira Code',monospace;
-    font-size:.85rem;
-    color:var(--text-dim);
-    border-top:1px solid var(--border-color);
-    margin-top:40px;
-    direction:ltr;
-}
-
-footer p { margin:6px 0; }
-.footer-terminal { color:#fff; }
-.latency-text { color:var(--terminal-green); font-weight:bold; }
-
-@media (max-width:768px) {
-    * { cursor:auto !important; }
-    .cursor-glow { display:none !important; }
-    nav { width:90%; padding:12px 20px; border-radius:30px; }
-    .menu-btn { display:block; }
-    .desktop-lang-btn { display:none; }
-
-    .nav-links {
-        display:none;
-        flex-direction:column;
-        position:absolute;
-        top:60px;
-        right:0;
-        width:220px;
-        background:rgba(13,13,13,.95);
-        border:1px solid var(--border-color);
-        border-radius:15px;
-        padding:20px;
-        gap:20px;
-        box-shadow:0 10px 30px rgba(0,0,0,.7);
-    }
-
-    .nav-links.active { display:flex; }
-    .nav-links a { justify-content:center; font-size:1.1rem; width:100%; }
-    .mobile-lang-btn { display:block; margin:5px auto 0; width:50%; }
-    .hero { flex-direction:column-reverse; text-align:center; gap:30px; }
-    .hero-image { margin:0 auto; width:260px; height:260px; }
-    .hero-text h1 { text-align:center; }
-
-    .about-box {
-        padding:35px 20px;
-        border-top:1px solid var(--terminal-green);
-        border-inline-start:4px solid var(--terminal-green);
-        font-size:.95rem;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-    }
-
-    .about-skills { padding:0; }
-    .tech-badge { width:60px; height:60px; bottom:-8px; left:-8px; }
-    .tech-badge .fa-microchip { font-size:1.6rem; }
-    .tech-badge .fa-code,.tech-badge .fa-shield-halved { font-size:.8rem; }
-    .projects-grid { grid-template-columns:1fr; }
-    .project-card { aspect-ratio:auto; min-height:200px; }
-    .modal-content { padding:30px 20px; }
-    .modal-title { font-size:1.4rem; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>l4</title>
+    <link rel="icon" type="image/png" href="letter-p.png">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="no-referrer">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="l4 | AI Engineering Student & Developer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Fira+Code:wght@400;700&display=swap');
+
+        :root {
+            --bg-dark: #050505;
+            --bg-card: #0d0d0d;
+            --text-main: #f0f0f0;
+            --text-dim: #888888;
+            --border-color: #222222;
+            --terminal-green: #b0b0b0;
+            --terminal-green-bright: #e6e6e6;
+            --terminal-green-soft: rgba(176,176,176,.18);
+            --terminal-red: #ff3b30;
+        }
+
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--terminal-green); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--terminal-green-bright); box-shadow: 0 0 12px var(--terminal-green); }
+        section { scroll-margin-top: 120px; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none !important;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+            overflow-x: hidden;
+            transition: all .3s ease;
+        }
+
+        .cursor-glow {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(176,176,176,.28) 0%, transparent 70%);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%,-50%);
+            transition: transform .05s linear, width .2s, height .2s, background .2s;
+        }
+
+        .cursor-glow.click-effect {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(255,255,255,.25) 0%, transparent 70%);
+        }
+
+        nav {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13,13,13,.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--terminal-green);
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(176,176,176,.28), 0 0 22px rgba(176,176,176,.12), 0 10px 30px rgba(0,0,0,.5);
+            width: 90%;
+            max-width: 900px;
+            direction: ltr;
+            transition: all .4s ease;
+        }
+
+        nav.nav-colored {
+            background: rgba(176,176,176,.15);
+            border-color: var(--terminal-green-bright);
+            box-shadow: 0 0 25px rgba(176,176,176,.45), 0 0 55px rgba(176,176,176,.2), 0 10px 30px rgba(0,0,0,.5);
+            backdrop-filter: blur(25px);
+        }
+
+        .nav-brand {
+            color: var(--text-main);
+            font-family: 'Fira Code', monospace;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: .3s;
+        }
+
+        .nav-brand:hover { color: var(--terminal-green); }
+        .nav-content-wrapper { display: flex; align-items: center; gap: 20px; direction: ltr !important; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: .95rem;
+            transition: .3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .nav-links a:hover { color: #fff; text-shadow: 0 0 10px white; }
+        .nav-links a.active-link { color: var(--terminal-green); text-shadow: 0 0 10px rgba(176,176,176,.75), 0 0 22px rgba(176,176,176,.35); }
+
+        .lang-btn {
+            background: var(--text-main);
+            color: var(--bg-dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: 'Fira Code', monospace;
+            border: none;
+            font-weight: bold;
+            transition: .3s;
+        }
+
+        .lang-btn:hover { background: #fff; color: #000; }
+        .mobile-lang-btn { display: none; }
+        .desktop-lang-btn { display: block; }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.3rem;
+            cursor: pointer !important;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 140px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 90px;
+        }
+
+        .hero { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap-reverse; gap: 40px; }
+        .hero-text { flex: 1; min-width: 300px; }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-family: 'Fira Code', monospace;
+            letter-spacing: -1.5px;
+            text-align: left;
+            direction: ltr;
+        }
+
+        .terminal {
+            background: var(--bg-card);
+            border: 1px solid var(--terminal-green);
+            box-shadow: 0 0 10px rgba(176,176,176,.28), 0 10px 30px rgba(0,0,0,.8);
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: .9rem;
+            color: var(--terminal-green);
+            direction: ltr;
+            text-align: left;
+            min-height: 140px;
+        }
+
+        .terminal-header {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+        }
+
+        .terminal-dots { display: flex; gap: 8px; }
+        .terminal-dots span { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        .terminal-time { font-size: .75rem; color: #666; font-family: 'Fira Code', monospace; }
+        .terminal p { margin-bottom: 8px; min-height: 20px; }
+        .terminal-static { color: #555; }
+        .terminal-extra { min-height: 20px; font-size: .88rem; margin-top: 2px; }
+        .terminal-error { color: var(--terminal-red); text-shadow: 0 0 7px rgba(255,59,48,.35); }
+
+        .blinking-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: var(--terminal-green);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .hero-image {
+            width: 320px;
+            height: 320px;
+            background: url('avt.png') center/cover no-repeat;
+            border: 2px solid var(--terminal-green);
+            box-shadow: 0 0 25px rgba(176,176,176,.22), 0 0 55px rgba(176,176,176,.08);
+            animation: complex-morph 12s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border: 1px solid var(--terminal-green);
+            box-shadow: 0 0 10px rgba(176,176,176,.28), 0 10px 30px rgba(0,0,0,.8);
+            animation: complex-morph 15s ease-in-out infinite alternate-reverse;
+            pointer-events: none;
+        }
+
+        @keyframes complex-morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            50% { border-radius: 50% 50% 30% 70% / 30% 70% 50% 50%; }
+            75% { border-radius: 70% 30% 50% 50% / 60% 40% 70% 30%; }
+            100% { border-radius: 40% 70% 60% 40% / 40% 50% 40% 70%; }
+        }
+
+        .tech-badge {
+            position: absolute;
+            bottom: -10px;
+            left: -10px;
+            z-index: 10;
+            background: var(--bg-dark);
+            border: 2px solid var(--terminal-green);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(176,176,176,.5), 0 0 60px rgba(176,176,176,.2);
+            animation: badge-pulse 2.5s ease-in-out infinite;
+            direction: ltr;
+        }
+
+        .tech-badge i { font-size: 1.8rem; color: var(--terminal-green); text-shadow: 0 0 15px rgba(176,176,176,.8); }
+        .tech-badge .fa-microchip { position: absolute; font-size: 2rem; }
+        .tech-badge .fa-code { position: absolute; font-size: .9rem; top: 8px; right: 8px; }
+        .tech-badge .fa-shield-halved { position: absolute; font-size: .9rem; bottom: 8px; left: 8px; }
+
+        @keyframes badge-pulse {
+            0%,100% { box-shadow: 0 0 20px rgba(176,176,176,.5), 0 0 60px rgba(176,176,176,.2); }
+            50% { box-shadow: 0 0 35px rgba(176,176,176,.8), 0 0 80px rgba(176,176,176,.4); }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 35px;
+            font-size: 1.8rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .section-header::before, .section-header::after {
+            content: '';
+            height: 2px;
+            width: 40px;
+            background: var(--terminal-green);
+        }
+
+        /* ============ ABOUT ============ */
+        .about-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 40px 35px;
+            border-radius: 12px;
+            text-align: center;
+            line-height: 1.8;
+            font-size: 1rem;
+            position: relative;
+            border-inline-start: 5px solid var(--terminal-green);
+            box-shadow: inset 0 0 30px rgba(0,0,0,.5), 0 0 18px rgba(176,176,176,.08);
+            transition: transform .3s, box-shadow .3s;
+            max-width: 850px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        html[dir="rtl"] .about-box {
+            border-right: 5px solid var(--terminal-green);
+            border-left: 1px solid var(--border-color);
+            box-shadow: inset -18px 0 35px -28px var(--terminal-green), 0 0 18px rgba(176,176,176,.08);
+        }
+
+        html[dir="ltr"] .about-box {
+            border-left: 5px solid var(--terminal-green);
+            border-right: 1px solid var(--border-color);
+            box-shadow: inset 18px 0 35px -28px var(--terminal-green), 0 0 18px rgba(176,176,176,.08);
+        }
+
+        .about-box:hover { transform: translateY(-3px); }
+
+        .about-lead {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.9;
+            padding: 0 10px;
+            margin-bottom: 30px;
+        }
+
+        .about-focus-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0 30px;
+        }
+
+        .focus-card {
+            background: rgba(176,176,176,.04);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: all .3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .focus-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(176,176,176,.1) 50%, transparent 60%);
+            transform: translateX(-100%);
+            transition: transform .7s ease;
+            pointer-events: none;
+        }
+
+        .focus-card:hover::before { transform: translateX(100%); }
+
+        .focus-card:hover {
+            border-color: var(--terminal-green);
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(176,176,176,.12);
+        }
+
+        .focus-card i {
+            font-size: 1.8rem;
+            color: var(--terminal-green);
+            text-shadow: 0 0 15px rgba(176,176,176,.4);
+            transition: transform .3s ease;
+        }
+
+        .focus-card:hover i { transform: scale(1.15) rotate(-5deg); }
+
+        .focus-card h4 {
+            font-size: .95rem;
+            color: #fff;
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+        }
+
+        .focus-card p {
+            font-size: .8rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .about-skills-block { margin: 30px 0 20px; }
+
+        .about-skills-block h4 {
+            font-size: .9rem;
+            color: var(--terminal-green);
+            margin-bottom: 15px;
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .skill-chips {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .skill-chip {
+            background: rgba(176,176,176,.07);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: .8rem;
+            font-family: 'Fira Code', monospace;
+            transition: all .3s ease;
+        }
+
+        .skill-chip:hover {
+            background: var(--terminal-green);
+            color: var(--bg-dark);
+            border-color: var(--terminal-green-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(176,176,176,.3);
+        }
+
+        .about-closing {
+            font-size: .9rem;
+            color: var(--text-dim);
+            padding: 18px 10px 0;
+            border-top: 1px dashed var(--border-color);
+            margin-top: 15px;
+            line-height: 1.7;
+        }
+
+        .author-signature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--terminal-green);
+            font-family: 'Fira Code', monospace;
+            margin-top: 25px;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* ============ PROJECTS ============ */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* Center the last project card when it's alone in the final row */
+        @media (min-width: 830px) {
+            .project-card:last-child:nth-child(3n + 1) {
+                grid-column: 2 / 3;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 829px) {
+            .project-card:last-child:nth-child(2n + 1) {
+                grid-column: 1 / -1;
+                justify-self: center;
+                width: calc((100% - 20px) / 2);
+            }
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 22px 18px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            cursor: pointer;
+            transition: all .3s ease;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            gap: 8px;
+        }
+
+        .project-card:hover {
+            border-color: var(--terminal-green);
+            transform: translateY(-4px);
+            background: rgba(176,176,176,.07);
+            box-shadow: 0 0 25px rgba(176,176,176,.15), inset 0 0 20px rgba(176,176,176,.05);
+        }
+
+        .project-icon {
+            font-size: 2.2rem;
+            color: var(--terminal-green);
+            margin-top: 5px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(176,176,176,.5);
+            transition: transform .3s ease, text-shadow .3s ease;
+        }
+
+        .project-card:hover .project-icon {
+            transform: scale(1.12);
+            text-shadow: 0 0 22px rgba(176,176,176,.85);
+        }
+
+        .project-title {
+            font-size: 1.05rem;
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .project-desc {
+            font-size: .8rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .project-tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+            margin-top: auto;
+            padding-top: 8px;
+            width: 100%;
+        }
+
+        .project-tech-tags span {
+            background: rgba(176,176,176,.08);
+            border: 1px solid var(--border-color);
+            color: var(--terminal-green);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: .65rem;
+            font-family: 'Fira Code', monospace;
+            white-space: nowrap;
+        }
+
+        /* ============ MODAL ============ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.85);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity .3s ease;
+        }
+
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--terminal-green);
+            border-radius: 16px;
+            padding: 35px 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 40px rgba(176,176,176,.15), 0 20px 60px rgba(0,0,0,.8);
+            direction: inherit;
+        }
+
+        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-dim); font-size: 1.5rem; cursor: pointer !important; transition: .3s; z-index: 10; }
+        .modal-close:hover { color: var(--terminal-green); transform: rotate(90deg); }
+        .modal-icon { font-size: 3rem; color: var(--terminal-green); text-align: center; margin-bottom: 20px; text-shadow: 0 0 20px rgba(176,176,176,.5); }
+        .modal-title { font-size: 1.8rem; font-family: 'Fira Code', monospace; text-align: center; margin-bottom: 15px; color: #fff; }
+        .modal-desc { color: var(--text-main); line-height: 1.8; margin-bottom: 20px; text-align: center; }
+
+        .modal-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-tech span {
+            background: rgba(176,176,176,.1);
+            border: 1px solid var(--border-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: .8rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--terminal-green);
+        }
+
+        .modal-link {
+            align-items: center;
+            gap: 8px;
+            background: var(--terminal-green);
+            color: var(--bg-dark);
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'Fira Code', monospace;
+            transition: .3s;
+            margin: 0 auto;
+            display: table;
+        }
+
+        .modal-link:hover { background: #fff; color: #000; transform: scale(1.05); box-shadow: 0 0 20px rgba(176,176,176,.4); }
+
+        /* ============ SOCIALS ============ */
+        .social-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 15px; }
+
+        .social-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 20px 15px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+            font-family: 'Fira Code', monospace;
+            text-decoration: none;
+            color: var(--text-dim);
+            transition: all .3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-card:hover { border-color: var(--terminal-green); color: #fff; transform: translateY(-4px); background: rgba(176,176,176,.07); box-shadow: inset 0 0 20px rgba(176,176,176,.06); }
+        .social-card span { direction: ltr; unicode-bidi: embed; display: inline-block; }
+        .social-icon { width: 45px; height: 45px; object-fit: contain; transition: transform .3s ease, filter .3s ease; filter: drop-shadow(0 0 3px rgba(255,255,255,.2)); }
+        .social-card:hover .social-icon { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(176,176,176,.6)); }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: .85rem;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+            direction: ltr;
+        }
+
+        footer p { margin: 6px 0; }
+        .footer-terminal { color: #fff; }
+        .latency-text { color: var(--terminal-green); font-weight: bold; }
+
+        @media (max-width:768px) {
+            * { cursor: auto !important; }
+            .cursor-glow { display: none !important; }
+            nav { width: 90%; padding: 12px 20px; border-radius: 30px; }
+            .menu-btn { display: block; }
+            .desktop-lang-btn { display: none; }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                width: 220px;
+                background: rgba(13,13,13,.95);
+                border: 1px solid var(--border-color);
+                border-radius: 15px;
+                padding: 20px;
+                gap: 20px;
+                box-shadow: 0 10px 30px rgba(0,0,0,.7);
+            }
+
+            .nav-links.active { display: flex; }
+            .nav-links a { justify-content: center; font-size: 1.1rem; width: 100%; }
+            .mobile-lang-btn { display: block; margin: 5px auto 0; width: 50%; }
+            .hero { flex-direction: column-reverse; text-align: center; gap: 30px; }
+            .hero-image { margin: 0 auto; width: 260px; height: 260px; }
+            .hero-text h1 { text-align: center; }
+
+            .about-box {
+                padding: 35px 18px;
+                font-size: .92rem;
+                border-top: 1px solid var(--terminal-green);
+                border-inline-start: 4px solid var(--terminal-green);
+            }
+
+            .about-lead { font-size: 1rem; padding: 0; }
+            .about-focus-grid { grid-template-columns: 1fr; gap: 12px; }
+            .about-skills-block { margin: 20px 0; }
+            .about-closing { font-size: .85rem; }
+
+            .tech-badge { width: 60px; height: 60px; bottom: -8px; left: -8px; }
+            .tech-badge .fa-microchip { font-size: 1.6rem; }
+            .tech-badge .fa-code, .tech-badge .fa-shield-halved { font-size: .8rem; }
+
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-card { aspect-ratio: auto; min-height: 210px; padding: 20px 16px 14px; }
+
+            .modal-content { padding: 25px 20px; }
+            .modal-title { font-size: 1.4rem; }
+        }
+    </style>
 </head>
 <body>
-<div class="cursor-glow"></div>
-<input type="text" id="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
 
-<nav id="navbar">
-    <a href="#home" class="nav-brand">l4</a>
-    <div class="nav-content-wrapper">
-        <div class="nav-links" id="navLinks">
-            <a href="#home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></a>
-            <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="نبذة عني" data-en="About Me">نبذة عني</span></a>
-            <a href="#projects"><i class="fa-solid fa-diagram-project"></i> <span data-ar="المشاريع" data-en="Projects">المشاريع</span></a>
-            <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="حساباتي" data-en="Socials">حساباتي</span></a>
-            <button class="lang-btn mobile-lang-btn" id="langToggleMobile">EN</button>
-        </div>
-        <div class="nav-actions">
-            <button class="lang-btn desktop-lang-btn" id="langToggleDesktop">EN</button>
-            <button class="menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
-        </div>
-    </div>
-</nav>
+    <div class="cursor-glow"></div>
+    <input type="text" id="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
 
-<div class="container">
-    <section id="home" class="hero">
-        <div class="hero-text">
-            <h1>l4</h1>
-            <div class="terminal">
-                <div class="terminal-header">
-                    <div class="terminal-dots">
-                        <span class="dot-red"></span>
-                        <span class="dot-yellow"></span>
-                        <span class="dot-green"></span>
+    <nav id="navbar">
+        <a href="#home" class="nav-brand">l4</a>
+
+        <div class="nav-content-wrapper">
+            <div class="nav-links" id="navLinks">
+                <a href="#home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="Home" data-en="Home">Home</span></a>
+                <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="About Me" data-en="About Me">About Me</span></a>
+                <a href="#projects"><i class="fa-solid fa-diagram-project"></i> <span data-ar="Projects" data-en="Projects">Projects</span></a>
+                <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="Socials" data-en="Socials">Socials</span></a>
+                <button class="lang-btn mobile-lang-btn" id="langToggleMobile">EN</button>
+            </div>
+
+            <div class="nav-actions">
+                <button class="lang-btn desktop-lang-btn" id="langToggleDesktop">EN</button>
+                <button class="menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <section id="home" class="hero">
+            <div class="hero-text">
+                <h1>l4</h1>
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot-red"></span>
+                            <span class="dot-yellow"></span>
+                            <span class="dot-green"></span>
+                        </div>
+                        <div class="terminal-time" id="terminal-clock">--:--:-- --</div>
                     </div>
-                    <div class="terminal-time" id="terminal-clock">--:--:-- --</div>
+                    <p class="terminal-static">> root@l4:~# ./start_system.sh</p>
+                    <p id="animated-log"></p>
+                    <p id="dynamic-log"></p>
                 </div>
-                <p class="terminal-static">> root@l4:~# ./start_system.sh</p>
-                <p id="animated-log"></p>
-                <p id="dynamic-log"></p>
             </div>
-        </div>
-        <div class="hero-image">
-            <div class="tech-badge" title="AI + Coding">
-                <i class="fa-solid fa-microchip"></i>
-                <i class="fa-solid fa-code"></i>
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-        </div>
-    </section>
 
-    <section id="about">
-        <div class="section-header" data-ar="نبذة عني" data-en="About Me">نبذة عني</div>
-        <div class="about-box">
-            <div class="about-text">
-                <p data-ar="زياد | l4" data-en="Ziyad | l4" style="font-size:1.4rem;font-weight:bold;color:var(--terminal-green);">زياد | l4</p>
-                <p data-ar="طالب هندسة ذكاء اصطناعي ومطوّر برمجيات، أركز على تطوير المواقع وبناء بوتات ديسكورد وأنظمة مخصصة تجمع بين الوظائف العملية وتجربة الاستخدام الواضحة." data-en="An AI Engineering student and software developer focused on web development, Discord bots, and custom systems built around practical functionality and clear user experiences.">طالب هندسة ذكاء اصطناعي ومطوّر برمجيات، أركز على تطوير المواقع وبناء بوتات ديسكورد وأنظمة مخصصة تجمع بين الوظائف العملية وتجربة الاستخدام الواضحة.</p>
-                <p data-ar="أهتم بتحويل الأفكار إلى مشاريع قابلة للاستخدام، بدءًا من تحديد الهدف وتنظيم الوظائف، وصولًا إلى بناء الواجهة وربط المكونات البرمجية. أحرص على أن يكون لكل مشروع غرض واضح وأن يقدم فائدة حقيقية للمستخدم." data-en="I enjoy turning ideas into usable projects, from defining their purpose and organizing features to building interfaces and connecting software components. I aim to give every project a clear purpose and practical value.">أهتم بتحويل الأفكار إلى مشاريع قابلة للاستخدام، بدءًا من تحديد الهدف وتنظيم الوظائف، وصولًا إلى بناء الواجهة وربط المكونات البرمجية. أحرص على أن يكون لكل مشروع غرض واضح وأن يقدم فائدة حقيقية للمستخدم.</p>
-                <p data-ar="عملت على مشاريع متنوعة تشمل أدوات إدارة وحماية سيرفرات ديسكورد، بوتات تفاعلية، ومشاريع مواقع. كما نفذت أعمالًا مخصصة للعملاء، من بينها متجر إلكتروني، مع مراعاة احتياجات المشروع وطريقة استخدامه." data-en="My work includes Discord server management and protection tools, interactive bots, and website projects. I have also built custom client projects, including an online store, with attention to each project's requirements and usability.">عملت على مشاريع متنوعة تشمل أدوات إدارة وحماية سيرفرات ديسكورد، بوتات تفاعلية، ومشاريع مواقع. كما نفذت أعمالًا مخصصة للعملاء، من بينها متجر إلكتروني، مع مراعاة احتياجات المشروع وطريقة استخدامه.</p>
-                <div class="about-skills">
-                    <p data-ar="التقنيات ومجالات التطوير" data-en="Technologies & Development">التقنيات ومجالات التطوير</p>
-                    <ul>
-                        <li data-ar="• JavaScript و Node.js" data-en="• JavaScript & Node.js">• JavaScript و Node.js</li>
-                        <li data-ar="• HTML و CSS" data-en="• HTML & CSS">• HTML و CSS</li>
-                        <li data-ar="• Python و C و C++" data-en="• Python, C & C++">• Python و C و C++</li>
-                        <li data-ar="• تطوير بوتات وأنظمة ديسكورد" data-en="• Discord Bots & Systems">• تطوير بوتات وأنظمة ديسكورد</li>
-                        <li data-ar="• تطوير المواقع وواجهات المستخدم" data-en="• Web Development & User Interfaces">• تطوير المواقع وواجهات المستخدم</li>
-                    </ul>
+            <div class="hero-image">
+                <div class="tech-badge" title="AI + Coding + Cybersecurity">
+                    <i class="fa-solid fa-microchip"></i>
+                    <i class="fa-solid fa-code"></i>
+                    <i class="fa-solid fa-shield-halved"></i>
                 </div>
-                <p data-ar="أواصل تطوير مهاراتي من خلال بناء مشاريع جديدة وتجربة حلول مختلفة وتحسين جودة التنفيذ. هدفي هو تقديم أعمال منظمة وسهلة الاستخدام وقابلة للتطوير مع اكتساب خبرة تقنية أوسع بمرور الوقت." data-en="I continue to develop my skills by building new projects, exploring different solutions, and improving implementation quality. My goal is to create organized, user-friendly, and maintainable software while steadily expanding my technical experience.">أواصل تطوير مهاراتي من خلال بناء مشاريع جديدة وتجربة حلول مختلفة وتحسين جودة التنفيذ. هدفي هو تقديم أعمال منظمة وسهلة الاستخدام وقابلة للتطوير مع اكتساب خبرة تقنية أوسع بمرور الوقت.</p>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-header" data-ar="About Me" data-en="About Me">About Me</div>
+
+            <div class="about-box">
+                <p class="about-lead"
+                   data-ar="أنا زياد — طالب هندسة ذكاء اصطناعي ومطوّر. أبني أدوات رقمية حقيقية: مواقع، بوتات ديسكورد، وأنظمة تخدم مستخدمين فعليين."
+                   data-en="I'm Ziyad — an AI Engineering student and developer. I build real digital tools: websites, Discord bots, and systems that serve actual users.">
+                    أنا زياد — طالب هندسة ذكاء اصطناعي ومطوّر. أبني أدوات رقمية حقيقية: مواقع، بوتات ديسكورد، وأنظمة تخدم مستخدمين فعليين.
+                </p>
+
+                <div class="about-focus-grid">
+                    <div class="focus-card">
+                        <i class="fa-solid fa-laptop-code"></i>
+                        <h4 data-ar="تطوير الويب" data-en="Web Development">تطوير الويب</h4>
+                        <p data-ar="واجهات نظيفة، أداء سريع، وتجربة استخدام مدروسة."
+                           data-en="Clean interfaces, fast performance, and thoughtful UX.">واجهات نظيفة، أداء سريع، وتجربة استخدام مدروسة.</p>
+                    </div>
+                    <div class="focus-card">
+                        <i class="fa-brands fa-discord"></i>
+                        <h4 data-ar="بوتات ديسكورد" data-en="Discord Bots">بوتات ديسكورد</h4>
+                        <p data-ar="إدارة، حماية، وأدوات تفاعلية تعمل بسلاسة داخل السيرفر."
+                           data-en="Moderation, protection, and interactive tools that run smoothly in servers.">إدارة، حماية، وأدوات تفاعلية تعمل بسلاسة داخل السيرفر.</p>
+                    </div>
+                    <div class="focus-card">
+                        <i class="fa-solid fa-microchip"></i>
+                        <h4 data-ar="هندسة الذكاء الاصطناعي" data-en="AI Engineering">هندسة الذكاء الاصطناعي</h4>
+                        <p data-ar="أساسيات الذكاء الاصطناعي مطبّقة على مشاريع عملية."
+                           data-en="AI fundamentals applied to practical projects.">أساسيات الذكاء الاصطناعي مطبّقة على مشاريع عملية.</p>
+                    </div>
+                </div>
+
+                <div class="about-skills-block">
+                    <h4 data-ar="الأدوات التي أعمل بها" data-en="Tools I Work With">الأدوات التي أعمل بها</h4>
+                    <div class="skill-chips">
+                        <span class="skill-chip">JavaScript</span>
+                        <span class="skill-chip">Node.js</span>
+                        <span class="skill-chip">Discord.js</span>
+                        <span class="skill-chip">HTML</span>
+                        <span class="skill-chip">CSS</span>
+                        <span class="skill-chip">Python</span>
+                        <span class="skill-chip">C</span>
+                        <span class="skill-chip">C++</span>
+                    </div>
+                </div>
+
+                <p class="about-closing"
+                   data-ar="نفّذت مشاريع لعملاء حقيقيين، وما زلت أبني كل يوم أدوات جديدة تطوّر مهاراتي."
+                   data-en="I've delivered projects for real clients and keep building new tools every day to sharpen my skills.">
+                    نفّذت مشاريع لعملاء حقيقيين، وما زلت أبني كل يوم أدوات جديدة تطوّر مهاراتي.
+                </p>
+
                 <div class="author-signature">
                     <i class="fa-solid fa-code"></i>
                     <i class="fa-solid fa-microchip"></i>
                     l4
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="projects">
-        <div class="section-header" data-ar="المشاريع" data-en="Projects">المشاريع</div>
-        <div class="projects-grid">
+        <section id="projects">
+            <div class="section-header" data-ar="Projects" data-en="Projects">Projects</div>
 
-            <article class="project-card"
-                data-title-ar="Ash Avatar"
-                data-title-en="Ash Avatar"
-                data-desc-ar="منصة لاكتشاف الأفتارات واستعراضها واختيار ما يناسب ذوق المستخدم."
-                data-desc-en="An avatar discovery platform for browsing and finding avatars that match your style."
-                data-details-ar="الفكرة: إنشاء منصة تسهّل العثور على صور رمزية مناسبة بدلًا من البحث العشوائي بين مصادر متعددة.\n\nالهدف: تنظيم تجربة استكشاف الأفتارات وتقديم طريقة مريحة لمعاينة الخيارات والوصول إلى الصورة المناسبة.\n\nحالة المشروع: قيد التطوير، مع العمل على تحسين تجربة التصفح وإضافة وظائف تخدم مجتمع ديسكورد."
-                data-details-en="Concept: A platform that makes it easier to find suitable avatars instead of searching through scattered sources.\n\nGoal: Organize avatar discovery and provide a convenient way to preview options and find the right image.\n\nStatus: In development, with ongoing work on browsing experience and features for the Discord community."
-                data-tech="HTML, CSS, JavaScript, Node.js, PostgreSQL"
-                data-link=""
-                data-icon="fa-images">
-                <div class="project-icon"><i class="fa-solid fa-images"></i></div>
-                <h3 class="project-title" data-ar="Ash Avatar" data-en="Ash Avatar">Ash Avatar</h3>
-                <p class="project-desc" data-ar="منصة لاكتشاف الأفتارات واستعراضها واختيار ما يناسب ذوق المستخدم." data-en="An avatar discovery platform for browsing and finding avatars that match your style.">منصة لاكتشاف الأفتارات واستعراضها واختيار ما يناسب ذوق المستخدم.</p>
-                <span class="project-hint" data-ar="اضغط للتفاصيل" data-en="Click for details">اضغط للتفاصيل</span>
-            </article>
+            <div class="projects-grid">
 
-            <article class="project-card"
-                data-title-ar="بوت الأذكار"
-                data-title-en="Adhkar Bot"
-                data-desc-ar="بوت تذكيري ينشر الأذكار ويساعد على إبقاء المحتوى الإيماني حاضرًا داخل السيرفر."
-                data-desc-en="A reminder bot that shares adhkar and keeps faith-based reminders available in the server."
-                data-details-ar="الفكرة: توفير وسيلة بسيطة لنشر الأذكار والتذكيرات داخل سيرفر ديسكورد.\n\nالوظائف: إرسال محتوى الأذكار والتذكير بالدعاء والصلاة بحسب الوظائف المفعّلة في البوت.\n\nالفائدة: تسهيل الوصول إلى التذكيرات داخل المجتمع دون الحاجة إلى البحث عنها يدويًا في كل مرة."
-                data-details-en="Concept: Provide a simple way to share adhkar and reminders within a Discord server.\n\nFeatures: Send adhkar content and prayer or supplication reminders according to the bot's enabled functions.\n\nValue: Make reminders easier to access within the community without having to search for them manually."
-                data-tech="JavaScript, Node.js, Discord.js"
-                data-link=""
-                data-icon="fa-moon">
-                <div class="project-icon"><i class="fa-solid fa-moon"></i></div>
-                <h3 class="project-title" data-ar="بوت الأذكار" data-en="Adhkar Bot">بوت الأذكار</h3>
-                <p class="project-desc" data-ar="بوت تذكيري ينشر الأذكار ويساعد على إبقاء المحتوى الإيماني حاضرًا داخل السيرفر." data-en="A reminder bot that shares adhkar and keeps faith-based reminders available in the server.">بوت تذكيري ينشر الأذكار ويساعد على إبقاء المحتوى الإيماني حاضرًا داخل السيرفر.</p>
-                <span class="project-hint" data-ar="اضغط للتفاصيل" data-en="Click for details">اضغط للتفاصيل</span>
-            </article>
+                <article class="project-card"
+                    data-title-ar="Ash Avatar"
+                    data-title-en="Ash Avatar"
+                    data-desc-ar="منصة لاكتشاف الأفتارات وتصنيفها حسب الذوق، بواجهة نظيفة وتجربة تصفح سريعة."
+                    data-desc-en="An avatar discovery platform with clean UI and fast browsing."
+                    data-details-ar="موقع أعمل على تطويره لمساعدة المستخدمين على استكشاف الأفتارات واختيار ما يناسب ذوقهم، مع تصنيف وبحث سريع وتجربة استخدام مدروسة. المشروع قيد التطوير."
+                    data-details-en="A website I'm developing to help users discover and choose avatars that match their preferences, with fast categorization, search, and a thoughtful UX. Currently in development."
+                    data-tech="HTML, CSS, JavaScript"
+                    data-link=""
+                    data-icon="fa-images">
+                    <div class="project-icon"><i class="fa-solid fa-images"></i></div>
+                    <h3 class="project-title" data-ar="Ash Avatar" data-en="Ash Avatar">Ash Avatar</h3>
+                    <p class="project-desc" data-ar="منصة لاكتشاف الأفتارات وتصنيفها حسب الذوق، بواجهة نظيفة وتجربة تصفح سريعة." data-en="An avatar discovery platform with clean UI and fast browsing.">منصة لاكتشاف الأفتارات وتصنيفها حسب الذوق، بواجهة نظيفة وتجربة تصفح سريعة.</p>
+                </article>
 
-            <article class="project-card"
-                data-title-ar="بوت الأفتارات"
-                data-title-en="Avatar Bot"
-                data-desc-ar="بوت لاستعراض صور الحسابات ومعاينتها وحفظ الأفتارات والبنرات."
-                data-desc-en="A bot for browsing and previewing profile pictures, avatars, and banners."
-                data-details-ar="الفكرة: تسهيل اكتشاف الصور الرمزية والوصول إليها من خلال أوامر واضحة داخل ديسكورد.\n\nالوظائف: عرض الأفتارات، معاينة الصورة قبل استخدامها، وإتاحة حفظ صور الحسابات والبنرات.\n\nتجربة الاستخدام: يختصر خطوات البحث ويمنح المستخدم فرصة لمشاهدة الصورة قبل اتخاذ قرار استخدامها."
-                data-details-en="Concept: Make avatar discovery and access easier through clear commands inside Discord.\n\nFeatures: Display avatars, preview images before use, and provide options to save profile pictures and banners.\n\nUser experience: Reduce the steps needed to find an image and let users inspect it before deciding to use it."
-                data-tech="JavaScript, Node.js, Discord.js"
-                data-link=""
-                data-icon="fa-user-astronaut">
-                <div class="project-icon"><i class="fa-solid fa-user-astronaut"></i></div>
-                <h3 class="project-title" data-ar="بوت الأفتارات" data-en="Avatar Bot">بوت الأفتارات</h3>
-                <p class="project-desc" data-ar="بوت لاستعراض صور الحسابات ومعاينتها وحفظ الأفتارات والبنرات." data-en="A bot for browsing and previewing profile pictures, avatars, and banners.">بوت لاستعراض صور الحسابات ومعاينتها وحفظ الأفتارات والبنرات.</p>
-                <span class="project-hint" data-ar="اضغط للتفاصيل" data-en="Click for details">اضغط للتفاصيل</span>
-            </article>
+                <article class="project-card"
+                    data-title-ar="بوت أذكار"
+                    data-title-en="Adhkar Bot"
+                    data-desc-ar="بوت ديسكورد للأذكار والتذكير بالصلاة والدعاء، مصمم ليعمل بسلاسة داخل السيرفر."
+                    data-desc-en="A Discord bot for adhkar and prayer reminders, built to run smoothly in servers."
+                    data-details-ar="بوت ديسكورد مخصص لنشر الأذكار والتذكير بالصلاة والدعاء، يوفر محتوى تذكيري منظم ويعمل تلقائياً داخل السيرفر."
+                    data-details-en="A Discord bot designed to share adhkar and provide prayer and supplication reminders, offering organized reminder content that runs automatically inside servers."
+                    data-tech="JavaScript, Node.js, Discord.js"
+                    data-link=""
+                    data-icon="fa-hands-praying">
+                    <div class="project-icon"><i class="fa-solid fa-hands-praying"></i></div>
+                    <h3 class="project-title" data-ar="بوت أذكار" data-en="Adhkar Bot">بوت أذكار</h3>
+                    <p class="project-desc" data-ar="بوت ديسكورد للأذكار والتذكير بالصلاة والدعاء، مصمم ليعمل بسلاسة داخل السيرفر." data-en="A Discord bot for adhkar and prayer reminders, built to run smoothly in servers.">بوت ديسكورد للأذكار والتذكير بالصلاة والدعاء، مصمم ليعمل بسلاسة داخل السيرفر.</p>
+                </article>
 
-            <article class="project-card"
-                data-title-ar="بوت إدارة السيرفر"
-                data-title-en="Server Management Bot"
-                data-desc-ar="أدوات إدارية لتنظيم السيرفر والتعامل مع المخالفات ومتابعة السجلات."
-                data-desc-en="Moderation tools for managing a server, handling violations, and reviewing logs."
-                data-details-ar="الفكرة: جمع مهام الإدارة الأساسية في بوت واحد لتسهيل إدارة سيرفر ديسكورد.\n\nالوظائف: أوامر الحظر والطرد والكتم والتايم أوت، بالإضافة إلى تسجيل الأحداث الإدارية ومراجعتها.\n\nالفائدة: تقليل الحاجة إلى تنفيذ الإجراءات يدويًا وتوفير طريقة منظمة لفريق الإدارة لمتابعة ما يحدث داخل السيرفر."
-                data-details-en="Concept: Bring essential moderation tasks together in one bot to simplify Discord server management.\n\nFeatures: Ban, kick, mute, and timeout commands, along with logging and reviewing moderation events.\n\nValue: Reduce manual work and provide moderators with a more organized way to track activity across the server."
-                data-tech="JavaScript, Node.js, Discord.js"
-                data-link=""
-                data-icon="fa-gavel">
-                <div class="project-icon"><i class="fa-solid fa-gavel"></i></div>
-                <h3 class="project-title" data-ar="بوت إدارة السيرفر" data-en="Server Management Bot">بوت إدارة السيرفر</h3>
-                <p class="project-desc" data-ar="أدوات إدارية لتنظيم السيرفر والتعامل مع المخالفات ومتابعة السجلات." data-en="Moderation tools for managing a server, handling violations, and reviewing logs.">أدوات إدارية لتنظيم السيرفر والتعامل مع المخالفات ومتابعة السجلات.</p>
-                <span class="project-hint" data-ar="اضغط للتفاصيل" data-en="Click for details">اضغط للتفاصيل</span>
-            </article>
+                <article class="project-card"
+                    data-title-ar="بوت الأفتارات"
+                    data-title-en="Avatar Bot"
+                    data-desc-ar="بوت يتيح معاينة الأفتارات وحفظ صور الحساب والبنرات بضغطة واحدة داخل ديسكورد."
+                    data-desc-en="A bot that lets users preview avatars and save profile pictures and banners in one click."
+                    data-details-ar="بوت ديسكورد يتيح للمستخدم استعراض الأفتارات ومعاينتها قبل استخدامها، مع إمكانية حفظ صور الحسابات والبنرات بسهولة."
+                    data-details-en="A Discord bot that lets users browse and preview avatars before using them, with the ability to easily save profile pictures and banners."
+                    data-tech="JavaScript, Node.js, Discord.js"
+                    data-link=""
+                    data-icon="fa-circle-user">
+                    <div class="project-icon"><i class="fa-solid fa-circle-user"></i></div>
+                    <h3 class="project-title" data-ar="بوت الأفتارات" data-en="Avatar Bot">بوت الأفتارات</h3>
+                    <p class="project-desc" data-ar="بوت يتيح معاينة الأفتارات وحفظ صور الحساب والبنرات بضغطة واحدة داخل ديسكورد." data-en="A bot that lets users preview avatars and save profile pictures and banners in one click.">بوت يتيح معاينة الأفتارات وحفظ صور الحساب والبنرات بضغطة واحدة داخل ديسكورد.</p>
+                </article>
 
-            <article class="project-card"
-                data-title-ar="بوت حماية السيرفر"
-                data-title-en="Server Protection Bot"
-                data-desc-ar="أدوات مراقبة تساعد على الحد من التخريب والسبام والإجراءات الضارة."
-                data-desc-en="Monitoring tools designed to help reduce destructive actions, spam, and harmful activity."
-                data-details-ar="الفكرة: مساعدة أصحاب السيرفرات على متابعة الأنشطة التي قد تضر بالمجتمع أو تؤثر في استقراره.\n\nالوظائف: مراقبة بعض الأنشطة الإدارية، والمساعدة في الحد من التخريب والسبام وفقًا لإعدادات وميزات البوت.\n\nالهدف: تعزيز قدرة الإدارة على ملاحظة الأنشطة غير المعتادة والاستجابة لها بصورة أسرع. لا يغني البوت عن ضبط الصلاحيات ومراجعة إعدادات الأمان."
-                data-details-en="Concept: Help server owners monitor activity that could harm their community or affect server stability.\n\nFeatures: Monitor selected administrative actions and help reduce destructive activity and spam through the bot's configured features.\n\nGoal: Help moderators identify unusual activity and respond more quickly. The bot does not replace careful permission management and security configuration."
-                data-tech="JavaScript, Node.js, Discord.js"
-                data-link=""
-                data-icon="fa-shield-halved">
-                <div class="project-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                <h3 class="project-title" data-ar="بوت حماية السيرفر" data-en="Server Protection Bot">بوت حماية السيرفر</h3>
-                <p class="project-desc" data-ar="أدوات مراقبة تساعد على الحد من التخريب والسبام والإجراءات الضارة." data-en="Monitoring tools designed to help reduce destructive actions, spam, and harmful activity.">أدوات مراقبة تساعد على الحد من التخريب والسبام والإجراءات الضارة.</p>
-                <span class="project-hint" data-ar="اضغط للتفاصيل" data-en="Click for details">اضغط للتفاصيل</span>
-            </article>
+                <article class="project-card"
+                    data-title-ar="بوت إدارة السيرفر"
+                    data-title-en="Server Management Bot"
+                    data-desc-ar="أدوات إدارية متكاملة: حظر، طرد، كتم، تايم أوت، وسجلات دقيقة لكل إجراء."
+                    data-desc-en="Complete moderation toolkit: bans, kicks, mutes, timeouts, and precise logs for every action."
+                    data-details-ar="بوت لإدارة سيرفرات ديسكورد وتسهيل المهام الإدارية، يشمل الحظر والطرد والكتم والتايم أوت، مع سجلات دقيقة لكل إجراء."
+                    data-details-en="A Discord server management bot that simplifies moderation tasks, including bans, kicks, mutes, timeouts, and precise logs for every action."
+                    data-tech="JavaScript, Node.js, Discord.js"
+                    data-link=""
+                    data-icon="fa-gavel">
+                    <div class="project-icon"><i class="fa-solid fa-gavel"></i></div>
+                    <h3 class="project-title" data-ar="بوت إدارة السيرفر" data-en="Server Management Bot">بوت إدارة السيرفر</h3>
+                    <p class="project-desc" data-ar="أدوات إدارية متكاملة: حظر، طرد، كتم، تايم أوت، وسجلات دقيقة لكل إجراء." data-en="Complete moderation toolkit: bans, kicks, mutes, timeouts, and precise logs for every action.">أدوات إدارية متكاملة: حظر، طرد، كتم، تايم أوت، وسجلات دقيقة لكل إجراء.</p>
+                </article>
 
-            <article class="project-card"
-                data-title-ar="بوت Tellonym"
-                data-title-en="Tellonym Bot"
-                data-desc-ar="يعرض معلومات حساب Tellonym والرسائل الأخيرة وإحصائيات التفاعل داخل إمبد."
-                data-desc-en="Displays Tellonym profile details, recent tells, and interaction statistics in an embed."
-                data-details-ar="الفكرة: عرض ملخص منظم لحساب Tellonym داخل ديسكورد دون الحاجة إلى فتح جميع المعلومات يدويًا.\n\nالوظائف: يتيح إدخال رابط الحساب، ثم يعرض معلومات مثل الصورة الشخصية وعدد المتابعين وآخر 10 رسائل، إضافة إلى الرسالة الأكثر تفاعلًا.\n\nتجربة الاستخدام: يجمع المعلومات الأساسية في إمبد واحد واضح، مع تحديث البيانات وفق آلية البوت."
-                data-details-en="Concept: Present an organized summary of a Tellonym profile inside Discord without requiring users to open every detail manually.\n\nFeatures: Users provide a profile link, and the bot displays information such as the profile picture, follower count, latest 10 tells, and the tell with the most interactions.\n\nUser experience: Brings key information together in one readable embed, with data updates handled by the bot."
-                data-tech="JavaScript, Node.js, Discord.js"
-                data-link=""
-                data-icon="fa-comment-dots">
-                <div class="project-icon"><i class="fa-solid fa-comment-dots"></i></div>
-                <h3 class="project-title" data-ar="بوت Tellonym" data-en="Tellonym Bot">بوت Tellonym</h3>
-                <p class="project-desc" data-ar="يعرض معلومات حساب Tellonym والرسائل الأخيرة وإحصائيات التفاعل داخل إمبد." data-en="Displays Tellonym profile details, recent tells, and interaction statistics in an embed.">يعرض معلومات حساب Tellonym والرسائل الأخيرة وإحصائيات التفاعل داخل إمبد.</p>
-                <span class="project-hint" data-ar="اضغط للتفاصيل" data-en="Click for details">اضغط للتفاصيل</span>
-            </article>
+                <article class="project-card"
+                    data-title-ar="بوت حماية السيرفر"
+                    data-title-en="Server Protection Bot"
+                    data-desc-ar="طبقة حماية ذكية تراقب الأنشطة المشبوهة وتحدّ من التخريب والسبام تلقائياً."
+                    data-desc-en="A smart protection layer that monitors suspicious activity and reduces destructive actions and spam automatically."
+                    data-details-ar="بوت يركز على حماية سيرفرات ديسكورد من التخريب والإجراءات الإدارية الضارة والسبام، عبر مراقبة الأنشطة والحد من إساءة الاستخدام تلقائياً."
+                    data-details-en="A Discord bot focused on protecting servers from destructive actions, harmful moderation activity, and spam through monitoring and automatic abuse prevention."
+                    data-tech="JavaScript, Node.js, Discord.js"
+                    data-link=""
+                    data-icon="fa-shield-halved">
+                    <div class="project-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="project-title" data-ar="بوت حماية السيرفر" data-en="Server Protection Bot">بوت حماية السيرفر</h3>
+                    <p class="project-desc" data-ar="طبقة حماية ذكية تراقب الأنشطة المشبوهة وتحدّ من التخريب والسبام تلقائياً." data-en="A smart protection layer that monitors suspicious activity and reduces destructive actions and spam automatically.">طبقة حماية ذكية تراقب الأنشطة المشبوهة وتحدّ من التخريب والسبام تلقائياً.</p>
+                </article>
 
-            <article class="project-card"
-                data-title-ar="بوت الموسيقى"
-                data-title-en="Music Bot"
-                data-desc-ar="بوت لتشغيل المقاطع الصوتية داخل القنوات الصوتية مع خيارات للفلاتر."
-                data-desc-en="A music bot for playing audio in voice channels with sound filter options."
-                data-details-ar="الفكرة: توفير تجربة استماع داخل سيرفر ديسكورد من خلال بوت مخصص للموسيقى.\n\nالوظائف: تشغيل المقاطع الصوتية داخل القنوات الصوتية، مع خيارات للفلاتر الصوتية لتغيير طبيعة الصوت أثناء الاستماع.\n\nالهدف: جمع التشغيل والخيارات الصوتية في تجربة واحدة سهلة الوصول لأعضاء السيرفر."
-                data-details-en="Concept: Provide an in-server listening experience through a dedicated Discord music bot.\n\nFeatures: Play audio in voice channels and offer sound filters that change the listening experience.\n\nGoal: Bring playback and audio options together in one accessible experience for server members."
-                data-tech="JavaScript, Node.js, Discord.js"
-                data-link=""
-                data-icon="fa-music">
-                <div class="project-icon"><i class="fa-solid fa-music"></i></div>
-                <h3 class="project-title" data-ar="بوت الموسيقى" data-en="Music Bot">بوت الموسيقى</h3>
-                <p class="project-desc" data-ar="بوت لتشغيل المقاطع الصوتية داخل القنوات الصوتية مع خيارات للفلاتر." data-en="A music bot for playing audio in voice channels with sound filter options.">بوت لتشغيل المقاطع الصوتية داخل القنوات الصوتية مع خيارات للفلاتر.</p>
-                <span class="project-hint" data-ar="اضغط للتفاصيل" data-en="Click for details">اضغط للتفاصيل</span>
-            </article>
+                <article class="project-card"
+                    data-title-ar="بوت Tellonym"
+                    data-title-en="Tellonym Bot"
+                    data-desc-ar="يعرض بروفايل Tellonym داخل ديسكورد: الصورة، المتابعون، آخر الرسائل، والأكثر تفاعلاً."
+                    data-desc-en="Displays a Tellonym profile inside Discord: picture, followers, latest tells, and the most interacted one."
+                    data-details-ar="بوت يعرض معلومات حساب Tellonym داخل إمبد في ديسكورد، مثل الصورة الشخصية وعدد المتابعين وآخر 10 رسائل وأكثر رسالة حصلت على تفاعل، مع تحديث تلقائي."
+                    data-details-en="A Discord bot that displays Tellonym profile information in an embed, including the profile picture, follower count, the latest 10 tells, and the tell with the most interactions, with automatic updates."
+                    data-tech="JavaScript, Node.js, Discord.js"
+                    data-link=""
+                    data-icon="fa-comment-dots">
+                    <div class="project-icon"><i class="fa-solid fa-comment-dots"></i></div>
+                    <h3 class="project-title" data-ar="بوت Tellonym" data-en="Tellonym Bot">بوت Tellonym</h3>
+                    <p class="project-desc" data-ar="يعرض بروفايل Tellonym داخل ديسكورد: الصورة، المتابعون، آخر الرسائل، والأكثر تفاعلاً." data-en="Displays a Tellonym profile inside Discord: picture, followers, latest tells, and the most interacted one.">يعرض بروفايل Tellonym داخل ديسكورد: الصورة، المتابعون، آخر الرسائل، والأكثر تفاعلاً.</p>
+                </article>
 
-        </div>
-    </section>
+                <article class="project-card"
+                    data-title-ar="بوت الموسيقى"
+                    data-title-en="Music Bot"
+                    data-desc-ar="تشغيل صوتي عالي الجودة داخل ديسكورد، مع فلاتر صوتية وتحكم كامل في قائمة التشغيل."
+                    data-desc-en="High-quality audio playback in Discord with sound filters and full playlist control."
+                    data-details-ar="بوت موسيقى لديسكورد يوفر تشغيل المقاطع الصوتية بجودة عالية، مع فلاتر صوتية لتغيير الصوت وتحكم كامل في قائمة التشغيل."
+                    data-details-en="A Discord music bot that delivers high-quality audio playback, with sound filters to customize the listening experience and full playlist control."
+                    data-tech="JavaScript, Node.js, Discord.js"
+                    data-link=""
+                    data-icon="fa-music">
+                    <div class="project-icon"><i class="fa-solid fa-music"></i></div>
+                    <h3 class="project-title" data-ar="بوت الموسيقى" data-en="Music Bot">بوت الموسيقى</h3>
+                    <p class="project-desc" data-ar="تشغيل صوتي عالي الجودة داخل ديسكورد، مع فلاتر صوتية وتحكم كامل في قائمة التشغيل." data-en="High-quality audio playback in Discord with sound filters and full playlist control.">تشغيل صوتي عالي الجودة داخل ديسكورد، مع فلاتر صوتية وتحكم كامل في قائمة التشغيل.</p>
+                </article>
 
-    <section id="social">
-        <div class="section-header" data-ar="حساباتي" data-en="Socials">حساباتي</div>
-        <div class="social-grid">
-            <a href="https://discord.com/users/1356618809078841458" target="_blank" rel="noopener noreferrer" class="social-card">
-                <img src="discord.png" alt="Discord" class="social-icon">
-                <span>l4</span>
-            </a>
-            <a href="https://www.instagram.com/0qyl" target="_blank" rel="noopener noreferrer" class="social-card">
-                <img src="instagram.png" alt="Instagram" class="social-icon">
-                <span>0qyl</span>
-            </a>
-            <a href="https://tellonym.me/_sys" target="_blank" rel="noopener noreferrer" class="social-card">
-                <img src="tellonym.png" alt="Tellonym" class="social-icon">
-                <span>_sys</span>
-            </a>
-        </div>
-    </section>
-</div>
+            </div>
+        </section>
 
-<footer>
-    <p class="footer-terminal">sys.admin@l4:~$ connection_established --latency=<span id="ping-latency" class="latency-text">12ms</span></p>
-    <p>© 2026 | by l4</p>
-</footer>
+        <section id="social">
+            <div class="section-header" data-ar="Socials Media" data-en="Socials Media">Socials Media</div>
 
-<div class="modal-overlay" id="projectModal">
-    <div class="modal-content">
-        <button class="modal-close" id="modalClose" aria-label="Close"><i class="fa-solid fa-times"></i></button>
-        <div class="modal-icon" id="modalIcon"><i class="fa-solid fa-code"></i></div>
-        <h2 class="modal-title" id="modalTitle"></h2>
-        <p class="modal-desc" id="modalDesc"></p>
-        <div class="modal-info">
-            <div class="modal-info-title"><i class="fa-solid fa-layer-group"></i><span data-ar="التقنيات المستخدمة" data-en="Technologies Used">التقنيات المستخدمة</span></div>
-            <div class="modal-tech" id="modalTech"></div>
-        </div>
-        <a href="#" class="modal-link" id="modalLink" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub</a>
+            <div class="social-grid">
+                <a href="https://discord.com/users/1356618809078841458" target="_blank" class="social-card">
+                    <img src="discord.png" alt="Discord" class="social-icon">
+                    <span>l4</span>
+                </a>
+
+                <a href="https://www.instagram.com/0qyl" target="_blank" class="social-card">
+                    <img src="instagram.png" alt="Instagram" class="social-icon">
+                    <span>0qyl</span>
+                </a>
+
+                <a href="https://tellonym.me/_sys" target="_blank" class="social-card">
+                    <img src="tellonym.png" alt="Tellonym" class="social-icon">
+                    <span>_sys</span>
+                </a>
+            </div>
+        </section>
+
     </div>
-</div>
 
-<script>
-const cursorGlow = document.querySelector('.cursor-glow');
+    <footer>
+        <p class="footer-terminal">sys.admin@l4:~$ connection_established --latency=<span id="ping-latency" class="latency-text">12ms</span></p>
+        <p>© 2026 | by l4</p>
+    </footer>
 
-window.addEventListener('mousemove', e => {
-    cursorGlow.style.left = `${e.clientX}px`;
-    cursorGlow.style.top = `${e.clientY}px`;
-});
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose"><i class="fa-solid fa-times"></i></button>
+            <div class="modal-icon" id="modalIcon"><i class="fa-solid fa-code"></i></div>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <p class="modal-desc" id="modalDesc"></p>
+            <div class="modal-tech" id="modalTech"></div>
+            <a href="#" class="modal-link" id="modalLink" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub</a>
+        </div>
+    </div>
 
-window.addEventListener('touchmove', e => {
-    if (!e.touches.length) return;
-    cursorGlow.style.left = `${e.touches[0].clientX}px`;
-    cursorGlow.style.top = `${e.touches[0].clientY}px`;
-}, { passive:true });
+    <script>
+        const cursorGlow = document.querySelector('.cursor-glow');
 
-window.addEventListener('mousedown', () => cursorGlow.classList.add('click-effect'));
-window.addEventListener('mouseup', () => cursorGlow.classList.remove('click-effect'));
-window.addEventListener('touchstart', () => cursorGlow.classList.add('click-effect'), { passive:true });
-window.addEventListener('touchend', () => cursorGlow.classList.remove('click-effect'));
+        window.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = `${e.clientX}px`;
+            cursorGlow.style.top = `${e.clientY}px`;
+        });
 
-const navbar = document.getElementById('navbar');
+        window.addEventListener('touchmove', (e) => {
+            cursorGlow.style.left = `${e.touches[0].clientX}px`;
+            cursorGlow.style.top = `${e.touches[0].clientY}px`;
+        }, { passive: true });
 
-window.addEventListener('scroll', () => {
-    if (window.scrollY < 50) navbar.classList.add('nav-colored');
-    else navbar.classList.remove('nav-colored');
-});
+        window.addEventListener('mousedown', () => cursorGlow.classList.add('click-effect'));
+        window.addEventListener('mouseup', () => cursorGlow.classList.remove('click-effect'));
+        window.addEventListener('touchstart', () => cursorGlow.classList.add('click-effect'), { passive: true });
+        window.addEventListener('touchend', () => cursorGlow.classList.remove('click-effect'));
 
-const sections = document.querySelectorAll('section');
-const navItems = document.querySelectorAll('.nav-links a');
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-window.addEventListener('scroll', () => {
-    let current = '';
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12') e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') e.preventDefault();
+            if (e.ctrlKey && e.key === 'u') e.preventDefault();
+            if (e.ctrlKey && e.key === 's') e.preventDefault();
+        });
 
-    sections.forEach(section => {
-        if (window.scrollY >= section.offsetTop - 250) {
-            current = section.getAttribute('id');
+        document.addEventListener('dragstart', (e) => e.preventDefault());
+
+        (function() {
+            const botPatterns = [
+                'bot', 'crawler', 'spider', 'slurp', 'bingbot', 'googlebot',
+                'yandex', 'baidu', 'duckduckbot', 'facebot', 'ia_archiver',
+                'petalbot', 'semrush', 'ahrefs', 'mj12', 'screaming'
+            ];
+            const ua = navigator.userAgent.toLowerCase();
+
+            for (let pattern of botPatterns) {
+                if (ua.includes(pattern)) {
+                    document.body.innerHTML = '<h1 style="color:white;text-align:center;margin-top:50vh;">Access Denied</h1>';
+                    break;
+                }
+            }
+        })();
+
+        setInterval(() => {
+            if (window.outerWidth - window.innerWidth > 200 || window.outerHeight - window.innerHeight > 200) {
+                document.body.style.display = 'none';
+                alert('DevTools detected!');
+                setTimeout(() => { document.body.style.display = 'block'; }, 1000);
+            }
+        }, 2000);
+
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY < 50) navbar.classList.add('nav-colored');
+            else navbar.classList.remove('nav-colored');
+        });
+
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 250) current = section.getAttribute('id');
+            });
+
+            if (window.innerHeight + Math.round(window.scrollY) >= document.body.offsetHeight - 50) {
+                current = 'social';
+            }
+
+            navItems.forEach(item => {
+                item.classList.remove('active-link');
+                if (current && item.getAttribute('href').includes(current)) {
+                    item.classList.add('active-link');
+                }
+            });
+        });
+
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('active'));
+        });
+
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                timeZone: 'Asia/Riyadh',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            document.getElementById('terminal-clock').innerText = new Intl.DateTimeFormat('en-US', options).format(now);
         }
-    });
 
-    if (window.innerHeight + Math.round(window.scrollY) >= document.body.offsetHeight - 50) {
-        current = 'social';
-    }
+        setInterval(updateTime, 1000);
+        updateTime();
 
-    navItems.forEach(item => {
-        item.classList.remove('active-link');
-        if (current && item.getAttribute('href') === `#${current}`) {
-            item.classList.add('active-link');
+        const animatedLogElement = document.getElementById('animated-log');
+        const dynamicLogElement = document.getElementById('dynamic-log');
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
-    });
-});
 
-const menuBtn = document.getElementById('menuBtn');
-const navLinks = document.getElementById('navLinks');
+        function typeWriterPromise(text, isError, element) {
+            return new Promise((resolve) => {
+                element.style.color = isError ? 'var(--terminal-red)' : 'var(--terminal-green)';
+                element.innerHTML = '> ';
+                let i = 0;
 
-menuBtn.addEventListener('click', e => {
-    e.stopPropagation();
-    navLinks.classList.toggle('active');
-});
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, 40);
+                    } else {
+                        element.innerHTML += ' <span class="blinking-cursor"></span>';
+                        resolve();
+                    }
+                }
 
-document.addEventListener('click', e => {
-    if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
-        navLinks.classList.remove('active');
-    }
-});
+                type();
+            });
+        }
 
-navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => navLinks.classList.remove('active'));
-});
+        const sessions = [
+            {
+                logs: [
+                    { text: 'Mounting file systems...', error: false },
+                    { text: 'Loading AI core modules...', error: false },
+                    { text: '[ERROR] Access Denied. Bypassing firewall...', error: true },
+                    { text: 'Bypass successful. Syncing data...', error: false },
+                    { text: 'Fetching user preferences...', error: false },
+                    { text: '[WARN] Memory leak detected in script.js', error: true },
+                    { text: 'System fully operational.', error: false }
+                ],
+                dynamicUpdates: [
+                    'System status: operational',
+                    'CPU load: 12% - normal',
+                    'Memory usage: 42% (1.2GB/8GB)',
+                    'Network: stable - latency 15ms',
+                    'Firewall: active - 3 blocked attempts'
+                ]
+            },
+            {
+                logs: [
+                    { text: 'Initializing security protocols...', error: false },
+                    { text: 'Checking kernel integrity...', error: false },
+                    { text: '[CRITICAL] Rootkit detected in /sys/kernel', error: true },
+                    { text: 'Quarantining malicious files...', error: false },
+                    { text: 'Restoring from backup...', error: false },
+                    { text: 'Integrity check passed.', error: false }
+                ],
+                dynamicUpdates: [
+                    'Threat neutralized: 2 files quarantined',
+                    'System scan: 100% complete',
+                    'No further threats found',
+                    'Logs uploaded to secure server'
+                ]
+            },
+            {
+                logs: [
+                    { text: 'Connecting to secure shell...', error: false },
+                    { text: 'Authenticating user: l4', error: false },
+                    { text: '[WARN] Unusual login attempt blocked', error: true },
+                    { text: 'Two-factor authentication successful', error: false },
+                    { text: 'Access granted. Welcome back.', error: false }
+                ],
+                dynamicUpdates: [
+                    'Last login: today at 14:32:07',
+                    'New IP whitelisted: 203.0.113.7',
+                    'Session timeout set to 30 minutes',
+                    'Encrypted channel established'
+                ]
+            }
+        ];
 
-function updateTime() {
-    const now = new Date();
-    const options = {
-        timeZone:'Asia/Riyadh',
-        hour:'2-digit',
-        minute:'2-digit',
-        second:'2-digit',
-        hour12:true
-    };
-    document.getElementById('terminal-clock').innerText =
-        new Intl.DateTimeFormat('en-US', options).format(now);
-}
+        let sessionIndex = 0;
 
-setInterval(updateTime, 1000);
-updateTime();
+        async function runSession(session) {
+            animatedLogElement.innerHTML = '';
+            dynamicLogElement.innerHTML = '';
 
-const animatedLogElement = document.getElementById('animated-log');
-const dynamicLogElement = document.getElementById('dynamic-log');
+            for (let i = 0; i < session.logs.length; i++) {
+                const log = session.logs[i];
+                await typeWriterPromise(log.text, log.error, animatedLogElement);
+                await sleep(400);
+            }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+            for (let j = 0; j < session.dynamicUpdates.length; j++) {
+                dynamicLogElement.innerHTML = '> ' + session.dynamicUpdates[j] + ' <span class="blinking-cursor"></span>';
+                await sleep(1800);
+            }
 
-function typeWriterPromise(text, isError, element) {
-    return new Promise(resolve => {
-        element.style.color = isError ? 'var(--terminal-red)' : 'var(--terminal-green)';
-        element.textContent = '> ';
-        let i = 0;
+            dynamicLogElement.innerHTML = '';
+            await sleep(1000);
+        }
 
-        function type() {
-            if (i < text.length) {
-                element.textContent += text.charAt(i);
-                i++;
-                setTimeout(type, 28);
-            } else {
-                const cursor = document.createElement('span');
-                cursor.className = 'blinking-cursor';
-                element.appendChild(cursor);
-                resolve();
+        async function startTerminalLoop() {
+            while (true) {
+                await runSession(sessions[sessionIndex]);
+                sessionIndex = (sessionIndex + 1) % sessions.length;
             }
         }
 
-        type();
-    });
-}
+        window.addEventListener('load', () => startTerminalLoop());
 
-const sessions = [
-    {
-        logs:[
-            { text:'Starting application...', error:false },
-            { text:'Loading project modules...', error:false },
-            { text:'Checking configuration...', error:false },
-            { text:'All modules initialized.', error:false }
-        ],
-        dynamicUpdates:[
-            'System status: operational',
-            'Application: running',
-            'Services: initialized',
-            'Connection: stable'
-        ]
-    },
-    {
-        logs:[
-            { text:'Checking application status...', error:false },
-            { text:'Loading interface components...', error:false },
-            { text:'Synchronizing configuration...', error:false },
-            { text:'Ready for incoming requests.', error:false }
-        ],
-        dynamicUpdates:[
-            'Interface: ready',
-            'Modules: loaded',
-            'Runtime: active',
-            'System check: passed'
-        ]
-    },
-    {
-        logs:[
-            { text:'Initializing session...', error:false },
-            { text:'Verifying configuration...', error:false },
-            { text:'Preparing application services...', error:false },
-            { text:'Session initialized.', error:false }
-        ],
-        dynamicUpdates:[
-            'Session: active',
-            'Services: available',
-            'Status: normal',
-            'Application: online'
-        ]
-    }
-];
+        setInterval(() => {
+            const latencyElement = document.getElementById('ping-latency');
+            const randomPing = Math.floor(Math.random() * (45 - 12 + 1)) + 12;
+            latencyElement.innerText = randomPing + 'ms';
+        }, 3000);
 
-let sessionIndex = 0;
+        const langToggleDesktop = document.getElementById('langToggleDesktop');
+        const langToggleMobile = document.getElementById('langToggleMobile');
+        const translatableElements = document.querySelectorAll('[data-ar]');
+        let currentLang = 'ar';
 
-async function runSession(session) {
-    animatedLogElement.innerHTML = '';
-    dynamicLogElement.innerHTML = '';
+        function toggleLanguage() {
+            if (currentLang === 'ar') {
+                currentLang = 'en';
+                document.documentElement.lang = 'en';
+                document.documentElement.dir = 'ltr';
+                langToggleDesktop.innerText = 'AR';
+                langToggleMobile.innerText = 'AR';
+            } else {
+                currentLang = 'ar';
+                document.documentElement.lang = 'ar';
+                document.documentElement.dir = 'rtl';
+                langToggleDesktop.innerText = 'EN';
+                langToggleMobile.innerText = 'EN';
+            }
 
-    for (const log of session.logs) {
-        await typeWriterPromise(log.text, log.error, animatedLogElement);
-        await sleep(450);
-    }
+            translatableElements.forEach(el => {
+                const translatedText = el.getAttribute(`data-${currentLang}`);
+                if (translatedText !== null) el.innerText = translatedText;
+            });
+        }
 
-    for (const update of session.dynamicUpdates) {
-        dynamicLogElement.textContent = '> ' + update + ' ';
-        const cursor = document.createElement('span');
-        cursor.className = 'blinking-cursor';
-        dynamicLogElement.appendChild(cursor);
-        await sleep(1800);
-    }
+        langToggleDesktop.addEventListener('click', toggleLanguage);
 
-    dynamicLogElement.innerHTML = '';
-    await sleep(800);
-}
-
-async function startTerminalLoop() {
-    while (true) {
-        await runSession(sessions[sessionIndex]);
-        sessionIndex = (sessionIndex + 1) % sessions.length;
-    }
-}
-
-window.addEventListener('load', startTerminalLoop);
-
-setInterval(() => {
-    const latencyElement = document.getElementById('ping-latency');
-    const randomPing = Math.floor(Math.random() * 34) + 12;
-    latencyElement.innerText = randomPing + 'ms';
-}, 3000);
-
-const langToggleDesktop = document.getElementById('langToggleDesktop');
-const langToggleMobile = document.getElementById('langToggleMobile');
-const translatableElements = document.querySelectorAll('[data-ar][data-en]');
-let currentLang = 'ar';
-
-function toggleLanguage() {
-    currentLang = currentLang === 'ar' ? 'en' : 'ar';
-    document.documentElement.lang = currentLang;
-    document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-
-    langToggleDesktop.innerText = currentLang === 'ar' ? 'EN' : 'AR';
-    langToggleMobile.innerText = currentLang === 'ar' ? 'EN' : 'AR';
-
-    translatableElements.forEach(el => {
-        if (el.closest('.project-card')) return;
-        if (el.closest('#projectModal')) return;
-        el.textContent = el.getAttribute(`data-${currentLang}`);
-    });
-
-    document.querySelectorAll('.project-card').forEach(card => {
-        const title = card.querySelector('.project-title');
-        const desc = card.querySelector('.project-desc');
-        const hint = card.querySelector('.project-hint');
-
-        title.textContent = title.getAttribute(`data-${currentLang}`);
-        desc.textContent = desc.getAttribute(`data-${currentLang}`);
-        hint.textContent = hint.getAttribute(`data-${currentLang}`);
-    });
-
-    const modalInfoLabel = document.querySelector('.modal-info-title span');
-    modalInfoLabel.textContent = modalInfoLabel.getAttribute(`data-${currentLang}`);
-
-    const openCard = document.querySelector('.project-card.selected');
-    if (openCard && document.getElementById('projectModal').classList.contains('active')) {
-        openProjectModal(openCard);
-    }
-}
-
-langToggleDesktop.addEventListener('click', toggleLanguage);
-langToggleMobile.addEventListener('click', e => {
-    e.stopPropagation();
-    toggleLanguage();
-});
-
-const projectCards = document.querySelectorAll('.project-card');
-const modalOverlay = document.getElementById('projectModal');
-const modalClose = document.getElementById('modalClose');
-const modalIcon = document.getElementById('modalIcon');
-const modalTitle = document.getElementById('modalTitle');
-const modalDesc = document.getElementById('modalDesc');
-const modalTech = document.getElementById('modalTech');
-const modalLink = document.getElementById('modalLink');
-
-function openProjectModal(card) {
-    const lang = document.documentElement.lang || 'ar';
-    const suffix = lang === 'ar' ? 'ar' : 'en';
-    const title = card.dataset[`title${suffix}`] || '';
-    const details = card.dataset[`details${suffix}`] || '';
-    const tech = card.dataset.tech || '';
-    const link = card.dataset.link || '';
-    const iconClass = card.dataset.icon || 'fa-code';
-
-    projectCards.forEach(item => item.classList.remove('selected'));
-    card.classList.add('selected');
-
-    modalIcon.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
-    modalTitle.textContent = title;
-    modalDesc.textContent = details;
-
-    modalTech.innerHTML = '';
-
-    if (tech) {
-        tech.split(',').forEach(item => {
-            const span = document.createElement('span');
-            span.textContent = item.trim();
-            modalTech.appendChild(span);
+        langToggleMobile.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleLanguage();
         });
-    }
 
-    if (link && link.startsWith('https://')) {
-        modalLink.href = link;
-        modalLink.style.display = 'table';
-    } else {
-        modalLink.removeAttribute('href');
-        modalLink.style.display = 'none';
-    }
+        const projectCards = document.querySelectorAll('.project-card');
+        const modalOverlay = document.getElementById('projectModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalTech = document.getElementById('modalTech');
+        const modalLink = document.getElementById('modalLink');
 
-    modalOverlay.classList.add('active');
-}
+        // Populate tech tags inside each project card + attach click handler
+        projectCards.forEach(card => {
+            const tech = card.dataset.tech;
+            if (tech && !card.querySelector('.project-tech-tags')) {
+                const tagsContainer = document.createElement('div');
+                tagsContainer.className = 'project-tech-tags';
+                tech.split(',').forEach(item => {
+                    const chip = document.createElement('span');
+                    chip.textContent = item.trim();
+                    tagsContainer.appendChild(chip);
+                });
+                card.appendChild(tagsContainer);
+            }
+            card.addEventListener('click', () => openProjectModal(card));
+        });
 
-projectCards.forEach(card => {
-    card.addEventListener('click', () => openProjectModal(card));
-});
+        function openProjectModal(card) {
+            const lang = document.documentElement.lang || 'ar';
+            const suffix = lang === 'ar' ? 'Ar' : 'En';
 
-function closeModal() {
-    modalOverlay.classList.remove('active');
-    projectCards.forEach(card => card.classList.remove('selected'));
-}
+            const title = card.dataset[`title${suffix}`] || '';
+            const details = card.dataset[`details${suffix}`] || '';
+            const tech = card.dataset.tech || '';
+            const link = card.dataset.link || '';
+            const iconClass = card.dataset.icon || 'fa-code';
 
-modalClose.addEventListener('click', closeModal);
+            modalIcon.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
+            modalTitle.innerText = title;
+            modalDesc.innerText = details;
 
-modalOverlay.addEventListener('click', e => {
-    if (e.target === modalOverlay) closeModal();
-});
+            modalTech.innerHTML = '';
 
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
-        closeModal();
-    }
-});
-</script>
+            if (tech) {
+                tech.split(',').forEach(item => {
+                    const span = document.createElement('span');
+                    span.innerText = item.trim();
+                    modalTech.appendChild(span);
+                });
+            }
+
+            if (link && link.startsWith('https://')) {
+                modalLink.href = link;
+                modalLink.style.display = 'table';
+            } else {
+                modalLink.removeAttribute('href');
+                modalLink.style.display = 'none';
+            }
+
+            modalOverlay.classList.add('active');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+        }
+
+        modalClose.addEventListener('click', closeModal);
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
+        });
+    </script>
 </body>
 </html>
