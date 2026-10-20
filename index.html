@@ -115,6 +115,14 @@
             font-weight: bold;
             text-decoration: none;
             transition: .3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-brand i {
+            color: var(--terminal-green);
+            font-size: 1.1rem;
         }
 
         .nav-brand:hover { color: var(--terminal-green); }
@@ -148,7 +156,7 @@
             transition: .3s;
         }
 
-        .lang-btn:hover { background: #fff; color: #000; }
+        .lang-btn:hover { background: #fff; color: #000; transform: scale(1.05); }
         .mobile-lang-btn { display: none; }
         .desktop-lang-btn { display: block; }
 
@@ -227,6 +235,7 @@
 
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
+        /* --- ACTIVITY CARD ENHANCEMENTS --- */
         .activity-card {
             margin-top: 20px;
             background: var(--bg-card);
@@ -235,12 +244,29 @@
             padding: 16px 18px;
             direction: ltr;
             text-align: left;
-            transition: border-color .3s ease, box-shadow .3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(176,176,176,0.05) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
         .activity-card:hover {
             border-color: var(--terminal-green);
-            box-shadow: 0 0 22px rgba(176,176,176,.14), inset 0 0 20px rgba(176,176,176,.04);
+            box-shadow: 0 0 30px rgba(176,176,176,.15), inset 0 0 20px rgba(176,176,176,.05);
+            transform: translateY(-4px);
+        }
+
+        .activity-card:hover::before {
+            opacity: 1;
         }
 
         .activity-header {
@@ -251,6 +277,8 @@
             padding-bottom: 12px;
             margin-bottom: 14px;
             border-bottom: 1px dashed var(--border-color);
+            position: relative;
+            z-index: 1;
         }
 
         .activity-status {
@@ -270,11 +298,12 @@
             background: var(--presence-offline);
             color: var(--presence-offline);
             flex-shrink: 0;
+            transition: all 0.3s ease;
         }
 
-        .activity-dot[data-s="online"] { background: var(--presence-online); color: var(--presence-online); box-shadow: 0 0 8px currentColor; animation: status-blink 2s ease-in-out infinite; }
-        .activity-dot[data-s="idle"] { background: var(--presence-idle); color: var(--presence-idle); box-shadow: 0 0 8px currentColor; }
-        .activity-dot[data-s="dnd"] { background: var(--presence-dnd); color: var(--presence-dnd); box-shadow: 0 0 8px currentColor; }
+        .activity-dot[data-s="online"] { background: var(--presence-online); color: var(--presence-online); box-shadow: 0 0 10px currentColor; animation: status-blink 2s ease-in-out infinite; }
+        .activity-dot[data-s="idle"] { background: var(--presence-idle); color: var(--presence-idle); box-shadow: 0 0 10px currentColor; }
+        .activity-dot[data-s="dnd"] { background: var(--presence-dnd); color: var(--presence-dnd); box-shadow: 0 0 10px currentColor; }
 
         .activity-custom {
             font-size: .78rem;
@@ -285,9 +314,18 @@
             min-width: 0;
         }
 
-        .activity-list { display: flex; flex-direction: column; gap: 14px; }
+        .activity-list { display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; }
 
-        .activity-item { display: flex; align-items: center; gap: 14px; }
+        .activity-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+            transition: transform 0.3s ease;
+        }
+
+        .activity-card:hover .activity-item {
+            transform: translateX(5px);
+        }
 
         .activity-art {
             width: 64px;
@@ -301,6 +339,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.4s ease;
+        }
+
+        .activity-card:hover .activity-art {
+            transform: scale(1.08) rotate(3deg);
+            border-color: var(--terminal-green);
+            box-shadow: 0 0 15px rgba(176,176,176,.2);
         }
 
         .activity-art i {
@@ -334,6 +379,12 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            transition: color 0.3s ease;
+        }
+        
+        .activity-card:hover .activity-name {
+            color: var(--terminal-green-bright);
+            text-shadow: 0 0 10px rgba(230,230,230,0.3);
         }
 
         .activity-line {
@@ -362,6 +413,7 @@
             border-radius: 3px;
             background: var(--border-color);
             overflow: hidden;
+            position: relative;
         }
 
         .activity-bar span {
@@ -369,8 +421,22 @@
             height: 100%;
             width: 0;
             background: var(--terminal-green);
-            box-shadow: 0 0 8px rgba(176,176,176,.6);
+            box-shadow: 0 0 10px rgba(176,176,176,.8);
             transition: width .5s linear;
+            position: relative;
+        }
+        
+        .activity-bar span::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 2s infinite;
+            transform: translateX(-100%);
+        }
+
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
         }
 
         .activity-empty {
@@ -383,6 +449,7 @@
 
         .activity-empty i { font-size: 1.3rem; color: var(--terminal-green); }
 
+        /* --- HERO IMAGE --- */
         .hero-image {
             width: 320px;
             height: 320px;
@@ -562,11 +629,12 @@
         .focus-card:hover i { transform: scale(1.15) rotate(-5deg); }
 
         .focus-card h4 {
-            font-size: .95rem;
+            font-size: 0.95rem;
             color: #fff;
             margin: 0;
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Fira Code', monospace;
             font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .focus-card p {
@@ -647,6 +715,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
+            perspective: 1000px;
         }
 
         @media (min-width: 830px) {
@@ -663,11 +732,12 @@
             }
         }
 
+        /* --- PROJECT CARDS ENHANCEMENTS --- */
         .project-card {
             --mouse-x: 50%;
             --mouse-y: 50%;
             background-color: var(--bg-card);
-            background-image: radial-gradient(circle 140px at var(--mouse-x) var(--mouse-y), rgba(176,176,176,.16), transparent 65%);
+            background-image: radial-gradient(circle 140px at var(--mouse-x) var(--mouse-y), rgba(176,176,176,.12), transparent 65%);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 26px 18px 16px;
@@ -677,85 +747,30 @@
             justify-content: flex-start;
             text-align: center;
             cursor: pointer;
-            transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+            transition: border-color .3s ease, box-shadow .3s ease, transform 0.1s ease-out;
             position: relative;
             overflow: hidden;
             aspect-ratio: 1 / 1;
             gap: 8px;
-        }
-
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            width: 12px;
-            height: 12px;
-            border-top: 1px solid var(--terminal-green);
-            border-left: 1px solid var(--terminal-green);
-            opacity: 0;
-            transform: translate(-4px, -4px);
-            transition: opacity .3s ease, transform .3s ease;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .project-card::after {
-            content: '';
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            width: 12px;
-            height: 12px;
-            border-bottom: 1px solid var(--terminal-green);
-            border-right: 1px solid var(--terminal-green);
-            opacity: 0;
-            transform: translate(4px, 4px);
-            transition: opacity .3s ease, transform .3s ease;
-            pointer-events: none;
-            z-index: 2;
+            transform-style: preserve-3d;
+            will-change: transform;
         }
 
         .project-card:hover {
             border-color: var(--terminal-green);
-            transform: translateY(-4px);
-            box-shadow: 0 0 28px rgba(176,176,176,.2), inset 0 0 20px rgba(176,176,176,.05);
-        }
-
-        .project-card:hover::before,
-        .project-card:hover::after {
-            opacity: 1;
-            transform: translate(0, 0);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(176,176,176,.15), inset 0 0 20px rgba(176,176,176,.05);
+            z-index: 10;
         }
 
         .project-card:active {
-            transform: translateY(-2px) scale(0.985);
+            transform: scale(0.98) !important;
             transition-duration: .1s;
-        }
-
-        .card-arrow {
-            position: absolute;
-            top: 10px;
-            right: 14px;
-            font-size: 1rem;
-            color: var(--terminal-green);
-            opacity: 0;
-            transform: translate(-4px, 4px);
-            transition: opacity .3s ease, transform .3s ease;
-            font-family: sans-serif;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .project-card:hover .card-arrow {
-            opacity: 1;
-            transform: translate(0, 0);
         }
 
         .project-status {
             position: absolute;
-            top: 10px;
-            left: 12px;
+            top: 12px;
+            left: 14px;
             display: flex;
             align-items: center;
             gap: 5px;
@@ -771,6 +786,7 @@
             box-shadow: 0 0 0 1px rgba(0,0,0,.4), 0 4px 12px rgba(0,0,0,.4);
             backdrop-filter: blur(8px);
             z-index: 2;
+            transform: translateZ(20px);
         }
 
         .project-status .status-dot {
@@ -797,12 +813,13 @@
             margin-top: 8px;
             margin-bottom: 5px;
             text-shadow: 0 0 15px rgba(176,176,176,.5);
-            transition: transform .3s ease, text-shadow .3s ease;
+            transition: transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow .3s ease;
+            transform: translateZ(30px);
         }
 
         .project-card:hover .project-icon {
-            transform: scale(1.18) rotate(-6deg);
-            text-shadow: 0 0 25px rgba(176,176,176,.9);
+            transform: translateZ(40px) scale(1.15) rotate(-5deg);
+            text-shadow: 0 0 25px rgba(176,176,176,.8), 0 0 50px rgba(176,176,176,.4);
         }
 
         .project-title {
@@ -813,6 +830,7 @@
             font-family: 'Fira Code', monospace;
             direction: ltr;
             transition: color .3s ease, text-shadow .3s ease;
+            transform: translateZ(20px);
         }
 
         .project-card:hover .project-title {
@@ -829,10 +847,11 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             transition: color .3s ease;
+            transform: translateZ(10px);
         }
 
         .project-card:hover .project-desc {
-            color: #a5a5a5;
+            color: #b0b0b0;
         }
 
         .project-tech-tags {
@@ -843,6 +862,7 @@
             margin-top: auto;
             padding-top: 8px;
             width: 100%;
+            transform: translateZ(15px);
         }
 
         .project-tech-tags span {
@@ -854,98 +874,28 @@
             font-size: .65rem;
             font-family: 'Fira Code', monospace;
             white-space: nowrap;
-            transition: transform .3s ease, background .3s ease, border-color .3s ease;
+            transition: all .3s ease;
         }
 
         .project-card:hover .project-tech-tags span {
-            transform: translateY(-2px);
-            background: rgba(176,176,176,.16);
-            border-color: rgba(176,176,176,.35);
+            background: rgba(176,176,176,.15);
+            border-color: rgba(176,176,176,.4);
+            color: #fff;
         }
 
-        .project-card:hover .project-tech-tags span:nth-child(1) { transition-delay: 0s; }
-        .project-card:hover .project-tech-tags span:nth-child(2) { transition-delay: .05s; }
-        .project-card:hover .project-tech-tags span:nth-child(3) { transition-delay: .1s; }
-        .project-card:hover .project-tech-tags span:nth-child(4) { transition-delay: .15s; }
+        .project-card:hover .project-tech-tags span:nth-child(1) { transform: translateY(-2px); transition-delay: 0s; }
+        .project-card:hover .project-tech-tags span:nth-child(2) { transform: translateY(-2px); transition-delay: .05s; }
+        .project-card:hover .project-tech-tags span:nth-child(3) { transform: translateY(-2px); transition-delay: .1s; }
+        .project-card:hover .project-tech-tags span:nth-child(4) { transform: translateY(-2px); transition-delay: .15s; }
 
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,.85);
-            backdrop-filter: blur(10px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-            opacity: 0;
-            transition: opacity .3s ease;
-        }
-
-        .modal-overlay.active { display: flex; opacity: 1; }
-
-        .modal-content {
-            background: var(--bg-card);
-            border: 1px solid var(--terminal-green);
-            border-radius: 16px;
-            padding: 35px 30px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 0 40px rgba(176,176,176,.15), 0 20px 60px rgba(0,0,0,.8);
-            direction: inherit;
-        }
-
-        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-dim); font-size: 1.5rem; cursor: pointer !important; transition: .3s; z-index: 10; }
-        .modal-close:hover { color: var(--terminal-green); transform: rotate(90deg); }
-        .modal-icon { font-size: 3rem; color: var(--terminal-green); text-align: center; margin-bottom: 20px; text-shadow: 0 0 20px rgba(176,176,176,.5); }
-        .modal-title { font-size: 1.8rem; font-family: 'Fira Code', monospace; text-align: center; margin-bottom: 15px; color: #fff; direction: ltr; }
-        .modal-desc { color: var(--text-main); line-height: 1.9; margin-bottom: 20px; text-align: center; font-size: .95rem; }
-
-        .modal-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 25px;
-        }
-
-        .modal-tech span {
-            background: rgba(176,176,176,.1);
-            border: 1px solid var(--border-color);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: .8rem;
-            font-family: 'Fira Code', monospace;
-            color: var(--terminal-green);
-        }
-
-        .modal-link {
-            align-items: center;
-            gap: 8px;
-            background: var(--terminal-green);
-            color: var(--bg-dark);
-            padding: 10px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-family: 'Fira Code', monospace;
-            transition: .3s;
-            margin: 0 auto;
-            display: table;
-        }
-
-        .modal-link:hover { background: #fff; color: #000; transform: scale(1.05); box-shadow: 0 0 20px rgba(176,176,176,.4); }
-
+        /* --- SOCIAL CARDS ENHANCEMENTS --- */
         .social-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 15px; }
 
         .social-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 20px 15px;
-            border-radius: 10px;
+            padding: 25px 15px;
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -954,24 +904,58 @@
             font-family: 'Fira Code', monospace;
             text-decoration: none;
             color: var(--text-dim);
-            transition: all .3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
 
-        .social-card:hover { border-color: var(--terminal-green); color: #fff; transform: translateY(-4px); background: rgba(176,176,176,.07); box-shadow: inset 0 0 20px rgba(176,176,176,.06); }
-        .social-card span { direction: ltr; unicode-bidi: embed; display: inline-block; }
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+        }
+
+        .social-card:hover::before {
+            left: 200%;
+        }
+
+        .social-card:hover {
+            border-color: var(--terminal-green);
+            color: #fff;
+            transform: translateY(-6px) scale(1.02);
+            background: rgba(176,176,176,.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(176,176,176,.15);
+        }
+
+        .social-card span { 
+            direction: ltr; 
+            unicode-bidi: embed; 
+            display: inline-block; 
+            transition: transform 0.3s ease;
+        }
+
+        .social-card:hover span {
+            transform: translateY(-2px);
+            font-weight: bold;
+        }
 
         .social-icon {
             font-size: 2.2rem;
             color: var(--terminal-green);
-            transition: transform .3s ease, text-shadow .3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-shadow: 0 0 10px rgba(176,176,176,.35);
         }
 
         .social-card:hover .social-icon {
-            transform: scale(1.12);
-            text-shadow: 0 0 20px rgba(176,176,176,.8);
+            transform: scale(1.3) translateY(-5px) rotate(5deg);
+            color: #fff;
+            text-shadow: 0 0 25px rgba(255,255,255,.8), 0 0 40px rgba(176,176,176,.6);
         }
 
         footer {
@@ -1040,10 +1024,93 @@
 
             .projects-grid { grid-template-columns: 1fr; }
             .project-card { aspect-ratio: auto; min-height: 220px; padding: 24px 16px 14px; }
+            
+            /* Disable 3D tilt on mobile */
+            .project-card:hover {
+                transform: none !important;
+            }
 
             .modal-content { padding: 25px 20px; }
             .modal-title { font-size: 1.4rem; }
         }
+        
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.85);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity .3s ease;
+        }
+
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--terminal-green);
+            border-radius: 16px;
+            padding: 35px 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 40px rgba(176,176,176,.15), 0 20px 60px rgba(0,0,0,.8);
+            direction: inherit;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-dim); font-size: 1.5rem; cursor: pointer !important; transition: .3s; z-index: 10; }
+        .modal-close:hover { color: var(--terminal-green); transform: rotate(90deg); }
+        .modal-icon { font-size: 3rem; color: var(--terminal-green); text-align: center; margin-bottom: 20px; text-shadow: 0 0 20px rgba(176,176,176,.5); }
+        .modal-title { font-size: 1.8rem; font-family: 'Fira Code', monospace; text-align: center; margin-bottom: 15px; color: #fff; direction: ltr; }
+        .modal-desc { color: var(--text-main); line-height: 1.9; margin-bottom: 20px; text-align: center; font-size: .95rem; }
+
+        .modal-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-tech span {
+            background: rgba(176,176,176,.1);
+            border: 1px solid var(--border-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: .8rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--terminal-green);
+        }
+
+        .modal-link {
+            align-items: center;
+            gap: 8px;
+            background: var(--terminal-green);
+            color: var(--bg-dark);
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'Fira Code', monospace;
+            transition: .3s;
+            margin: 0 auto;
+            display: table;
+        }
+
+        .modal-link:hover { background: #fff; color: #000; transform: scale(1.05); box-shadow: 0 0 20px rgba(176,176,176,.4); }
     </style>
 </head>
 <body>
@@ -1052,7 +1119,7 @@
     <input type="text" id="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
 
     <nav id="navbar">
-        <a href="#home" class="nav-brand">l4</a>
+        <a href="#home" class="nav-brand"><i class="fa-solid fa-code"></i> l4</a>
 
         <div class="nav-content-wrapper">
             <div class="nav-links" id="navLinks">
@@ -1124,25 +1191,25 @@
                 <div class="about-focus-grid">
                     <div class="focus-card">
                         <i class="fa-solid fa-laptop-code"></i>
-                        <h4 data-ar="تطوير الويب" data-en="Web Development">تطوير الويب</h4>
+                        <h4>Web Development</h4>
                         <p data-ar="أبني مواقع نظيفة وسريعة، بتجربة استخدام سلسة ومريحة."
                            data-en="I build clean, fast websites with a smooth and comfortable user experience.">أبني مواقع نظيفة وسريعة، بتجربة استخدام سلسة ومريحة.</p>
                     </div>
                     <div class="focus-card">
                         <i class="fa-solid fa-robot"></i>
-                        <h4 data-ar="بوتات ديسكورد والأتمتة" data-en="Discord Bots & Automation">بوتات ديسكورد والأتمتة</h4>
+                        <h4>Discord Bots & Automation</h4>
                         <p data-ar="بوتات إدارة وحماية، مع أتمتة للمهام المتكررة لتوفير الوقت والجهد."
                            data-en="Moderation and protection bots, plus automation for repetitive tasks to save time and effort.">بوتات إدارة وحماية، مع أتمتة للمهام المتكررة لتوفير الوقت والجهد.</p>
                     </div>
                     <div class="focus-card">
                         <i class="fa-solid fa-user-secret"></i>
-                        <h4 data-ar="OSINT والأمن السيبراني" data-en="OSINT & Cybersecurity">OSINT والأمن السيبراني</h4>
+                        <h4>OSINT & Cybersecurity</h4>
                         <p data-ar="جمع المعلومات من المصادر المفتوحة، وتحليل النطاقات، وبناء أدوات استطلاع أخلاقية."
                            data-en="Gathering information from open sources, analyzing domains, and building ethical reconnaissance tools.">جمع المعلومات من المصادر المفتوحة، وتحليل النطاقات، وبناء أدوات استطلاع أخلاقية.</p>
                     </div>
                     <div class="focus-card">
                         <i class="fa-solid fa-brain"></i>
-                        <h4 data-ar="الذكاء الاصطناعي وتدريب النماذج" data-en="AI & Model Training">الذكاء الاصطناعي وتدريب النماذج</h4>
+                        <h4>AI & Model Training</h4>
                         <p data-ar="تدريب النماذج على بيانات مخصصة وتحسين أدائها، وبناء مساعدين أذكياء."
                            data-en="Training models on custom data, optimizing their performance, and building smart assistants.">تدريب النماذج على بيانات مخصصة وتحسين أدائها، وبناء مساعدين أذكياء.</p>
                     </div>
@@ -1693,13 +1760,6 @@
                 card.appendChild(badge);
             }
 
-            if (!card.querySelector('.card-arrow')) {
-                const arrow = document.createElement('span');
-                arrow.className = 'card-arrow';
-                arrow.textContent = '↗';
-                card.appendChild(arrow);
-            }
-
             const tech = card.dataset.tech;
             if (tech && !card.querySelector('.project-tech-tags')) {
                 const tagsContainer = document.createElement('div');
@@ -1712,10 +1772,28 @@
                 card.appendChild(tagsContainer);
             }
 
+            // 3D Tilt Effect
             card.addEventListener('mousemove', (e) => {
+                if (window.innerWidth <= 768) return; // Disable on mobile
+                
                 const rect = card.getBoundingClientRect();
-                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10; // Max rotation 10deg
+                const rotateY = ((x - centerX) / centerX) * 10;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
             });
 
             card.addEventListener('click', () => openProjectModal(card));
