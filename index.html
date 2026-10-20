@@ -233,6 +233,8 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 16px 18px;
+            direction: ltr;
+            text-align: left;
             transition: border-color .3s ease, box-shadow .3s ease;
         }
 
@@ -1668,8 +1670,6 @@
                 const translatedText = el.getAttribute(`data-${currentLang}`);
                 if (translatedText !== null) el.innerText = translatedText;
             });
-
-            renderActivity();
         }
 
         langToggleDesktop.addEventListener('click', toggleLanguage);
@@ -1781,20 +1781,10 @@
         const CODE_APPS = /visual studio|vs ?code|code - oss|vscodium|cursor|intellij|pycharm|webstorm|phpstorm|clion|rider|android studio|sublime|neovim|vim|atom|notepad\+\+|replit|codespaces|eclipse|zed|termux/i;
 
         const ACTIVITY_TEXT = {
-            ar: {
-                online: 'متصل', idle: 'خامل', dnd: 'مشغول', offline: 'غير متصل',
-                playing: 'يلعب', listening: 'يستمع إلى Spotify', watching: 'يشاهد',
-                streaming: 'يبث', competing: 'يتنافس', coding: 'يبرمج',
-                none: 'ما في نشاط حالياً', connecting: 'جاري الاتصال...',
-                elapsed: 'منذ'
-            },
-            en: {
-                online: 'Online', idle: 'Idle', dnd: 'Do Not Disturb', offline: 'Offline',
-                playing: 'Playing', listening: 'Listening to Spotify', watching: 'Watching',
-                streaming: 'Streaming', competing: 'Competing in', coding: 'Coding',
-                none: 'No activity right now', connecting: 'Connecting...',
-                elapsed: 'for'
-            }
+            online: 'Online', idle: 'Idle', dnd: 'Do Not Disturb', offline: 'Offline',
+            playing: 'Playing', listening: 'Listening to Spotify', watching: 'Watching',
+            streaming: 'Streaming', competing: 'Competing in', coding: 'Coding',
+            none: 'No activity right now', connecting: 'Connecting...'
         };
 
         const activityDot = document.getElementById('activityDot');
@@ -1891,7 +1881,7 @@
         }
 
         function renderActivity() {
-            const t = ACTIVITY_TEXT[currentLang];
+            const t = ACTIVITY_TEXT;
 
             if (!lanyardData) {
                 activityDot.dataset.s = 'offline';
