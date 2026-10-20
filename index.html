@@ -109,6 +109,9 @@
         }
 
         .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             color: var(--text-main);
             font-family: 'Fira Code', monospace;
             font-size: 1.25rem;
@@ -117,7 +120,65 @@
             transition: .3s;
         }
 
-        .nav-brand:hover { color: var(--terminal-green); }
+        .nav-brand:hover { color: var(--terminal-green-bright); }
+
+        .brand-mark {
+            position: relative;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .brand-mark::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1.5px solid var(--terminal-green);
+            border-radius: 50%;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            animation: brand-spin 2.4s linear infinite;
+            box-shadow: 0 0 10px rgba(176,176,176,.35), inset 0 0 8px rgba(176,176,176,.15);
+        }
+
+        .brand-mark::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border: 1px solid var(--terminal-green-bright);
+            border-radius: 50%;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            animation: brand-spin 1.8s linear infinite reverse;
+            opacity: .6;
+        }
+
+        .brand-pulse {
+            width: 7px;
+            height: 7px;
+            background: var(--terminal-green-bright);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--terminal-green), 0 0 18px var(--terminal-green);
+            animation: brand-beat 1.6s ease-in-out infinite;
+        }
+
+        @keyframes brand-spin { to { transform: rotate(360deg); } }
+
+        @keyframes brand-beat {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px var(--terminal-green), 0 0 18px var(--terminal-green); }
+            50% { transform: scale(1.25); box-shadow: 0 0 14px var(--terminal-green-bright), 0 0 26px var(--terminal-green); }
+        }
+
+        .nav-brand:hover .brand-mark::before {
+            border-color: var(--terminal-green-bright);
+            box-shadow: 0 0 18px var(--terminal-green), inset 0 0 12px rgba(176,176,176,.3);
+        }
+
+        .nav-brand:hover .brand-mark::after { opacity: 1; }
+
         .nav-content-wrapper { display: flex; align-items: center; gap: 20px; direction: ltr !important; }
         .nav-links { display: flex; gap: 25px; align-items: center; }
         .nav-actions { display: flex; align-items: center; gap: 15px; }
@@ -286,7 +347,6 @@
         }
 
         .activity-list { display: flex; flex-direction: column; gap: 14px; }
-
         .activity-item { display: flex; align-items: center; gap: 14px; }
 
         .activity-art {
@@ -303,47 +363,13 @@
             justify-content: center;
         }
 
-        .activity-art i {
-            font-size: 1.6rem;
-            color: var(--terminal-green);
-            text-shadow: 0 0 15px rgba(176,176,176,.5);
-        }
-
-        .activity-art img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: var(--bg-card);
-        }
+        .activity-art i { font-size: 1.6rem; color: var(--terminal-green); text-shadow: 0 0 15px rgba(176,176,176,.5); }
+        .activity-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: var(--bg-card); }
 
         .activity-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; text-align: start; }
-
-        .activity-type {
-            font-family: 'Fira Code', monospace;
-            font-size: .68rem;
-            color: var(--terminal-green);
-        }
-
-        .activity-name {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-            font-family: 'Cairo', sans-serif;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .activity-line {
-            font-size: .78rem;
-            color: var(--text-dim);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            margin: 0;
-        }
+        .activity-type { font-family: 'Fira Code', monospace; font-size: .68rem; color: var(--terminal-green); }
+        .activity-name { font-size: 1rem; font-weight: 700; color: #fff; font-family: 'Cairo', sans-serif; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .activity-line { font-size: .78rem; color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 0; }
 
         .activity-time {
             display: flex;
@@ -356,31 +382,10 @@
             direction: ltr;
         }
 
-        .activity-bar {
-            flex: 1;
-            height: 3px;
-            border-radius: 3px;
-            background: var(--border-color);
-            overflow: hidden;
-        }
+        .activity-bar { flex: 1; height: 3px; border-radius: 3px; background: var(--border-color); overflow: hidden; }
+        .activity-bar span { display: block; height: 100%; width: 0; background: var(--terminal-green); box-shadow: 0 0 8px rgba(176,176,176,.6); transition: width .5s linear; }
 
-        .activity-bar span {
-            display: block;
-            height: 100%;
-            width: 0;
-            background: var(--terminal-green);
-            box-shadow: 0 0 8px rgba(176,176,176,.6);
-            transition: width .5s linear;
-        }
-
-        .activity-empty {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--text-dim);
-            font-size: .85rem;
-        }
-
+        .activity-empty { display: flex; align-items: center; gap: 12px; color: var(--text-dim); font-size: .85rem; }
         .activity-empty i { font-size: 1.3rem; color: var(--terminal-green); }
 
         .hero-image {
@@ -405,9 +410,7 @@
             transition: opacity .5s ease;
         }
 
-        .hero-image img.loaded {
-            opacity: 1;
-        }
+        .hero-image img.loaded { opacity: 1; }
 
         .hero-image::after {
             content: '';
@@ -552,29 +555,11 @@
             box-shadow: 0 0 22px rgba(176,176,176,.14);
         }
 
-        .focus-card i {
-            font-size: 1.7rem;
-            color: var(--terminal-green);
-            text-shadow: 0 0 15px rgba(176,176,176,.4);
-            transition: transform .3s ease;
-        }
-
+        .focus-card i { font-size: 1.7rem; color: var(--terminal-green); text-shadow: 0 0 15px rgba(176,176,176,.4); transition: transform .3s ease; }
         .focus-card:hover i { transform: scale(1.15) rotate(-5deg); }
 
-        .focus-card h4 {
-            font-size: .95rem;
-            color: #fff;
-            margin: 0;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 700;
-        }
-
-        .focus-card p {
-            font-size: .78rem;
-            color: var(--text-dim);
-            line-height: 1.65;
-            margin: 0;
-        }
+        .focus-card h4 { font-size: .95rem; color: #fff; margin: 0; font-family: 'Cairo', sans-serif; font-weight: 700; }
+        .focus-card p { font-size: .78rem; color: var(--text-dim); line-height: 1.65; margin: 0; }
 
         .about-skills-block { margin: 30px 0 26px; }
 
@@ -587,12 +572,7 @@
             letter-spacing: 1px;
         }
 
-        .skill-chips {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-        }
+        .skill-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 
         .skill-chip {
             background: rgba(176,176,176,.07);
@@ -647,12 +627,11 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
+            perspective: 1200px;
         }
 
         @media (min-width: 830px) {
-            .project-card:last-child:nth-child(3n + 1) {
-                grid-column: 2 / 3;
-            }
+            .project-card:last-child:nth-child(3n + 1) { grid-column: 2 / 3; }
         }
 
         @media (min-width: 769px) and (max-width: 829px) {
@@ -666,8 +645,12 @@
         .project-card {
             --mouse-x: 50%;
             --mouse-y: 50%;
+            --rx: 0deg;
+            --ry: 0deg;
+            --lift: 0px;
+            --sc: 1;
             background-color: var(--bg-card);
-            background-image: radial-gradient(circle 140px at var(--mouse-x) var(--mouse-y), rgba(176,176,176,.16), transparent 65%);
+            background-image: radial-gradient(circle 160px at var(--mouse-x) var(--mouse-y), rgba(176,176,176,.18), transparent 65%);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 26px 18px 16px;
@@ -677,11 +660,14 @@
             justify-content: flex-start;
             text-align: center;
             cursor: pointer;
-            transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+            transition: border-color .35s ease, box-shadow .35s ease, transform .5s cubic-bezier(.2,.8,.2,1);
             position: relative;
             overflow: hidden;
             aspect-ratio: 1 / 1;
             gap: 8px;
+            transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift)) scale(var(--sc));
+            will-change: transform;
+            transform-style: preserve-3d;
         }
 
         .project-card::before {
@@ -717,9 +703,9 @@
         }
 
         .project-card:hover {
+            --lift: -6px;
             border-color: var(--terminal-green);
-            transform: translateY(-4px);
-            box-shadow: 0 0 28px rgba(176,176,176,.2), inset 0 0 20px rgba(176,176,176,.05);
+            box-shadow: 0 18px 40px -12px rgba(0,0,0,.85), 0 0 32px rgba(176,176,176,.22), inset 0 0 22px rgba(176,176,176,.05);
         }
 
         .project-card:hover::before,
@@ -729,7 +715,8 @@
         }
 
         .project-card:active {
-            transform: translateY(-2px) scale(0.985);
+            --lift: -3px;
+            --sc: .985;
             transition-duration: .1s;
         }
 
@@ -747,10 +734,7 @@
             z-index: 2;
         }
 
-        .project-card:hover .card-arrow {
-            opacity: 1;
-            transform: translate(0, 0);
-        }
+        .project-card:hover .card-arrow { opacity: 1; transform: translate(0, 0); }
 
         .project-status {
             position: absolute;
@@ -797,12 +781,13 @@
             margin-top: 8px;
             margin-bottom: 5px;
             text-shadow: 0 0 15px rgba(176,176,176,.5);
-            transition: transform .3s ease, text-shadow .3s ease;
+            transition: transform .4s cubic-bezier(.2,.8,.2,1), text-shadow .4s ease;
+            transform: translateZ(20px);
         }
 
         .project-card:hover .project-icon {
-            transform: scale(1.18) rotate(-6deg);
-            text-shadow: 0 0 25px rgba(176,176,176,.9);
+            transform: translateZ(30px) scale(1.2) rotate(-6deg);
+            text-shadow: 0 0 28px rgba(230,230,230,.9), 0 0 50px rgba(176,176,176,.4);
         }
 
         .project-title {
@@ -813,11 +798,12 @@
             font-family: 'Fira Code', monospace;
             direction: ltr;
             transition: color .3s ease, text-shadow .3s ease;
+            transform: translateZ(10px);
         }
 
         .project-card:hover .project-title {
             color: #fff;
-            text-shadow: 0 0 12px rgba(230,230,230,.4);
+            text-shadow: 0 0 12px rgba(230,230,230,.5);
         }
 
         .project-desc {
@@ -831,9 +817,7 @@
             transition: color .3s ease;
         }
 
-        .project-card:hover .project-desc {
-            color: #a5a5a5;
-        }
+        .project-card:hover .project-desc { color: #a5a5a5; }
 
         .project-tech-tags {
             display: flex;
@@ -904,13 +888,7 @@
         .modal-title { font-size: 1.8rem; font-family: 'Fira Code', monospace; text-align: center; margin-bottom: 15px; color: #fff; direction: ltr; }
         .modal-desc { color: var(--text-main); line-height: 1.9; margin-bottom: 20px; text-align: center; font-size: .95rem; }
 
-        .modal-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 25px;
-        }
+        .modal-tech { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 25px; }
 
         .modal-tech span {
             background: rgba(176,176,176,.1);
@@ -939,13 +917,23 @@
 
         .modal-link:hover { background: #fff; color: #000; transform: scale(1.05); box-shadow: 0 0 20px rgba(176,176,176,.4); }
 
-        .social-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 15px; }
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            perspective: 1000px;
+        }
 
         .social-card {
+            --rx: 0deg;
+            --ry: 0deg;
+            --lift: 0px;
+            --sx: 50%;
+            --sy: 50%;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 20px 15px;
-            border-radius: 10px;
+            padding: 22px 15px;
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -954,24 +942,59 @@
             font-family: 'Fira Code', monospace;
             text-decoration: none;
             color: var(--text-dim);
-            transition: all .3s ease;
+            transition: border-color .35s ease, color .35s ease, box-shadow .35s ease, background .35s ease, transform .5s cubic-bezier(.2,.8,.2,1);
             position: relative;
             overflow: hidden;
+            transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));
+            will-change: transform;
         }
 
-        .social-card:hover { border-color: var(--terminal-green); color: #fff; transform: translateY(-4px); background: rgba(176,176,176,.07); box-shadow: inset 0 0 20px rgba(176,176,176,.06); }
-        .social-card span { direction: ltr; unicode-bidi: embed; display: inline-block; }
+        .social-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle 140px at var(--sx) var(--sy), rgba(176,176,176,.20), transparent 70%);
+            opacity: 0;
+            transition: opacity .35s ease;
+            pointer-events: none;
+        }
+
+        .social-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.09) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform .8s cubic-bezier(.2,.8,.2,1);
+            pointer-events: none;
+        }
+
+        .social-card:hover {
+            --lift: -6px;
+            border-color: var(--terminal-green);
+            color: #fff;
+            background: rgba(176,176,176,.06);
+            box-shadow: 0 18px 40px -12px rgba(0,0,0,.85), 0 0 28px rgba(176,176,176,.20), inset 0 0 22px rgba(176,176,176,.05);
+        }
+
+        .social-card:hover::before { opacity: 1; }
+        .social-card:hover::after { transform: translateX(100%); }
+        .social-card:active { --lift: -3px; transition-duration: .1s; }
+        .social-card span { direction: ltr; unicode-bidi: embed; display: inline-block; position: relative; z-index: 2; }
 
         .social-icon {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             color: var(--terminal-green);
-            transition: transform .3s ease, text-shadow .3s ease;
+            transition: transform .45s cubic-bezier(.2,.8,.2,1), text-shadow .45s ease;
             text-shadow: 0 0 10px rgba(176,176,176,.35);
+            position: relative;
+            z-index: 2;
+            transform: translateZ(15px);
         }
 
         .social-card:hover .social-icon {
-            transform: scale(1.12);
-            text-shadow: 0 0 20px rgba(176,176,176,.8);
+            transform: translateZ(25px) scale(1.18) rotate(-5deg);
+            text-shadow: 0 0 22px rgba(230,230,230,.9), 0 0 45px rgba(176,176,176,.5);
         }
 
         footer {
@@ -995,6 +1018,8 @@
             nav { width: 90%; padding: 12px 20px; border-radius: 30px; }
             .menu-btn { display: block; }
             .desktop-lang-btn { display: none; }
+            .brand-mark { width: 22px; height: 22px; }
+            .brand-pulse { width: 6px; height: 6px; }
 
             .nav-links {
                 display: none;
@@ -1052,7 +1077,10 @@
     <input type="text" id="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
 
     <nav id="navbar">
-        <a href="#home" class="nav-brand">l4</a>
+        <a href="#home" class="nav-brand">
+            <span class="brand-mark"><span class="brand-pulse"></span></span>
+            <span class="brand-text">l4</span>
+        </a>
 
         <div class="nav-content-wrapper">
             <div class="nav-links" id="navLinks">
@@ -1116,9 +1144,10 @@
 
             <div class="about-box">
                 <p class="about-lead"
-                   data-ar="أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالتعلم النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً."
+                   translate="no"
+                   data-ar="أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالجانب النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً."
                    data-en="I'm Ziyad, an AI engineering student and developer. I don't settle for theory — I build and ship my own projects: websites, Discord bots, OSINT tools, and AI applications that real people actually use.">
-                    أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالتعلم النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً.
+                    أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالجانب النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً.
                 </p>
 
                 <div class="about-focus-grid">
@@ -1673,6 +1702,7 @@
         });
 
         const projectCards = document.querySelectorAll('.project-card');
+        const socialCards = document.querySelectorAll('.social-card');
         const modalOverlay = document.getElementById('projectModal');
         const modalClose = document.getElementById('modalClose');
         const modalIcon = document.getElementById('modalIcon');
@@ -1682,6 +1712,29 @@
         const modalLink = document.getElementById('modalLink');
 
         const STATUS_LABELS = { live: 'Live', dev: 'In Dev', beta: 'Beta' };
+
+        const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+        function attachTilt(el, divisor) {
+            if (isTouch) return;
+            el.addEventListener('mousemove', (e) => {
+                const r = el.getBoundingClientRect();
+                const x = e.clientX - r.left;
+                const y = e.clientY - r.top;
+                const cx = r.width / 2;
+                const cy = r.height / 2;
+                el.style.setProperty('--rx', `${((y - cy) / divisor).toFixed(2)}deg`);
+                el.style.setProperty('--ry', `${((cx - x) / divisor).toFixed(2)}deg`);
+                el.style.setProperty('--mouse-x', `${x}px`);
+                el.style.setProperty('--mouse-y', `${y}px`);
+                el.style.setProperty('--sx', `${x}px`);
+                el.style.setProperty('--sy', `${y}px`);
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.setProperty('--rx', '0deg');
+                el.style.setProperty('--ry', '0deg');
+            });
+        }
 
         projectCards.forEach(card => {
             const status = card.dataset.status;
@@ -1712,14 +1765,11 @@
                 card.appendChild(tagsContainer);
             }
 
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-            });
-
+            attachTilt(card, 16);
             card.addEventListener('click', () => openProjectModal(card));
         });
+
+        socialCards.forEach(card => attachTilt(card, 20));
 
         function openProjectModal(card) {
             const lang = document.documentElement.lang || 'ar';
