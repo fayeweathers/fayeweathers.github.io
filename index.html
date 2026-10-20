@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>l4</title>
-    <!-- تم استبدال الأيقونة هنا بأيقونة SVG مدمجة (طرفية برمجية) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23050505'/><path d='M30 35 L45 50 L30 65 M50 65 L70 65' stroke='%23b0b0b0' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -179,16 +178,22 @@
             gap: 90px;
         }
 
-        .hero { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap-reverse; gap: 40px; }
-        .hero-text { flex: 1; min-width: 300px; }
-
-        .hero-text h1 {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            font-family: 'Fira Code', monospace;
-            letter-spacing: -1.5px;
-            text-align: left;
-            direction: ltr;
+        /* --- FIXED HERO LAYOUT (Image Right, Text Left) --- */
+        .hero { 
+            display: flex; 
+            flex-direction: row; /* Forces image to right, text to left */
+            align-items: center; 
+            justify-content: space-between; 
+            flex-wrap: wrap-reverse; 
+            gap: 40px; 
+            direction: ltr; /* Overrides global RTL to keep layout fixed */
+        }
+        
+        .hero-text { 
+            flex: 1; 
+            min-width: 300px; 
+            direction: inherit; /* Restores text direction based on language */
+            text-align: start;
         }
 
         .terminal {
@@ -203,6 +208,7 @@
             direction: ltr;
             text-align: left;
             min-height: 140px;
+            width: 100%;
         }
 
         .terminal-header {
@@ -221,7 +227,16 @@
         .dot-yellow { background: #ffbd2e; }
         .dot-green { background: #27c93f; }
         .terminal-time { font-size: .75rem; color: #666; font-family: 'Fira Code', monospace; }
-        .terminal p { margin-bottom: 8px; min-height: 20px; }
+        
+        /* Prevents terminal text from wrapping to a new line */
+        .terminal p { 
+            margin-bottom: 8px; 
+            min-height: 20px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+        
         .terminal-static { color: #555; }
 
         .blinking-cursor {
@@ -236,38 +251,49 @@
 
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* --- ACTIVITY CARD ENHANCEMENTS --- */
+        /* --- CYBERPUNK ACTIVITY CARD --- */
         .activity-card {
             margin-top: 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px 18px;
+            background: rgba(13, 13, 13, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(176, 176, 176, 0.15);
+            border-radius: 14px;
+            padding: 20px;
             direction: ltr;
             text-align: left;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
+            will-change: transform;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
         }
 
+        /* Animated glowing border effect */
         .activity-card::before {
             content: '';
             position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(176,176,176,0.05) 0%, transparent 60%);
+            inset: -1px;
+            background: linear-gradient(45deg, transparent, rgba(176,176,176,0.3), transparent);
+            z-index: -1;
+            border-radius: inherit;
             opacity: 0;
             transition: opacity 0.4s ease;
-            pointer-events: none;
         }
 
         .activity-card:hover {
-            border-color: var(--terminal-green);
-            box-shadow: 0 0 30px rgba(176,176,176,.15), inset 0 0 20px rgba(176,176,176,.05);
-            transform: translateY(-4px);
+            border-color: rgba(176, 176, 176, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(176, 176, 176, 0.1);
         }
 
         .activity-card:hover::before {
             opacity: 1;
+            animation: scanline 2s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
         }
 
         .activity-header {
@@ -277,9 +303,10 @@
             gap: 12px;
             padding-bottom: 12px;
             margin-bottom: 14px;
-            border-bottom: 1px dashed var(--border-color);
+            border-bottom: 1px dashed rgba(176,176,176,0.2);
             position: relative;
             z-index: 1;
+            transform: translateZ(10px);
         }
 
         .activity-status {
@@ -287,14 +314,15 @@
             align-items: center;
             gap: 8px;
             font-family: 'Fira Code', monospace;
-            font-size: .78rem;
+            font-size: .8rem;
             color: var(--text-main);
+            font-weight: bold;
             white-space: nowrap;
         }
 
         .activity-dot {
-            width: 9px;
-            height: 9px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: var(--presence-offline);
             color: var(--presence-offline);
@@ -302,9 +330,9 @@
             transition: all 0.3s ease;
         }
 
-        .activity-dot[data-s="online"] { background: var(--presence-online); color: var(--presence-online); box-shadow: 0 0 10px currentColor; animation: status-blink 2s ease-in-out infinite; }
-        .activity-dot[data-s="idle"] { background: var(--presence-idle); color: var(--presence-idle); box-shadow: 0 0 10px currentColor; }
-        .activity-dot[data-s="dnd"] { background: var(--presence-dnd); color: var(--presence-dnd); box-shadow: 0 0 10px currentColor; }
+        .activity-dot[data-s="online"] { background: var(--presence-online); color: var(--presence-online); box-shadow: 0 0 12px currentColor; animation: status-blink 2s ease-in-out infinite; }
+        .activity-dot[data-s="idle"] { background: var(--presence-idle); color: var(--presence-idle); box-shadow: 0 0 12px currentColor; }
+        .activity-dot[data-s="dnd"] { background: var(--presence-dnd); color: var(--presence-dnd); box-shadow: 0 0 12px currentColor; }
 
         .activity-custom {
             font-size: .78rem;
@@ -320,19 +348,16 @@
         .activity-item { 
             display: flex; 
             align-items: center; 
-            gap: 14px; 
+            gap: 16px; 
             transition: transform 0.3s ease;
-        }
-
-        .activity-card:hover .activity-item {
-            transform: translateX(5px);
+            transform: translateZ(20px);
         }
 
         .activity-art {
-            width: 64px;
-            height: 64px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+            border: 1px solid rgba(176,176,176,0.2);
             background: rgba(176,176,176,.06);
             flex-shrink: 0;
             position: relative;
@@ -340,17 +365,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         .activity-card:hover .activity-art {
-            transform: scale(1.08) rotate(3deg);
+            transform: scale(1.1) rotate(2deg) translateZ(30px);
             border-color: var(--terminal-green);
-            box-shadow: 0 0 15px rgba(176,176,176,.2);
+            box-shadow: 0 0 25px rgba(176,176,176,.4);
         }
 
         .activity-art i {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             color: var(--terminal-green);
             text-shadow: 0 0 15px rgba(176,176,176,.5);
         }
@@ -364,16 +390,18 @@
             background: var(--bg-card);
         }
 
-        .activity-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; text-align: start; }
+        .activity-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; text-align: start; }
 
         .activity-type {
             font-family: 'Fira Code', monospace;
-            font-size: .68rem;
+            font-size: .7rem;
             color: var(--terminal-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .activity-name {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #fff;
             font-family: 'Cairo', sans-serif;
@@ -385,11 +413,11 @@
         
         .activity-card:hover .activity-name {
             color: var(--terminal-green-bright);
-            text-shadow: 0 0 10px rgba(230,230,230,0.3);
+            text-shadow: 0 0 10px rgba(230,230,230,0.4);
         }
 
         .activity-line {
-            font-size: .78rem;
+            font-size: .8rem;
             color: var(--text-dim);
             overflow: hidden;
             text-overflow: ellipsis;
@@ -400,19 +428,19 @@
         .activity-time {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-top: 5px;
+            gap: 10px;
+            margin-top: 6px;
             font-family: 'Fira Code', monospace;
-            font-size: .65rem;
+            font-size: .7rem;
             color: var(--text-dim);
             direction: ltr;
         }
 
         .activity-bar {
             flex: 1;
-            height: 3px;
-            border-radius: 3px;
-            background: var(--border-color);
+            height: 4px;
+            border-radius: 4px;
+            background: rgba(176,176,176,0.1);
             overflow: hidden;
             position: relative;
         }
@@ -422,7 +450,7 @@
             height: 100%;
             width: 0;
             background: var(--terminal-green);
-            box-shadow: 0 0 10px rgba(176,176,176,.8);
+            box-shadow: 0 0 12px rgba(176,176,176,1);
             transition: width .5s linear;
             position: relative;
         }
@@ -431,8 +459,8 @@
             content: '';
             position: absolute;
             top: 0; right: 0; bottom: 0; left: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-            animation: shimmer 2s infinite;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            animation: shimmer 1.5s infinite;
             transform: translateX(-100%);
         }
 
@@ -733,7 +761,6 @@
             }
         }
 
-        /* --- PROJECT CARDS ENHANCEMENTS --- */
         .project-card {
             --mouse-x: 50%;
             --mouse-y: 50%;
@@ -889,7 +916,6 @@
         .project-card:hover .project-tech-tags span:nth-child(3) { transform: translateY(-2px); transition-delay: .1s; }
         .project-card:hover .project-tech-tags span:nth-child(4) { transform: translateY(-2px); transition-delay: .15s; }
 
-        /* --- SOCIAL CARDS ENHANCEMENTS --- */
         .social-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 15px; }
 
         .social-card {
@@ -999,11 +1025,13 @@
             .nav-links.active { display: flex; }
             .nav-links a { justify-content: center; font-size: 1.1rem; width: 100%; }
             .mobile-lang-btn { display: block; margin: 5px auto 0; width: 50%; }
-            .hero { flex-direction: column-reverse; text-align: center; gap: 30px; }
+            
+            /* Forces mobile layout to stack normally regardless of LTR/RTL */
+            .hero { flex-direction: column; text-align: center; gap: 30px; }
             .hero-image { margin: 0 auto; width: 260px; height: 260px; }
-            .hero-text h1 { text-align: center; }
+            .hero-text { text-align: center; }
 
-            .activity-card { padding: 14px; }
+            .activity-card { padding: 16px; }
             .activity-art { width: 56px; height: 56px; }
 
             .about-box {
@@ -1027,7 +1055,7 @@
             .project-card { aspect-ratio: auto; min-height: 220px; padding: 24px 16px 14px; }
             
             /* Disable 3D tilt on mobile */
-            .project-card:hover {
+            .project-card:hover, .activity-card:hover {
                 transform: none !important;
             }
 
@@ -1035,7 +1063,6 @@
             .modal-title { font-size: 1.4rem; }
         }
         
-        /* Modal styles */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1124,10 +1151,10 @@
 
         <div class="nav-content-wrapper">
             <div class="nav-links" id="navLinks">
-                <a href="#home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="Home" data-en="Home">Home</span></a>
-                <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="About Me" data-en="About Me">About Me</span></a>
-                <a href="#projects"><i class="fa-solid fa-diagram-project"></i> <span data-ar="Projects" data-en="Projects">Projects</span></a>
-                <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="Socials" data-en="Socials">Socials</span></a>
+                <a href="#home" class="active-link"><i class="fa-solid fa-house"></i> <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></a>
+                <a href="#about"><i class="fa-solid fa-user"></i> <span data-ar="من أنا" data-en="About">من أنا</span></a>
+                <a href="#projects"><i class="fa-solid fa-diagram-project"></i> <span data-ar="مشاريعي" data-en="Projects">مشاريعي</span></a>
+                <a href="#social"><i class="fa-solid fa-share-nodes"></i> <span data-ar="تواصل" data-en="Socials">تواصل</span></a>
                 <button class="lang-btn mobile-lang-btn" id="langToggleMobile">EN</button>
             </div>
 
@@ -1142,7 +1169,7 @@
 
         <section id="home" class="hero">
             <div class="hero-text">
-                <h1>l4</h1>
+                <!-- Removed the big l4 text -->
                 <div class="terminal">
                     <div class="terminal-header">
                         <div class="terminal-dots">
@@ -1180,44 +1207,44 @@
         </section>
 
         <section id="about">
-            <div class="section-header" data-ar="About Me" data-en="About Me">About Me</div>
+            <div class="section-header" data-ar="من أنا" data-en="About Me">من أنا</div>
 
             <div class="about-box">
                 <p class="about-lead"
-                   data-ar="أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالتعلم النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً."
-                   data-en="I'm Ziyad, an AI engineering student and developer. I don't settle for theory — I build and ship my own projects: websites, Discord bots, OSINT tools, and AI applications that real people actually use.">
-                    أنا زياد، طالب هندسة ذكاء اصطناعي ومطور. لا أكتفي بالتعلم النظري، بل أبني وأطلق مشاريعي بنفسي: مواقع ويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي يستخدمها الناس فعلياً.
+                   data-ar="أنا زياد طالب هندسة ذكاء اصطناعي ومطور. ما أحب الكلام النظري كثير، أحب أبني وأطلق مشاريعي بنفسي. أشتغل على مواقع الويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي الناس تستخدمها فعلاً."
+                   data-en="I'm Ziyad, an AI engineering student and developer. I don't just stick to theory. I build and ship my own projects like websites, Discord bots, OSINT tools, and AI apps that real people actually use.">
+                    أنا زياد طالب هندسة ذكاء اصطناعي ومطور. ما أحب الكلام النظري كثير، أحب أبني وأطلق مشاريعي بنفسي. أشتغل على مواقع الويب، بوتات ديسكورد، أدوات OSINT، وتطبيقات ذكاء اصطناعي الناس تستخدمها فعلاً.
                 </p>
 
                 <div class="about-focus-grid">
                     <div class="focus-card">
                         <i class="fa-solid fa-laptop-code"></i>
                         <h4>Web Development</h4>
-                        <p data-ar="أبني مواقع نظيفة وسريعة، بتجربة استخدام سلسة ومريحة."
-                           data-en="I build clean, fast websites with a smooth and comfortable user experience.">أبني مواقع نظيفة وسريعة، بتجربة استخدام سلسة ومريحة.</p>
+                        <p data-ar="أبني مواقع نظيفة وسريعة بتجربة استخدام مريحة."
+                           data-en="I build clean and fast websites with a comfortable user experience.">أبني مواقع نظيفة وسريعة بتجربة استخدام مريحة.</p>
                     </div>
                     <div class="focus-card">
                         <i class="fa-solid fa-robot"></i>
-                        <h4>Discord Bots & Automation</h4>
-                        <p data-ar="بوتات إدارة وحماية، مع أتمتة للمهام المتكررة لتوفير الوقت والجهد."
-                           data-en="Moderation and protection bots, plus automation for repetitive tasks to save time and effort.">بوتات إدارة وحماية، مع أتمتة للمهام المتكررة لتوفير الوقت والجهد.</p>
+                        <h4>Discord Bots</h4>
+                        <p data-ar="بوتات إدارة وحماية مع أتمتة للمهام المتكررة لتوفير الوقت."
+                           data-en="Moderation and protection bots with automation for repetitive tasks to save time.">بوتات إدارة وحماية مع أتمتة للمهام المتكررة لتوفير الوقت.</p>
                     </div>
                     <div class="focus-card">
                         <i class="fa-solid fa-user-secret"></i>
-                        <h4>OSINT & Cybersecurity</h4>
-                        <p data-ar="جمع المعلومات من المصادر المفتوحة، وتحليل النطاقات، وبناء أدوات استطلاع أخلاقية."
-                           data-en="Gathering information from open sources, analyzing domains, and building ethical reconnaissance tools.">جمع المعلومات من المصادر المفتوحة، وتحليل النطاقات، وبناء أدوات استطلاع أخلاقية.</p>
+                        <h4>OSINT & Security</h4>
+                        <p data-ar="جمع المعلومات من المصادر المفتوحة وتحليل النطاقات وبناء أدوات استطلاع أخلاقية."
+                           data-en="Gathering info from open sources, analyzing domains, and building ethical recon tools.">جمع المعلومات من المصادر المفتوحة وتحليل النطاقات وبناء أدوات استطلاع أخلاقية.</p>
                     </div>
                     <div class="focus-card">
                         <i class="fa-solid fa-brain"></i>
-                        <h4>AI & Model Training</h4>
-                        <p data-ar="تدريب النماذج على بيانات مخصصة وتحسين أدائها، وبناء مساعدين أذكياء."
-                           data-en="Training models on custom data, optimizing their performance, and building smart assistants.">تدريب النماذج على بيانات مخصصة وتحسين أدائها، وبناء مساعدين أذكياء.</p>
+                        <h4>AI & Training</h4>
+                        <p data-ar="تدريب النماذج على بيانات مخصصة وتحسين أدائها وبناء مساعدين أذكياء."
+                           data-en="Training models on custom data, optimizing performance, and building smart assistants.">تدريب النماذج على بيانات مخصصة وتحسين أدائها وبناء مساعدين أذكياء.</p>
                     </div>
                 </div>
 
                 <div class="about-skills-block">
-                    <h4 data-ar="التقنيات التي أعمل بها" data-en="Technologies I Work With">التقنيات التي أعمل بها</h4>
+                    <h4 data-ar="التقنيات اللي أشتغل عليها" data-en="Technologies I Work With">التقنيات اللي أشتغل عليها</h4>
                     <div class="skill-chips">
                         <span class="skill-chip">JavaScript</span>
                         <span class="skill-chip">Node.js</span>
@@ -1235,15 +1262,15 @@
                 </div>
 
                 <p class="about-paragraph"
-                   data-ar="خارج نطاق الأدوات، أعمل على أبحاث OSINT، وأدرّب نماذج ذكاء اصطناعي على بيانات مخصصة، وأتمت المهام المتكررة لتعمل ذاتياً. كل مشروع أبدأه ينطلق من مشكلة حقيقية، وينتهي بأداة يستخدمها الناس فعلياً."
-                   data-en="Beyond tooling, I work on OSINT research, train AI models on custom data, and automate repetitive tasks to run autonomously. Every project I start begins with a real problem and ends with a tool people actually use.">
-                    خارج نطاق الأدوات، أعمل على أبحاث OSINT، وأدرّب نماذج ذكاء اصطناعي على بيانات مخصصة، وأتمت المهام المتكررة لتعمل ذاتياً. كل مشروع أبدأه ينطلق من مشكلة حقيقية، وينتهي بأداة يستخدمها الناس فعلياً.
+                   data-ar="بعيداً عن الأدوات، أشتغل على أبحاث OSINT، وأدرب نماذج ذكاء اصطناعي على بيانات مخصصة، وأتمت المهام المتكررة عشان تشتغل لحالها. كل مشروع أبدأه يكون من مشكلة حقيقية وينتهي بأداة الناس تستخدمها فعلاً."
+                   data-en="Beyond tools, I work on OSINT research, train AI models on custom data, and automate repetitive tasks to run autonomously. Every project I start begins with a real problem and ends with a tool people actually use.">
+                    بعيداً عن الأدوات، أشتغل على أبحاث OSINT، وأدرب نماذج ذكاء اصطناعي على بيانات مخصصة، وأتمت المهام المتكررة عشان تشتغل لحالها. كل مشروع أبدأه يكون من مشكلة حقيقية وينتهي بأداة الناس تستخدمها فعلاً.
                 </p>
 
                 <p class="about-closing"
-                   data-ar="عملت مع عملاء حقيقيين وسلّمت مشاريع مكتملة، وما زلت أطلق شيئاً جديداً باستمرار."
-                   data-en="I've worked with real clients and delivered completed projects, and I keep shipping something new.">
-                    عملت مع عملاء حقيقيين وسلّمت مشاريع مكتملة، وما زلت أطلق شيئاً جديداً باستمرار.
+                   data-ar="اشتغلت مع عملاء حقيقيين وسلمت مشاريع كاملة، وما زلت أطلق شي جديد باستمرار."
+                   data-en="I've worked with real clients and delivered complete projects, and I keep launching new things constantly.">
+                    اشتغلت مع عملاء حقيقيين وسلمت مشاريع كاملة، وما زلت أطلق شي جديد باستمرار.
                 </p>
 
                 <div class="author-signature">
@@ -1255,29 +1282,29 @@
         </section>
 
         <section id="projects">
-            <div class="section-header" data-ar="Projects" data-en="Projects">Projects</div>
+            <div class="section-header" data-ar="مشاريعي" data-en="Projects">مشاريعي</div>
 
             <div class="projects-grid">
 
                 <article class="project-card" data-status="beta"
                     data-title-en="Neural Assistant"
-                    data-desc-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة."
+                    data-desc-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مدربة ببيانات مخصصة."
                     data-desc-en="A local AI assistant powered by models trained on custom data."
-                    data-details-ar="مساعد ذكاء اصطناعي يعمل محلياً على نماذج دُرّبت وحُسّنت ببيانات مخصصة. يوفر إجابات دقيقة وواجهة API نظيفة للتكامل مع أي نظام خارجي."
+                    data-details-ar="مساعد ذكاء اصطناعي يعمل محلياً على نماذج دربت وحسنت ببيانات مخصصة. يوفر إجابات دقيقة وواجهة API نظيفة للتكامل مع أي نظام خارجي."
                     data-details-en="A locally hosted AI assistant running on models trained and fine-tuned with custom data. It delivers accurate answers and a clean API interface for integration with any external system."
                     data-tech="Python, PyTorch, Transformers, FastAPI"
                     data-link=""
                     data-icon="fa-brain">
                     <div class="project-icon"><i class="fa-solid fa-brain"></i></div>
                     <h3 class="project-title">Neural Assistant</h3>
-                    <p class="project-desc" data-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة." data-en="A local AI assistant powered by models trained on custom data.">مساعد ذكاء اصطناعي محلي مبني على نماذج مُدرَّبة ببيانات مخصصة.</p>
+                    <p class="project-desc" data-ar="مساعد ذكاء اصطناعي محلي مبني على نماذج مدربة ببيانات مخصصة." data-en="A local AI assistant powered by models trained on custom data.">مساعد ذكاء اصطناعي محلي مبني على نماذج مدربة ببيانات مخصصة.</p>
                 </article>
 
                 <article class="project-card" data-status="dev"
                     data-title-en="OSINT Recon"
                     data-desc-ar="أدوات OSINT لجمع وتحليل المعلومات في تقرير موحد."
                     data-desc-en="OSINT tools for gathering and analyzing information in one unified report."
-                    data-details-ar="منصة استطلاع أخلاقي تجمع تعداد الحسابات عبر المنصات، فحص النطاقات وسجلات DNS، واستخراج البيانات الوصفية من الملفات، ثم تنظيم النتائج في تقرير موحد جاهز للتحليل."
+                    data-details-ar="منصة استطلاع أخلاقي تجمع تعداد الحسابات عبر المنصات وفحص النطاقات وسجلات DNS واستخراج البيانات الوصفية من الملفات ثم تنظيم النتائج في تقرير موحد جاهز للتحليل."
                     data-details-en="An ethical reconnaissance platform that combines username enumeration across platforms, domain and DNS recon, and metadata extraction from files, then organizes the findings into a unified, analysis-ready report."
                     data-tech="Python, AsyncIO, HTTPX, APIs"
                     data-link=""
@@ -1291,7 +1318,7 @@
                     data-title-en="Ash Avatar"
                     data-desc-ar="منصة لاكتشاف الأفتارات بتصنيف ذكي وبحث سريع."
                     data-desc-en="An avatar discovery platform with smart categorization and fast search."
-                    data-details-ar="منصة لاكتشاف الأفتارات مع تصنيف ذكي وبحث سريع، تهدف لاختصار وقت البحث ومساعدة المستخدم في إيجاد ما يناسب ذوقه. المشروع قيد التطوير."
+                    data-details-ar="منصة لاكتشاف الأفتارات مع تصنيف ذكي وبحث سريع تهدف لاختصار وقت البحث ومساعدة المستخدم في إيجاد ما يناسب ذوقه. المشروع قيد التطوير."
                     data-details-en="An avatar discovery platform with smart categorization and fast search, designed to save time and help users find what suits their taste. Currently in development."
                     data-tech="HTML, CSS, JavaScript"
                     data-link=""
@@ -1305,7 +1332,7 @@
                     data-title-en="Server Protection Bot"
                     data-desc-ar="حماية لحظية للسيرفر مع كشف تلقائي للأنشطة المشبوهة."
                     data-desc-en="Real-time server protection with automatic detection of suspicious activity."
-                    data-details-ar="بوت حماية يراقب نشاط السيرفر لحظياً ويكتشف الأنشطة المشبوهة والإجراءات الإدارية الضارة، مع تنبيهات فورية للمشرفين وحد تلقائي للسبام."
+                    data-details-ar="بوت حماية يراقب نشاط السيرفر لحظياً ويكتشف الأنشطة المشبوهة والإجراءات الإدارية الضارة مع تنبيهات فورية للمشرفين وحد تلقائي للسبام."
                     data-details-en="A protection bot that monitors server activity in real time and detects suspicious activity and harmful moderation actions, with instant mod alerts and automatic spam mitigation."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
@@ -1319,7 +1346,7 @@
                     data-title-en="Server Management Bot"
                     data-desc-ar="أدوات إدارة كاملة مع سجلات لحظية ونظام أذونات مرن."
                     data-desc-en="Complete management tools with live logs and a flexible permission system."
-                    data-details-ar="بوت إدارة متكامل يشمل الحظر والطرد والكتم والتايم أوت، مع سجلات لحظية لكل إجراء ونظام أذونات مرن قابل للتخصيص لكل سيرفر."
+                    data-details-ar="بوت إدارة متكامل يشمل الحظر والطرد والكتم والتايم أوت مع سجلات لحظية لكل إجراء ونظام أذونات مرن قابل للتخصيص لكل سيرفر."
                     data-details-en="A complete management bot with ban, kick, mute, and timeout commands, along with live logs for every action and a flexible permission system customizable for each server."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
@@ -1333,8 +1360,8 @@
                     data-title-en="Music Bot"
                     data-desc-ar="تشغيل صوتي عالي الجودة مع فلاترات وتحكم كامل بالقائمة."
                     data-desc-en="High-quality audio playback with filters and full queue control."
-                    data-details-ar="بوت موسيقى يوفر تشغيلاً صوتياً عالي الجودة مع فلاترات متعددة (باس، 8D، إيكو) وتحكم كامل بقائمة التشغيل والطابور المشترك بين الأعضاء."
-                    data-details-en="A music bot offering high-quality audio playback with multiple filters (bass, 8D, echo) and full control over the playlist and shared queue among members."
+                    data-details-ar="بوت موسيقى يوفر تشغيلاً صوتياً عالي الجودة مع فلاترات متعددة مثل الباس و 8D والإيكو وتحكم كامل بقائمة التشغيل والطابور المشترك بين الأعضاء."
+                    data-details-en="A music bot offering high-quality audio playback with multiple filters like bass, 8D, and echo and full control over the playlist and shared queue among members."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
                     data-icon="fa-music">
@@ -1347,8 +1374,8 @@
                     data-title-en="Tellonym Bot"
                     data-desc-ar="عرض بروفايل Tellonym كامل داخل ديسكورد بتحديث تلقائي."
                     data-desc-en="Full Tellonym profile inside Discord with automatic updates."
-                    data-details-ar="بوت يسحب بيانات حساب Tellonym ويعرضها في إمبد تفاعلي يشمل الصورة الشخصية وعدد المتابعين وآخر الرسائل والأكثر تفاعلاً، مع تحديث تلقائي للبيانات."
-                    data-details-en="A bot that pulls Tellonym profile data and displays it in an interactive embed — including the profile picture, follower count, latest messages, and the most interacted one, with automatic data updates."
+                    data-details-ar="بوت يسحب بيانات حساب Tellonym ويعرضها في إمبد تفاعلي يشمل الصورة الشخصية وعدد المتابعين وآخر الرسائل والأكثر تفاعلاً مع تحديث تلقائي للبيانات."
+                    data-details-en="A bot that pulls Tellonym profile data and displays it in an interactive embed including the profile picture, follower count, latest messages, and the most interacted one, with automatic data updates."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
                     data-icon="fa-comment-dots">
@@ -1361,7 +1388,7 @@
                     data-title-en="Avatar Bot"
                     data-desc-ar="معاينة وتنزيل الأفتارات والبنرات بضغطة واحدة."
                     data-desc-en="Preview and download avatars and banners in one click."
-                    data-details-ar="بوت يتيح معاينة الأفتارات قبل الاستخدام وتنزيل صور الحسابات والبنرات بجودة عالية، دون الحاجة لمغادرة السيرفر."
+                    data-details-ar="بوت يتيح معاينة الأفتارات قبل الاستخدام وتنزيل صور الحسابات والبنرات بجودة عالية دون الحاجة لمغادرة السيرفر."
                     data-details-en="A bot that allows previewing avatars before use and downloading profile pictures and banners in high quality, without leaving the server."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
@@ -1375,7 +1402,7 @@
                     data-title-en="Adhkar Bot"
                     data-desc-ar="أذكار وتذكيرات صلاة تلقائية مع تخصيص كامل للأوقات."
                     data-desc-en="Automatic adhkar and prayer reminders with full time customization."
-                    data-details-ar="بوت يرسل الأذكار وتذكيرات الصلاة والدعاء بشكل تلقائي، يدعم سيرفرات متعددة ويتيح تخصيص أوقات الإشعارات بحسب كل سيرفر."
+                    data-details-ar="بوت يرسل الأذكار وتذكيرات الصلاة والدعاء بشكل تلقائي ويدعم سيرفرات متعددة ويتيح تخصيص أوقات الإشعارات بحسب كل سيرفر."
                     data-details-en="A bot that automatically sends adhkar and prayer/supplication reminders, supports multiple servers, and allows customizing notification times per server."
                     data-tech="JavaScript, Node.js, Discord.js"
                     data-link=""
@@ -1389,7 +1416,7 @@
         </section>
 
         <section id="social">
-            <div class="section-header" data-ar="Socials Media" data-en="Socials Media">Socials Media</div>
+            <div class="section-header" data-ar="تواصل معي" data-en="Socials">تواصل معي</div>
 
             <div class="social-grid">
                 <a href="https://discord.com/users/1356618809078841458" target="_blank" class="social-card">
@@ -1632,17 +1659,17 @@
                 ],
                 dynamicUpdates: [
                     'System status: operational',
-                    'CPU load: 12% - normal',
-                    'Memory usage: 42% (1.2GB/8GB)',
-                    'Network: stable - latency 15ms',
-                    'Firewall: active - 3 blocked attempts'
+                    'CPU load: 12% normal',
+                    'Memory usage: 42%',
+                    'Network: stable latency 15ms',
+                    'Firewall: active 3 blocked attempts'
                 ]
             },
             {
                 logs: [
                     { text: 'Initializing security protocols...', error: false },
                     { text: 'Checking kernel integrity...', error: false },
-                    { text: '[CRITICAL] Rootkit detected in /sys/kernel', error: true },
+                    { text: '[CRITICAL] Rootkit detected in sys kernel', error: true },
                     { text: 'Quarantining malicious files...', error: false },
                     { text: 'Restoring from backup...', error: false },
                     { text: 'Integrity check passed.', error: false }
@@ -1659,7 +1686,7 @@
                     { text: 'Connecting to secure shell...', error: false },
                     { text: 'Authenticating user: l4', error: false },
                     { text: '[WARN] Unusual login attempt blocked', error: true },
-                    { text: 'Two-factor authentication successful', error: false },
+                    { text: 'Two factor authentication successful', error: false },
                     { text: 'Access granted. Welcome back.', error: false }
                 ],
                 dynamicUpdates: [
@@ -1741,6 +1768,7 @@
         });
 
         const projectCards = document.querySelectorAll('.project-card');
+        const activityCard = document.getElementById('activityCard');
         const modalOverlay = document.getElementById('projectModal');
         const modalClose = document.getElementById('modalClose');
         const modalIcon = document.getElementById('modalIcon');
@@ -1751,6 +1779,7 @@
 
         const STATUS_LABELS = { live: 'Live', dev: 'In Dev', beta: 'Beta' };
 
+        // Project Cards Setup + 3D Tilt
         projectCards.forEach(card => {
             const status = card.dataset.status;
             if (status && !card.querySelector('.project-status')) {
@@ -1773,22 +1802,17 @@
                 card.appendChild(tagsContainer);
             }
 
-            // 3D Tilt Effect
             card.addEventListener('mousemove', (e) => {
-                if (window.innerWidth <= 768) return; // Disable on mobile
-                
+                if (window.innerWidth <= 768) return;
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -10; // Max rotation 10deg
+                const rotateX = ((y - centerY) / centerY) * -10;
                 const rotateY = ((x - centerX) / centerX) * 10;
 
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                
                 card.style.setProperty('--mouse-x', `${x}px`);
                 card.style.setProperty('--mouse-y', `${y}px`);
             });
@@ -1799,6 +1823,25 @@
 
             card.addEventListener('click', () => openProjectModal(card));
         });
+
+        // Activity Card 3D Tilt
+        activityCard.addEventListener('mousemove', (e) => {
+            if (window.innerWidth <= 768) return;
+            const rect = activityCard.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -8;
+            const rotateY = ((x - centerX) / centerX) * 8;
+
+            activityCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+
+        activityCard.addEventListener('mouseleave', () => {
+            activityCard.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+        });
+
 
         function openProjectModal(card) {
             const lang = document.documentElement.lang || 'ar';
