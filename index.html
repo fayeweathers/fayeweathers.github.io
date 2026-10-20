@@ -178,21 +178,20 @@
             gap: 90px;
         }
 
-        /* --- FIXED HERO LAYOUT (Image Right, Text Left) --- */
         .hero { 
             display: flex; 
-            flex-direction: row; /* Forces image to right, text to left */
+            flex-direction: row; 
             align-items: center; 
             justify-content: space-between; 
             flex-wrap: wrap-reverse; 
             gap: 40px; 
-            direction: ltr; /* Overrides global RTL to keep layout fixed */
+            direction: ltr; 
         }
         
         .hero-text { 
             flex: 1; 
             min-width: 300px; 
-            direction: inherit; /* Restores text direction based on language */
+            direction: inherit; 
             text-align: start;
         }
 
@@ -228,7 +227,6 @@
         .dot-green { background: #27c93f; }
         .terminal-time { font-size: .75rem; color: #666; font-family: 'Fira Code', monospace; }
         
-        /* Prevents terminal text from wrapping to a new line */
         .terminal p { 
             margin-bottom: 8px; 
             min-height: 20px; 
@@ -251,7 +249,6 @@
 
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* --- CYBERPUNK ACTIVITY CARD --- */
         .activity-card {
             margin-top: 20px;
             background: rgba(13, 13, 13, 0.7);
@@ -269,7 +266,6 @@
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
         }
 
-        /* Animated glowing border effect */
         .activity-card::before {
             content: '';
             position: absolute;
@@ -478,7 +474,6 @@
 
         .activity-empty i { font-size: 1.3rem; color: var(--terminal-green); }
 
-        /* --- HERO IMAGE --- */
         .hero-image {
             width: 320px;
             height: 320px;
@@ -1026,7 +1021,6 @@
             .nav-links a { justify-content: center; font-size: 1.1rem; width: 100%; }
             .mobile-lang-btn { display: block; margin: 5px auto 0; width: 50%; }
             
-            /* Forces mobile layout to stack normally regardless of LTR/RTL */
             .hero { flex-direction: column; text-align: center; gap: 30px; }
             .hero-image { margin: 0 auto; width: 260px; height: 260px; }
             .hero-text { text-align: center; }
@@ -1054,7 +1048,6 @@
             .projects-grid { grid-template-columns: 1fr; }
             .project-card { aspect-ratio: auto; min-height: 220px; padding: 24px 16px 14px; }
             
-            /* Disable 3D tilt on mobile */
             .project-card:hover, .activity-card:hover {
                 transform: none !important;
             }
@@ -1169,7 +1162,6 @@
 
         <section id="home" class="hero">
             <div class="hero-text">
-                <!-- Removed the big l4 text -->
                 <div class="terminal">
                     <div class="terminal-header">
                         <div class="terminal-dots">
@@ -1779,7 +1771,6 @@
 
         const STATUS_LABELS = { live: 'Live', dev: 'In Dev', beta: 'Beta' };
 
-        // Project Cards Setup + 3D Tilt
         projectCards.forEach(card => {
             const status = card.dataset.status;
             if (status && !card.querySelector('.project-status')) {
@@ -1824,7 +1815,6 @@
             card.addEventListener('click', () => openProjectModal(card));
         });
 
-        // Activity Card 3D Tilt
         activityCard.addEventListener('mousemove', (e) => {
             if (window.innerWidth <= 768) return;
             const rect = activityCard.getBoundingClientRect();
