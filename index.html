@@ -111,54 +111,26 @@
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             color: var(--text-main);
             font-family: 'Fira Code', monospace;
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             font-weight: bold;
             text-decoration: none;
             transition: .3s;
         }
 
-        .brand-mark {
-            width: 22px;
-            height: 22px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .brand-outer {
-            position: absolute;
-            inset: 0;
-            border: 1.5px solid var(--terminal-green);
-            border-radius: 6px;
-            transform: rotate(45deg);
+        .brand-globe {
+            color: var(--terminal-green);
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 8px var(--terminal-green));
             transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 8px rgba(176,176,176,.2);
         }
 
-        .brand-inner {
-            position: absolute;
-            inset: 6px;
-            background: var(--terminal-green-bright);
-            border-radius: 2px;
-            transform: rotate(45deg);
-            transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 10px var(--terminal-green);
-        }
-
-        .nav-brand:hover .brand-outer {
-            transform: rotate(135deg);
-            border-color: #fff;
-            box-shadow: 0 0 15px rgba(255,255,255,.4);
-        }
-
-        .nav-brand:hover .brand-inner {
-            transform: rotate(135deg) scale(1.2);
-            background: #fff;
-            box-shadow: 0 0 20px #fff;
+        .nav-brand:hover .brand-globe {
+            color: #fff;
+            filter: drop-shadow(0 0 15px #fff);
+            transform: scale(1.1) rotate(15deg);
         }
 
         .nav-content-wrapper { display: flex; align-items: center; gap: 20px; direction: ltr !important; }
@@ -271,19 +243,51 @@
         @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
         .activity-card {
+            position: relative;
             margin-top: 20px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px 18px;
+            border-radius: 16px;
+            padding: 18px 20px;
             direction: ltr;
             text-align: left;
-            transition: border-color .3s ease, box-shadow .3s ease;
+            transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .activity-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 16px;
+            background: linear-gradient(90deg, transparent, var(--terminal-green), transparent);
+            background-size: 200% 100%;
+            animation: borderScan 3s linear infinite;
+            opacity: 0;
+            transition: opacity .4s ease;
+            z-index: -1;
+        }
+
+        .activity-card::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            background: var(--bg-card);
+            border-radius: 15px;
+            z-index: -1;
         }
 
         .activity-card:hover {
-            border-color: var(--terminal-green);
-            box-shadow: 0 0 22px rgba(176,176,176,.14), inset 0 0 20px rgba(176,176,176,.04);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.9), 0 0 30px rgba(176,176,176,.15);
+        }
+
+        .activity-card:hover::before { opacity: 1; }
+
+        @keyframes borderScan {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
         }
 
         .activity-header {
@@ -294,6 +298,8 @@
             padding-bottom: 12px;
             margin-bottom: 14px;
             border-bottom: 1px dashed var(--border-color);
+            position: relative;
+            z-index: 2;
         }
 
         .activity-status {
@@ -328,7 +334,7 @@
             min-width: 0;
         }
 
-        .activity-list { display: flex; flex-direction: column; gap: 14px; }
+        .activity-list { display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 2; }
         .activity-item { display: flex; align-items: center; gap: 14px; }
 
         .activity-art {
@@ -343,6 +349,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform .3s ease, border-color .3s ease;
+        }
+
+        .activity-card:hover .activity-art {
+            transform: scale(1.05);
+            border-color: var(--terminal-green);
         }
 
         .activity-art i { font-size: 1.6rem; color: var(--terminal-green); text-shadow: 0 0 15px rgba(176,176,176,.5); }
@@ -927,8 +939,6 @@
             nav { width: 90%; padding: 12px 20px; border-radius: 30px; }
             .menu-btn { display: block; }
             .desktop-lang-btn { display: none; }
-            .brand-mark { width: 20px; height: 20px; }
-            .brand-inner { inset: 5px; }
 
             .nav-links {
                 display: none;
@@ -987,11 +997,8 @@
 
     <nav id="navbar">
         <a href="#home" class="nav-brand">
-            <div class="brand-mark">
-                <div class="brand-outer"></div>
-                <div class="brand-inner"></div>
-            </div>
-            <span class="brand-text">l4</span>
+            <i class="fa-solid fa-earth-americas brand-globe"></i>
+            <span>l4</span>
         </a>
 
         <div class="nav-content-wrapper">
